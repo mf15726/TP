@@ -288,7 +288,7 @@ class Random_Player(object):
 #        print(valid_moves)
         return valid_moves
 
-    def remove_piece(self, piece_list):
+    def remove_piece(self, piece_list, game_type):
         temp = random.randint(0, len(piece_list) - 1)
         return piece_list[temp]
 
