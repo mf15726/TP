@@ -12,8 +12,8 @@ import networkx as nx
 
 
 class Human_Player(object):
-    def __init__(self, player):
-        self.player = player
+    def __init__(self):
+        self.state_index = []
 
     def place(self, state, free_space, nodes):
         print('List of valid moves: ')
