@@ -11,9 +11,9 @@ from math import log
 import networkx as nx
 
 class Learned_Player(object):
-    def __init__(self, player, alpha, epsilon, gamma):
-
-        self.sess = tf.Session()
+	def __init__(self, player, alpha, epsilon, gamma):
+		
+		self.sess = tf.Session()
         self.player = player
         self.epsilon = epsilon
         self.alpha = alpha
@@ -64,7 +64,7 @@ class Learned_Player(object):
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu,
 			activity_regularizer=tf.nn.softmax
-		)
+	)
 
 #        l2 = tf.layers.dense(
 #            inputs=l1,
