@@ -479,10 +479,9 @@ def game_play(player1,player2,game_type):#
 
     return winner, game_states
 
-human_player1 = Human_Player(player=1)
-human_player2 = Human_Player(player=2)
-random_player1 = Random_Player(player=1)
-random_player2 = Random_Player(player=2)
+human_player = Human_Player()
+random_player = Random_Player()
+learned_player = Learned_Player()
 #gameboard = define_board(6)
 #nx.draw(gameboard)
 #plt.show()
