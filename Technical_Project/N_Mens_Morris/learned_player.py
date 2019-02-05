@@ -259,49 +259,49 @@ mill_dict_12 = {
 }
 
 class Learned_Player(object):
-    def __init__(self, player, alpha, epsilon, gamma):
+	def __init__(self, player, alpha, epsilon, gamma):
 
-        self.sess = tf.Session()
-        self.player = player
-        self.epsilon = epsilon
-        self.alpha = alpha
-        self.gamma = gamma
-        self.state_index = []
+		self.sess = tf.Session()
+		self.player = player
+		self.epsilon = epsilon
+		self.alpha = alpha
+		self.gamma = gamma
+		self.state_index = []
 
-        self.n_classes = 24
-        self.n_input = 80
-        self.n_nodes_1 = self.n_classes * 2
-        self.n_nodes_2 = self.n_classes * 2
-        self.n_nodes_3 = self.n_classes * 2
-        self.n_nodes_4 = self.n_classes * 2
+		self.n_classes = 24
+		self.n_input = 80
+		self.n_nodes_1 = self.n_classes * 2
+		self.n_nodes_2 = self.n_classes * 2
+		self.n_nodes_3 = self.n_classes * 2
+		self.n_nodes_4 = self.n_classes * 2
 
 
-        self.input = tf.placeholder(tf.float32, [24])
-        self.game_type = tf.placeholder(tf.float32, [1])
-#        self.available = tf.placeholder(tf.float32, [7])
-        self.x_p1 = tf.cast(tf.equal(self.input, 1), tf.float32)
-        self.x_p2 = tf.cast(tf.equal(self.input, 2), tf.float32)
-        self.x_empty = tf.cast(tf.equal(self.input, 0), tf.float32)
-        self.ttemp = [0] * 4
+		self.input = tf.placeholder(tf.float32, [24])
+		self.game_type = tf.placeholder(tf.float32, [1])
+		#        self.available = tf.placeholder(tf.float32, [7])
+		self.x_p1 = tf.cast(tf.equal(self.input, 1), tf.float32)
+		self.x_p2 = tf.cast(tf.equal(self.input, 2), tf.float32)
+		self.x_empty = tf.cast(tf.equal(self.input, 0), tf.float32)
+		self.ttemp = [0] * 4
 		self.x_game_type = deepcopy(self.ttemp)
-        self.x_game_type[tf.divide(self.game_type,3)] = 1
-        self.x_bin = [self.x_empty,self.x_p1,self.x_p2,self.x_game_type]
-#        self.x = tf.reshape(self.input, shape=[1,self.n_input])
-        self.x = tf.reshape(self.x_bin, shape=[1,self.n_input])
-        self.reward = tf.placeholder(tf.float32,[self.n_classes])
-        self.y = tf.reshape(self.reward, [1, self.n_classes])
-        self.Q_val = self.neural_network()
+		self.x_game_type[tf.divide(self.game_type,3)] = 1
+		self.x_bin = [self.x_empty,self.x_p1,self.x_p2,self.x_game_type]
+		#        self.x = tf.reshape(self.input, shape=[1,self.n_input])
+		self.x = tf.reshape(self.x_bin, shape=[1,self.n_input])
+		self.reward = tf.placeholder(tf.float32,[self.n_classes])
+		self.y = tf.reshape(self.reward, [1, self.n_classes])
+		self.Q_val = self.neural_network()
 
-        #cost
-#        self.cost = tf.reduce_mean(tf.square(self.y - self.Q_val))
-#        self.cost = tf.square(self.Q_val - self.y)
-        self.cost = tf.square(self.y - self.Q_val)
-        #optimiser
+		#cost
+		#        self.cost = tf.reduce_mean(tf.square(self.y - self.Q_val))
+		#        self.cost = tf.square(self.Q_val - self.y)
+		self.cost = tf.square(self.y - self.Q_val)
+		#optimiser
 
-#        self.optimiser = tf.train.RMSPropOptimizer(learning_rate=alpha, decay=0.9).minimize(self.cost)
-#        self.optimiser = tf.train.AdamOptimizer(learning_rate=alpha, decay=0.9).minimize(self.cost)
-        self.optimiser = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost)
-#        self.optimizer = tf.train.AdograadOptimizer(learning_rate=alpha, decay=0.9).minimize(self.cost)
+# 		 self.optimiser = tf.train.RMSPropOptimizer(learning_rate=alpha, decay=0.9).minimize(self.cost)
+		#        self.optimiser = tf.train.AdamOptimizer(learning_rate=alpha, decay=0.9).minimize(self.cost)
+#		self.optimiser = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost)
+		#        self.optimizer = tf.train.AdograadOptimizer(learning_rate=alpha, decay=0.9).minimize(self.cost)
 
 	def neural_network(self):
 
@@ -395,11 +395,11 @@ class Learned_Player(object):
 
 		return valid_moves
 		
-		def random_place(self,state,free_space):
+	def random_place(self,state,free_space):
         temp = random.randint(0, len(free_space) - 1)
         return free_space[temp]
 		
-		def place(self,state,free_space):
+	def place(self,state,free_space,game_type):
 		rand = random.randint(1,100)
         move = None
         if rand <= 100*self.epsilon:
@@ -409,7 +409,8 @@ class Learned_Player(object):
 			predictions = self.sess.run([self.Q_val], feed_dict={self.input: state})
             opt_val = -float('Inf')
             for index, val in enumerate(predictions[0][0]):
-                if 7 == free_space[index][1]:
+				
+				
                     continue
                 if val > opt_val and free_space[index]:
                     opt_val = val
