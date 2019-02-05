@@ -251,8 +251,8 @@ mill_dict_12 = {
 }
 
 class Random_Player(object):
-    def __init__(self, player):
-        self.player = player
+    def __init__(self):
+       self.state_index = []
 
     def place(self,state, free_space, game_type):
         temp = random.randint(0, len(free_space) - 1)
