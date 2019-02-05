@@ -413,8 +413,6 @@ class Learned_Player(object):
                 	if val > opt_val and free_space[index]:
                     	opt_val = val
                     	move = free_space[index]
-            if move is None:
-                
             self.state_index.append((deepcopy(state),move))
             return move
         return free_space[temp]
