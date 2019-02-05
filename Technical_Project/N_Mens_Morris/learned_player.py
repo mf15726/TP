@@ -312,6 +312,7 @@ class Learned_Player(object):
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu,
 			activity_regularizer=tf.nn.softmax
+			kernal_regularizer=tf.contrib.layers.l1_regularizer(0.001)
 		)
 
 #        l2 = tf.layers.dense(
@@ -320,27 +321,34 @@ class Learned_Player(object):
 #            bias_initializer=tf.constant_initializer(0, 1),
 #            activation=tf.nn.leaky_relu,
 #            activity_regularizer=tf.nn.softmax
+#			 kernal_regularizer=tf.contrib.layers.l1_regularizer(0.001)
 #        )
 
 #        l3 = tf.layers.dense(
 #            inputs=l2,
 #            units=self.n_nodes_2,
 #            bias_initializer=tf.constant_initializer(0, 1),
-#            activation=tf.nn.relu
+#            activation=tf.nn.leaky_relu
+#            activity_regularizer=tf.nn.softmax
+#			 kernal_regularizer=tf.contrib.layers.l1_regularizer(0.001)
 #        )
 
 #        l4 = tf.layers.dense(
 #            inputs=l3,
 #            units=self.n_nodes_3,
 #            bias_initializer=tf.constant_initializer(0, 1),
-#            activation=tf.nn.relu
+#            activation=tf.nn.leaky_relu
+#            activity_regularizer=tf.nn.softmax
+#			 kernal_regularizer=tf.contrib.layers.l1_regularizer(0.001)
 #        )
 
 #        l5 = tf.layers.dense(
 #            inputs=l4,
 #            units=self.n_nodes_4,
 #            bias_initializer=tf.constant_initializer(0, 1),
-#            activation=tf.nn.relu
+#            activation=tf.nn.leaky_relu
+#            activity_regularizer=tf.nn.softmax
+#			 kernal_regularizer=tf.contrib.layers.l1_regularizer(0.001)
 #        )
 
         l_out = tf.layers.dense(
