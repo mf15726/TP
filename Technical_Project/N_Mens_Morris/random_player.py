@@ -254,7 +254,7 @@ class Random_Player(object):
     def __init__(self, player):
         self.player = player
 
-    def place(self,state,free_space):
+    def place(self,state,free_space, game_type):
         temp = random.randint(0, len(free_space) - 1)
         return free_space[temp]
 
