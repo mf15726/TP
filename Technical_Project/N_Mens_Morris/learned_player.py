@@ -395,11 +395,11 @@ class Learned_Player(object):
 
 		return valid_moves
 		
-	def random_place(self,state,free_space):
+	def random_place(self, state, free_space):
         temp = random.randint(0, len(free_space) - 1)
         return free_space[temp]
 		
-	def place(self,state,free_space,game_type):
+	def place(self, state, free_space, game_type, nodes):
 		rand = random.randint(1,100)
         move = None
         if rand <= 100*self.epsilon:
@@ -409,14 +409,12 @@ class Learned_Player(object):
 			predictions = self.sess.run([self.Q_val], feed_dict={self.input: state})
             opt_val = -float('Inf')
             for index, val in enumerate(predictions[0][0]):
-				
-				
-                    continue
-                if val > opt_val and free_space[index]:
-                    opt_val = val
-                    move = free_space[index]
+				while(index < nodes):
+                	if val > opt_val and free_space[index]:
+                    	opt_val = val
+                    	move = free_space[index]
             if move is None:
-                print state
+                
             self.state_index.append((deepcopy(state),move))
             return move
         return free_space[temp]
