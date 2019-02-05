@@ -396,10 +396,10 @@ def game_play(player1,player2,game_type):#
     while winner == 0:
         if move_no < game_type * 2:
             if move_no % 2 == 0:
-                move = player1.place(state,free_space)
+                move = player1.place(state,free_space,game_type)
                 player1_piece_list.append(move)
             else:
-                move = player2.place(state,free_space)
+                move = player2.place(state,free_space,game_type)
                 player2_piece_list.append(move)
             state[move[0]][move[1]] = (move_no % 2) + 1
             free_space.remove(move)
