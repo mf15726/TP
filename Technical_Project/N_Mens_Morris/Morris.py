@@ -244,17 +244,17 @@ def end_game(state):
 	count2 = 0
 	for row in state:
 		temp1 = row.count(1)
-        	temp2 = row.count(2)
-        	count1 += temp1
-        	count2 += temp2
-    	print(('Count1 = ') + str(count1))
-    	print(('Count2 = ') + str(count2))
-    	if count1 <= 2:
-        	return 2
-    	if count2 <= 2:
-        	return 1
-    	else:
-        	return 0
+		temp2 = row.count(2)
+		count1 += temp1
+		count2 += temp2
+	print(('Count1 = ') + str(count1))
+	print(('Count2 = ') + str(count2))
+	if count1 <= 2:
+		return 2
+	if count2 <= 2:
+		return 1
+	else:
+		return 0
 
 def det_mill(state, move, game_type):
 	if game_type == 3:
@@ -264,12 +264,12 @@ def det_mill(state, move, game_type):
         		else:
             			return False
 
-    	if game_type == 6:
-        	for item in mill_dict_6[str(move)]:
-             		if state[move] == state[item[0]] == state[item[1]]:
-                		return True
-        		else:
-            			return False
+	if game_type == 6:
+		for item in mill_dict_6[str(move)]:
+			if state[move] == state[item[0]] == state[item[1]]:
+				return True
+			else:
+				return False
 
 
 	if game_type == 9:
