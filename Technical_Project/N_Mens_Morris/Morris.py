@@ -281,10 +281,10 @@ def det_mill(state, move, game_type):
 
 
 	if game_type == 12:
-        	for item in mill_dict_12[str(move)]:
-             		if state[move] == state[item[0]] == state[item[1]]:
-                		return True
-        		else:
+		for item in mill_dict_12[str(move)]:
+			if state[move] == state[item[0]] == state[item[1]]:
+				return True
+			else:
 				return False
 
 def free_space_finder(state):
