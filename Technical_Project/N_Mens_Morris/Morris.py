@@ -207,7 +207,7 @@ def printboard(game_type,state):
 		print('|   |   |')
 		print(str(state[13])+'---'+str(state[14])+'---'+str(state[15]))
 
-    if game_type == 9:
+	if game_type == 9:
 		print(str(state[0])+'-----'+str(state[1])+'-----'+str(state[2]))
 		print('|     |     |')
 		print('| '+str(state[3])+'---'+str(state[4])+'---'+str(state[5])+' |')
