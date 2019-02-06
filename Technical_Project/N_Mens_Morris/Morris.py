@@ -258,8 +258,8 @@ def end_game(state):
 
 def det_mill(state, move, game_type):
 	if game_type == 3:
-        	for item in mill_dict_3[str(move)]:
-            		if state[move] == state[item[0]] == state[item[1]]:
+		for item in mill_dict_3[str(move)]:
+			if state[move] == state[item[0]] == state[item[1]]:
 				return True
 			else:
 				return False
