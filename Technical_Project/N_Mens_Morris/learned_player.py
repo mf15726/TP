@@ -213,20 +213,23 @@ class Learned_Player(object):
 		self.x = tf.reshape(self.x_bin, shape=[1,self.n_input])
 		self.reward = tf.placeholder(tf.float32,[self.n_classes])
 		self.y = tf.reshape(self.reward, [1, self.n_classes])
-		self.Q_val = self.neural_network()
+		self.Q_val_place = self.neural_network_place()
+		self.Q_val_from = self.neural_network_from()
 
 		#cost
 		#        self.cost = tf.reduce_mean(tf.square(self.y - self.Q_val))
 		#        self.cost = tf.square(self.Q_val - self.y)
-		self.cost = tf.square(self.y - self.Q_val)
+		self.cost_place = tf.square(self.y - self.Q_val_place)
+		self.cost_from = tf.square(self.y - self.Q_val_from)
 		#optimiser
 
 # 		 self.optimiser = tf.train.RMSPropOptimizer(learning_rate=alpha, decay=0.9).minimize(self.cost)
 		#        self.optimiser = tf.train.AdamOptimizer(learning_rate=alpha, decay=0.9).minimize(self.cost)
-#		self.optimiser = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost)
+		self.optimiser_place = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost_place)
+		self.optimiser_from = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost_from)
 		#        self.optimizer = tf.train.AdograadOptimizer(learning_rate=alpha, decay=0.9).minimize(self.cost)
 
-	def neural_network(self):
+	def neural_network_place(self):
 
 		l1 = tf.layers.dense(
 			inputs=self.x,
@@ -289,6 +292,70 @@ class Learned_Player(object):
 
         return l_norm
 		
+		
+	def neural_network_from(self):
+
+		l1 = tf.layers.dense(
+			inputs=self.x,
+			units=self.n_input,
+			kernel_initializer = tf.constant_initializer(0,1),
+			bias_initializer=tf.constant_initializer(0, 1),
+			activation=tf.nn.leaky_relu,
+			activity_regularizer=tf.nn.softmax
+			kernal_regularizer=tf.contrib.layers.l1_regularizer(0.001)
+		)
+
+#        l2 = tf.layers.dense(
+#            inputs=l1,
+#            units=self.n_nodes_1,
+#            bias_initializer=tf.constant_initializer(0, 1),
+#            activation=tf.nn.leaky_relu,
+#            activity_regularizer=tf.nn.softmax
+#			 kernal_regularizer=tf.contrib.layers.l1_regularizer(0.001)
+#        )
+
+#        l3 = tf.layers.dense(
+#            inputs=l2,
+#            units=self.n_nodes_2,
+#            bias_initializer=tf.constant_initializer(0, 1),
+#            activation=tf.nn.leaky_relu
+#            activity_regularizer=tf.nn.softmax
+#			 kernal_regularizer=tf.contrib.layers.l1_regularizer(0.001)
+#        )
+
+#        l4 = tf.layers.dense(
+#            inputs=l3,
+#            units=self.n_nodes_3,
+#            bias_initializer=tf.constant_initializer(0, 1),
+#            activation=tf.nn.leaky_relu
+#            activity_regularizer=tf.nn.softmax
+#			 kernal_regularizer=tf.contrib.layers.l1_regularizer(0.001)
+#        )
+
+#        l5 = tf.layers.dense(
+#            inputs=l4,
+#            units=self.n_nodes_4,
+#            bias_initializer=tf.constant_initializer(0, 1),
+#            activation=tf.nn.leaky_relu
+#            activity_regularizer=tf.nn.softmax
+#			 kernal_regularizer=tf.contrib.layers.l1_regularizer(0.001)
+#        )
+
+        l_out = tf.layers.dense(
+            inputs=l1,
+            units=self.n_classes,
+            kernel_initializer = tf.constant_initializer(0,1),
+            bias_initializer=tf.constant_initializer(0,1),
+            activation=tf.nn.leaky_relu,
+            activity_regularizer=tf.nn.softmax
+        )
+
+        l_norm = tf.contrib.layers.softmax(
+        logits=l_out
+        )
+
+        return l_norm
+	
 	def valid_move(self, state, game_type, free_space, pieces):
         valid_moves = []
 
@@ -322,7 +389,7 @@ class Learned_Player(object):
         temp = random.randint(0, len(free_space) - 1)
         return free_space[temp]
 		
-	def place(self, state, free_space, game_type, nodes):
+	def place(self, state, free_space, game_type):
 		rand = random.randint(1,100)
         move = None
         if rand <= 100*self.epsilon:
@@ -332,10 +399,12 @@ class Learned_Player(object):
 			predictions = self.sess.run([self.Q_val], feed_dict={self.input: state})
             opt_val = -float('Inf')
             for index, val in enumerate(predictions[0][0]):
-				while(index < nodes):
-                	if val > opt_val and free_space[index]:
-                    	opt_val = val
-                    	move = free_space[index]
+				if index not in state:
+					continue
+                if val > opt_val:
+                    opt_val = val
+                    move = index
+				if index == len(state):
+					break
             self.state_index.append((deepcopy(state),move))
-            return move
-        return free_space[temp]
+		return move
