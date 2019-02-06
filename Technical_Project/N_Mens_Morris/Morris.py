@@ -298,7 +298,7 @@ def free_space_finder(state):
 
 def game_play(player1,player2,game_type):
 	winner = 0
-    	move_no = 0
+	move_no = 0
     	game_states = []
     	player1_piece_list = []
     	player2_piece_list = []
