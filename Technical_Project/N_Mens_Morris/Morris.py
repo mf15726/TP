@@ -222,20 +222,20 @@ def printboard(game_type,state):
 		print('|     |     |')
 		print(str(state[21])+'-----'+str(state[22])+'-----'+str(state[23]))
 
-    if game_type == 12:
+	if game_type == 12:
 		print(str(state[0])+'-----'+str(state[1])+'-----'+str(state[2]))
 		print('|\    |    /|')
 		print('| '+str(state[3])+'---'+str(state[4])+'---'+str(state[5])+' |')
-        print('| |\  |  /| |')
-        print('| | '+str(state[6])+'-'+str(state[7])+'-'+str(state[8])+' | |')
-        print('| | |   | | |')
-        print(str(state[9])+'-'+str(state[10])+'-'+str(state[11])+'   '+str(state[12])+'-'+str(state[13])+'-'+str(state[14]))
-        print('| | |   | | |')
-        print('| | '+str(state[15])+'-'+str(state[16])+'-'+str(state[17])+' | |')
-        print('| |/  |  \| |')
-        print('| '+str(state[18])+'---'+str(state[19])+'---'+str(state[20])+' |')
-        print('|/    |    \|')
-        print(str(state[21])+'-----'+str(state[22])+'-----'+str(state[23]))
+		print('| |\  |  /| |')
+		print('| | '+str(state[6])+'-'+str(state[7])+'-'+str(state[8])+' | |')
+		print('| | |   | | |')
+		print(str(state[9])+'-'+str(state[10])+'-'+str(state[11])+'   '+str(state[12])+'-'+str(state[13])+'-'+str(state[14]))
+		print('| | |   | | |')
+		print('| | '+str(state[15])+'-'+str(state[16])+'-'+str(state[17])+' | |')
+		print('| |/  |  \| |')
+		print('| '+str(state[18])+'---'+str(state[19])+'---'+str(state[20])+' |')
+		print('|/    |    \|')
+		print(str(state[21])+'-----'+str(state[22])+'-----'+str(state[23]))
 
 
 
