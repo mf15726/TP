@@ -396,7 +396,7 @@ class Learned_Player(object):
             move = self.random_place(state)
             return move
         else:
-			predictions = self.sess.run([self.Q_val], feed_dict={self.input: state})
+			predictions = self.sess.run([self.Q_val_place], feed_dict={self.input: state})
             opt_val = -float('Inf')
             for index, val in enumerate(predictions[0][0]):
 				if index not in state:
@@ -408,3 +408,29 @@ class Learned_Player(object):
 					break
             self.state_index.append((deepcopy(state),move))
 		return move
+	
+	def random_move(self, valid_moves):
+        temp = random.randint(0, len(valid_moves) - 1)
+        return valid_moves[temp]
+	
+	def move(self, state, game_type, free_space, pieces, nodes):
+		valid_moves = self.valid_move(state, game_type, free_space, pieces)
+		if len(valid_moves) == 0:
+            return ([9,9], [9,9])
+        move = None
+		rand = random.randint(1,100)
+        if rand <= 100*self.epsilon:
+            move = self.random_move(valid_moves)
+            return move
+        else:
+			predictions = self.sess.run([self.Q_val_from], feed_dict={self.input: state})
+            opt_val = -float('Inf')
+            for index, val in enumerate(predictions[0][0]):
+                	if val > opt_val:
+                    	opt_val = val
+						if game_mode != 6:
+							move = node_list_9[index]
+						else:
+							move = node_list_6[index]
+            self.state_index.append((deepcopy(state),move))
+            return move
