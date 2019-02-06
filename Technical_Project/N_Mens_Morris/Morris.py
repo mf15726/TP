@@ -242,8 +242,8 @@ def printboard(game_type,state):
 def end_game(state):
 	count1 = 0
 	count2 = 0
-    	for row in state:
-        	temp1 = row.count(1)
+	for row in state:
+		temp1 = row.count(1)
         	temp2 = row.count(2)
         	count1 += temp1
         	count2 += temp2
