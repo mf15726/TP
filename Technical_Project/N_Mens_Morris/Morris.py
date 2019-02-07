@@ -303,7 +303,8 @@ def game_play(player1,player2,game_type,print_board):
 		state = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 	else:
 		state = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-	printboard(game_type,state)
+	if print_board:
+		printboard(game_type,state)
 	free_space = free_space_finder(state)
 	while winner == 0:
 		if move_no < game_type * 2:
