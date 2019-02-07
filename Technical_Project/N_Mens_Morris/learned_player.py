@@ -422,7 +422,7 @@ class Learned_Player(object):
 	def move(self, state, game_type, free_space, pieces):
 		valid_moves = self.valid_move(state, game_type, free_space, pieces)
 		if len(valid_moves) == 0:
-			return ((9,9))
+			return ((25,25))
 		move = None
 		rand = random.randint(1,100)
 		if rand <= 100*self.epsilon:
