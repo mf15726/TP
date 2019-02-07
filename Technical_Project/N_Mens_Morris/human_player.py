@@ -15,7 +15,7 @@ class Human_Player(object):
 	def __init__(self):
 		self.state_index = []
 	
-	def place(self, state, free_space, nodes):
+	def place(self, state, free_space):
 		print('List of valid moves: ')
 		print(free_space)
 		temp = input('Pick a move (counting from 0): ')
@@ -50,7 +50,7 @@ class Human_Player(object):
 
 		return valid_moves
 
-	def move(self, state, game_type, free_space, pieces, nodes):
+	def move(self, state, game_type, free_space, pieces):
 		valid_moves = valid_move(self, state, game_type, free_space, pieces)
 		print('List of valid moves ((piece, space to move to)): ')
 		print(valid_moves)
