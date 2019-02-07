@@ -209,11 +209,11 @@ class Random_Player(object):
 
 		return valid_moves
 
-	def remove_piece(self, piece_list, game_type, nodes):
+	def remove_piece(self, piece_list, game_type):
 		temp = random.randint(0, len(piece_list) - 1)
 		return piece_list[temp]
 
-	def move(self, state, game_type, free_space, pieces, nodes):
+	def move(self, state, game_type, free_space, pieces):
 		valid_moves = self.valid_move(state, game_type, free_space,pieces)
 		if len(valid_moves) == 0:
 			return (25, 25)
