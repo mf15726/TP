@@ -57,7 +57,7 @@ class Human_Player(object):
 		temp = input('Pick a move (counting from 0): ')
 		return valid_moves[int(temp)]
 	
-	def remove_piece(self, piece_list, game_type):
+	def remove_piece(self, state, piece_list, game_type):
 		print('List of opposition pieces: ')
 		print(piece_list)
 		temp = input('Pick a piece to remove (counting from 0): ')
