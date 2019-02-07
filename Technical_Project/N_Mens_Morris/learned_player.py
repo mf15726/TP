@@ -180,11 +180,10 @@ mill_dict_12 = {
 "23": [[21, 22], [2, 14], [17, 20]]
 }
 
-class Learned_Player(object):
-	def __init__(self, player, alpha, epsilon, gamma):
+class Learned_Player(object, epsilon, alpha, gamma):
+	def __init__(self):
 
 		self.sess = tf.Session()
-		self.player = player
 		self.epsilon = epsilon
 		self.alpha = alpha
 		self.gamma = gamma
