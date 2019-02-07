@@ -292,9 +292,9 @@ class Learned_Player(object):
 
 		l_norm = tf.contrib.layers.softmax(
 			logits=l_out
-        )
-
-        return l_norm
+		)
+		
+		return l_norm
 		
 		
 	def neural_network_from(self):
@@ -358,9 +358,9 @@ class Learned_Player(object):
 
 		l_norm = tf.contrib.layers.softmax(
 			logits=l_out
-        )
+		)
 
-        return l_norm
+        	return l_norm
 	
 	def valid_move(self, state, game_type, free_space, pieces):
         valid_moves = []
