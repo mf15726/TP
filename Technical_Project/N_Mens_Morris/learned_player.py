@@ -414,7 +414,7 @@ class Learned_Player(object):
 		self.state_index.append((deepcopy(state),move))
 		return predicted_move
 	
-	def remove_piece(self, piece_list, game_type):
+	def remove_piece(self, state, piece_list, game_type):
 		rand = random.randint(1,100)
 		if rand <= 100*self.epsilon:
 			temp = random.randint(0, len(piece_list) - 1)
