@@ -396,7 +396,8 @@ class Learned_Player(object):
 							piece = index
 						if index == len(state):
 							break
-			
+			if move == None:
+				return (25,25)
 			valid_spaces = []
 			for item in valid_moves:
 				if piece == item[0]:
