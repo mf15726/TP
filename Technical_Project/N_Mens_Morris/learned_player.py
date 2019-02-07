@@ -347,7 +347,7 @@ class Learned_Player(object):
 			move = self.random_place(state)
 			return move
 		else:
-			predictions = self.sess.run([self.Q_val_place], feed_dict={self.input: state, self.game_type: game_type,
+			predictions = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type,
 										   self.decision_type: [1,0,0,0]})
 		opt_val = -float('Inf')
 		for index, val in enumerate(predictions[0][0]):
