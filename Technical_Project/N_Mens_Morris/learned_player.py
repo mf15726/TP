@@ -249,8 +249,8 @@ class Learned_Player(object):
 			kernel_initializer = tf.constant_initializer(0,1),
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu,
-			activity_regularizer=tf.nn.softmax,
 			kernal_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1)
+			activity_regularizer=tf.nn.softmax,
 		)
 
 		l2 = tf.layers.dense(
@@ -259,8 +259,8 @@ class Learned_Player(object):
 			kernel_initializer = tf.constant_initializer(0,1),
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu,
-			activity_regularizer=tf.nn.softmax,
 			kernal_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1)
+			activity_regularizer=tf.nn.softmax,
 		)
 
 #		l3 = tf.layers.dense(
@@ -268,8 +268,8 @@ class Learned_Player(object):
 	#		units=self.n_nodes_1,
 	#		bias_initializer=tf.constant_initializer(0, 1),
 	#		activation=tf.nn.leaky_relu,
-	#		activity_regularizer=tf.nn.softmax,
 	#		kernal_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1)
+	#		activity_regularizer=tf.nn.softmax,
 #		)
 
 #		l4 = tf.layers.dense(
@@ -277,8 +277,8 @@ class Learned_Player(object):
 	#		units=self.n_nodes_2,
 	#		bias_initializer=tf.constant_initializer(0, 1),
 	#		activation=tf.nn.leaky_relu,
-	#		activity_regularizer=tf.nn.softmax,
 	#		kernal_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1)
+	#		activity_regularizer=tf.nn.softmax,
 #		)
 
 #		l5 = tf.layers.dense(
@@ -286,8 +286,8 @@ class Learned_Player(object):
 	#		units=self.n_nodes_3,
 	#		bias_initializer=tf.constant_initializer(0, 1),
 	#		activation=tf.nn.leaky_relu,
-	#		activity_regularizer=tf.nn.softmax,
 	#		kernal_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1)
+	#		activity_regularizer=tf.nn.softmax,
 #		)
 
 		l_out = tf.layers.dense(
@@ -296,8 +296,8 @@ class Learned_Player(object):
 			kernel_initializer = tf.constant_initializer(0,1),
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu,
-			activity_regularizer=tf.nn.softmax,
 			kernal_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1)
+			activity_regularizer=tf.nn.softmax,
 		)
 
 		l_norm = tf.contrib.layers.softmax(
