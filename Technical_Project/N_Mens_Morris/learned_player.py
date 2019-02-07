@@ -191,7 +191,7 @@ class Learned_Player(object):
 		self.state_index = []
 
 		self.n_classes = 24
-		self.n_input = 72
+		self.n_input = 80
 		self.n_nodes_1 = self.n_classes * 2
 		self.n_nodes_2 = self.n_classes * 2
 		self.n_nodes_3 = self.n_classes * 2
