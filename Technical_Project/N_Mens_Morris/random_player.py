@@ -218,4 +218,4 @@ class Random_Player(object):
 		if len(valid_moves) == 0:
 			return (25, 25)
 		temp = random.randint(0, len(valid_moves) - 1)
-        return valid_moves[temp]
+		return valid_moves[temp]
