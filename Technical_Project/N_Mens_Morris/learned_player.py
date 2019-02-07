@@ -260,7 +260,7 @@ class Learned_Player(object):
 	#		activation=tf.nn.leaky_relu,
 	#		activity_regularizer=tf.nn.softmax,
 	#		kernal_regularizer=self.regularizer1
-		)
+#		)
 
 #		l4 = tf.layers.dense(
 	#		inputs=l3,
@@ -269,7 +269,7 @@ class Learned_Player(object):
 	#		activation=tf.nn.leaky_relu,
 	#		activity_regularizer=tf.nn.softmax,
 	#		kernal_regularizer=self.regularizer1
-		)
+#		)
 
 #		l5 = tf.layers.dense(
 	#		inputs=l4,
@@ -278,7 +278,7 @@ class Learned_Player(object):
 	#		activation=tf.nn.leaky_relu,
 	#		activity_regularizer=tf.nn.softmax,
 	#		kernal_regularizer=self.regularizer1
-		)
+#		)
 
 		l_out = tf.layers.dense(
 			inputs=l2,
@@ -326,7 +326,7 @@ class Learned_Player(object):
 	#		activation=tf.nn.leaky_relu,
 	#		activity_regularizer=tf.nn.softmax,
 	#		kernal_regularizer=tf.contrib.layers.l1_regularizer(0.001)
-		)
+#		)
 
 #		l4 = tf.layers.dense(
 	#		inputs=l3,
@@ -335,7 +335,7 @@ class Learned_Player(object):
 	#		activation=tf.nn.leaky_relu,
 	#		activity_regularizer=tf.nn.softmax,
 	#		kernal_regularizer=tf.contrib.layers.l1_regularizer(0.001)
-		)
+#		)
 
 #		l5 = tf.layers.dense(
 	#		inputs=l4,
@@ -344,7 +344,7 @@ class Learned_Player(object):
 	#		activation=tf.nn.leaky_relu,
 	#		activity_regularizer=tf.nn.softmax,
 	#		kernal_regularizer=tf.contrib.layers.l1_regularizer(0.001)
-		)
+#		)
 
 		l_out = tf.layers.dense(
 			inputs=l2,
