@@ -440,9 +440,10 @@ class Learned_Player(object):
 			opt_val = -float('Inf')
 			for index, val in enumerate(predictions_choose[0][0]):
 				if val > opt_val and index in pieces:
-					if index in item[0] for item in valid_moves:
-						opt_val = val
-						piece = index
+					for item in valid_moves:
+						if index == valid_moves[item][0]:
+							opt_val = val
+							piece = index
 						if index == len(state):
 							break
 			
