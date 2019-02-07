@@ -215,16 +215,16 @@ class Learned_Player(object):
 		self.decision_type = tf.placeholder(tf.float32, [4])
 		self.x_decision_type = tf.cast(self.decision_type, tf.float32)
 		
-#		self.x_bin = [self.x_empty,self.x_p1,self.x_p2]
+		self.x_bin = [self.x_empty,self.x_p1,self.x_p2]
 #		self.x_bin = [self.x_empty,self.x_p1,self.x_p2,self.x_game_type,self.x_decision_type]
-		self.ttemp = [self.x_empty,self.x_p1,self.x_p2]
-		self.tempp = [self.x_game_type,self.x_decision_type]
-		self.tttemp = tf.reshape(self.ttemp, shape=[72])
-		self.temppp = tf.reshape(self.tempp, shape=[8])
-		self.x_bin = tf.concat(self.tttemp, self.temppp)
+#		self.ttemp = [self.x_empty,self.x_p1,self.x_p2]
+#		self.tempp = [self.x_game_type,self.x_decision_type]
+#		self.tttemp = tf.reshape(self.ttemp, shape=[72])
+#		self.temppp = tf.reshape(self.tempp, shape=[8])
+#		self.x_bin = tf.concat(self.tttemp, self.temppp)
 		self.x = tf.reshape(self.x_bin, shape=[1,self.n_input])
 		self.reward = tf.placeholder(tf.float32,[self.n_classes])
-		self.y = tf.reshape(self.reward, [1, self.n_classes])
+		self.y = tf.reshape(self.reward, [1, self.n_classes-8])
 		self.Q_val = self.neural_network()
 #		self.Q_val_from = self.neural_network_from()
 
