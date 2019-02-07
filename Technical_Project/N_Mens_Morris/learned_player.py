@@ -399,7 +399,7 @@ class Learned_Player(object):
 			
 			valid_spaces = []
 			for item in valid_moves:
-				if piece == valid_moves[item][0]:
+				if piece == item[0]:
 					valid_spaces.append(valid_moves[item][1])
 			predictions_move = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_move})
