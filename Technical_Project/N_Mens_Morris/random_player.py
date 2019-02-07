@@ -196,7 +196,7 @@ class Random_Player(object):
 						valid_moves.append((piece,space))
 
 		if game_type == 9:
-    			for piece in pieces:
+			for piece in pieces:
 				for space in adj_dict_9[str(piece)]:
 					if space in free_space:
 						valid_moves.append((piece,space))
