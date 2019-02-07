@@ -395,5 +395,5 @@ learned_player = Learned_Player(epsilon=0.01, alpha=0.3, gamma=0.9)
 #plt.show()
 
 for i in range(1000):
-	winner, game_states = game_play(random_player,random_player, 12, False)
+	winner, game_states = game_play(random_player,learned_player, 12, False)
 print(winner)
