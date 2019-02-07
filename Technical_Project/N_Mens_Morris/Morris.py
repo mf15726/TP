@@ -291,7 +291,7 @@ def free_space_finder(state):
     	return free_space
 
 
-def game_play(player1,player2,game_type):
+def game_play(player1,player2,game_type,print_board):
 	winner = 0
 	move_no = 0
 	game_states = []
@@ -315,7 +315,8 @@ def game_play(player1,player2,game_type):
 				player2_piece_list.append(move)
 			state[move] = (move_no % 2) + 1
 			free_space.remove(move)
-			printboard(game_type,state)
+			if print_board:
+				printboard(game_type,state)
 			print('Placed by Player ' + str(move_no%2 + 1) + ' ' +  str(move))
 			if det_mill(state, move, game_type):
 				print('Mill Created')
@@ -332,7 +333,8 @@ def game_play(player1,player2,game_type):
 					state[removed_piece] = 0
 					player1_piece_list.remove(removed_piece)
 				free_space.append(removed_piece)
-				printboard(game_type,state)
+				if print_board:
+					printboard(game_type,state)
 		else:
 			if move_no == game_type * 2:
 				winner = end_game(state)
@@ -358,7 +360,8 @@ def game_play(player1,player2,game_type):
 			state[prev_pos] = 0
 			free_space.remove(move)
 			free_space.append(prev_pos)
-			printboard(game_type,state)
+			if print_board:
+				printboard(game_type,state)
 			if det_mill(state, move, game_type):
 				print('Mill Created')
 				if move_no % 2 == 0:
@@ -372,7 +375,8 @@ def game_play(player1,player2,game_type):
 					state[removed_piece] = 0
 					player1_piece_list.remove(removed_piece)
 				free_space.append(removed_piece)
-				printboard(game_type,state)
+				if print_board:
+					printboard(game_type,state)
 				winner = end_game(state)				
 		game_states.append(state)
 		move_no += 1
@@ -390,5 +394,5 @@ random_player = Random_Player()
 #plt.show()
 
 for i in range(1000):
-	winner, game_states = game_play(random_player,random_player, 3)
+	winner, game_states = game_play(random_player,random_player, 3, False)
 print(winner)
