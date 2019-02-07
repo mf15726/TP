@@ -182,32 +182,31 @@ class Random_Player(object):
 
     def valid_move(self, state, game_type, free_space, pieces):
         valid_moves = []
+	if game_type == 3:
+		for piece in pieces:
+			for space in adj_dict_3[str(piece)]:
+				if space in free_space:
+					valid_moves.append((piece,space))
 
-		if game_type == 3:
-			for piece in pieces:
-				for space in adj_dict_3[str(piece)]:
-					if space in free_space:
-						valid_moves.append((piece,space))
+	if game_type == 6:
+		for piece in pieces:
+			for space in adj_dict_6[str(piece)]:
+				if space in free_space:
+					valid_moves.append((piece,space))
 
-		if game_type == 6:
-			for piece in pieces:
-				for space in adj_dict_6[str(piece)]:
-					if space in free_space:
-						valid_moves.append((piece,space))
+	if game_type == 9:
+    		for piece in pieces:
+			for space in adj_dict_9[str(piece)]:
+				if space in free_space:
+					valid_moves.append((piece,space))
 
-        if game_type == 9:
-            for piece in pieces:
-                for space in adj_dict_9[str(piece)]:
-                    if space in free_space:
-                        valid_moves.append((piece,space))
+	if game_type == 12:
+		for piece in pieces:
+			for space in adj_dict_12[str(piece)]:
+				if space in free_space:
+					valid_moves.append((piece,space))
 
-		if game_type == 12:
-			for piece in pieces:
-				for space in adj_dict_12[str(piece)]:
-					if space in free_space:
-						valid_moves.append((piece,space))
-
-		return valid_moves
+	return valid_moves
 
 	def remove_piece(self, piece_list, game_type, nodes):
 		temp = random.randint(0, len(piece_list) - 1)
