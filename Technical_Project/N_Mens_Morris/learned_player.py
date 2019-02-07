@@ -191,7 +191,7 @@ class Learned_Player(object):
 		self.state_index = []
 
 		self.n_classes = 24
-		self.n_input = 80
+		self.n_input = 72
 		self.n_nodes_1 = self.n_classes * 2
 		self.n_nodes_2 = self.n_classes * 2
 		self.n_nodes_3 = self.n_classes * 2
@@ -224,7 +224,7 @@ class Learned_Player(object):
 #		self.x_bin = tf.concat(self.tttemp, self.temppp)
 		self.x = tf.reshape(self.x_bin, shape=[1,self.n_input])
 		self.reward = tf.placeholder(tf.float32,[self.n_classes])
-		self.y = tf.reshape(self.reward, [1, self.n_classes-8])
+		self.y = tf.reshape(self.reward, [1, self.n_classes])
 		self.Q_val = self.neural_network()
 #		self.Q_val_from = self.neural_network_from()
 
