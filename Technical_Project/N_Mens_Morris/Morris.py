@@ -319,7 +319,7 @@ def game_play(player1,player2,game_type):
 				move = player2.place(state,free_space,game_type)
 				player2_piece_list.append(move)
 		state[move] = (move_no % 2) + 1
-		free_space.#(move)
+		free_space.remove(move)
 		printboard(game_type,state)
 		if det_mill(state, move, game_type):
 			print('Mill Created')
