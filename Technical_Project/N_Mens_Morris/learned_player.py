@@ -419,7 +419,7 @@ class Learned_Player(object):
 		temp = random.randint(0, len(valid_moves) - 1)
 		return valid_moves[temp]
 	
-	def move(self, state, game_type, free_space, pieces, nodes):
+	def move(self, state, game_type, free_space, pieces):
 		valid_moves = self.valid_move(state, game_type, free_space, pieces)
 		if len(valid_moves) == 0:
 			return ((9,9))
