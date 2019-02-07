@@ -345,7 +345,7 @@ def game_play(player1,player2,game_type,print_board):
 			if move_no % 2 == 0:
 				prev_pos, move = player1.move(state,game_type,free_space,player1_piece_list)
 				if move == 25:
-					return winner ,game_states
+					return 2 ,game_states
 				player1_piece_list.append(move)
 				player1_piece_list.remove(prev_pos)
 				print('Player1 moves' + str(move))
@@ -353,7 +353,7 @@ def game_play(player1,player2,game_type,print_board):
 			else:
 				prev_pos, move = player2.move(state,game_type,free_space,player2_piece_list)
 				if move == 25:
-					return winner ,game_states
+					return 1 ,game_states
 				player2_piece_list.append(move)
 				player2_piece_list.remove(prev_pos)
 				print('Player2 moves' + str(move))
