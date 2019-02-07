@@ -381,9 +381,9 @@ def game_play(player1,player2,game_type):
 						player1_piece_list.remove(removed_piece)
 					free_space.append(removed_piece)
 					printboard(game_type,state)
-					winner = end_game(state)
-					game_states.append(state)
-					move_no += 1
+					winner = end_game(state)				
+		game_states.append(state)
+		move_no += 1
 
 
 
