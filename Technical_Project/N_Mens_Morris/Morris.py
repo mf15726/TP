@@ -315,11 +315,11 @@ def game_play(player1,player2,game_type,print_board):
 				move = player2.place(state,free_space,game_type)
 				player2_piece_list.append(move)
 			state[move] = (move_no % 2) + 1
+			print('Placed by Player ' + str(move_no%2 + 1) + ' ' +  str(move))
 			print('Free Space = ' +str(free_space))
 			free_space.remove(move)
 			if print_board:
 				printboard(game_type,state)
-			print('Placed by Player ' + str(move_no%2 + 1) + ' ' +  str(move))
 			if det_mill(state, move, game_type):
 				print('Mill Created')
 				if move_no % 2 == 0:
