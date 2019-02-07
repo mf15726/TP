@@ -242,8 +242,8 @@ def printboard(game_type,state):
 def end_game(state):
 	count1 = state.count(1)
 	count2 = state.count(2)
-	print(('Count1 = ') + str(count1))
-	print(('Count2 = ') + str(count2))
+#	print(('Count1 = ') + str(count1))
+#	print(('Count2 = ') + str(count2))
 	if count1 <= 2:
 		return 2
 	if count2 <= 2:
@@ -396,6 +396,10 @@ learned_player.sess.run(tf.global_variables_initializer())
 #nx.draw(gameboard)
 #plt.show()
 
+winner_list = []
+
 for i in range(1000):
 	winner, game_states = game_play(random_player,learned_player, 12, False)
-print(winner)
+	winner_list.append(winner)
+print('P1 wins = ' + str(winner_list.count(1)))
+print('P2 wins = ' + str(winner_list.count(2)))
