@@ -172,8 +172,7 @@ mill_dict_12 = {
 "14": [[2, 23], [12, 13]],
 "15": [[6, 11], [16, 17], [18, 21]],
 "16": [[15, 17], [19, 22]],
-"17": [[12, 8], [15, 16], [20, 23]],
-"18": [[10, 3], [19, 20], [15, 21]],
+"17": [[12, 8], [15, 16], [20, 23]],"18": [[10, 3], [19, 20], [15, 21]],
 "19": [[18, 20], [10, 3]],
 "20": [[19, 18], [5, 13], [17, 23]],
 "21": [[9, 0], [22, 23], [15, 18]],
@@ -200,38 +199,44 @@ class Learned_Player(object):
 
 
 		self.input = tf.placeholder(tf.float32, [24])
-		self.game_type = tf.placeholder(tf.float32, [1])
-		#        self.available = tf.placeholder(tf.float32, [7])
 		self.x_p1 = tf.cast(tf.equal(self.input, 1), tf.float32)
 		self.x_p2 = tf.cast(tf.equal(self.input, 2), tf.float32)
 		self.x_empty = tf.cast(tf.equal(self.input, 0), tf.float32)
+		
+		#game_type = 1 at 0 if game_type = 3, 1 if 6, 2 if 9, 3 if 12
+		self.game_type = tf.placeholder(tf.float32, [1])
 		self.ttemp = [0] * 4
 		self.x_game_type = deepcopy(self.ttemp)
 		self.x_game_type[tf.divide(self.game_type,3)] = 1
-		self.x_bin = [self.x_empty,self.x_p1,self.x_p2,self.x_game_type]
-		#        self.x = tf.reshape(self.input, shape=[1,self.n_input])
+		
+		#decision_type = 1 at 0 if place, 1 if choose piece to move, 2 if move piece to, 3 if remove piece
+		self.decision_type = tf.placeholder(tf.float32, [1])
+		self.x_decision_type = deepcopy(self.ttemp)
+		self.x_decision_type[self.decision_type] = 1
+		
+		self.x_bin = [self.x_empty,self.x_p1,self.x_p2,self.x_game_type,self.x_decision_type]
 		self.x = tf.reshape(self.x_bin, shape=[1,self.n_input])
 		self.reward = tf.placeholder(tf.float32,[self.n_classes])
 		self.y = tf.reshape(self.reward, [1, self.n_classes])
-		self.Q_val_place = self.neural_network_place()
-		self.Q_val_from = self.neural_network_from()
+		self.Q_val = self.neural_network()
+#		self.Q_val_from = self.neural_network_from()
 
 		#cost
 		#        self.cost = tf.reduce_mean(tf.square(self.y - self.Q_val))
 		#        self.cost = tf.square(self.Q_val - self.y)
-		self.cost_place = tf.square(self.y - self.Q_val_place)
-		self.cost_from = tf.square(self.y - self.Q_val_from)
+		self.cost = tf.square(self.y - self.Q_val)
+#		self.cost_from = tf.square(self.y - self.Q_val_from)
 		#optimiser
 
 # 		 self.optimiser = tf.train.RMSPropOptimizer(learning_rate=alpha, decay=0.9).minimize(self.cost)
 		#        self.optimiser = tf.train.AdamOptimizer(learning_rate=alpha, decay=0.9).minimize(self.cost)
-		self.optimiser_place = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost_place)
-		self.optimiser_from = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost_from)
+		self.optimiser = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost)
+#		self.optimiser_from = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost_from)
 		#        self.optimizer = tf.train.AdograadOptimizer(learning_rate=alpha, decay=0.9).minimize(self.cost)
 		self.regularizer1 = tf.contrib.layers.l1_regularizer(scale=0.1)
 		self.regularizer2 = tf.contrib.layers.l2_regularizer(scale=0.1)
 
-	def neural_network_place(self):
+	def neural_network(self):
 
 		l1 = tf.layers.dense(
 			inputs=self.x,
@@ -402,7 +407,8 @@ class Learned_Player(object):
 			move = self.random_place(state)
 			return move
 		else:
-			predictions = self.sess.run([self.Q_val_place], feed_dict={self.input: state})
+			predictions = self.sess.run([self.Q_val_place], feed_dict={self.input: state, self.game_type: game_type,
+										   self.decision_type = 0})
 		opt_val = -float('Inf')
 		for index, val in enumerate(predictions[0][0]):
 			if index not in state:
@@ -426,17 +432,33 @@ class Learned_Player(object):
 		move = None
 		rand = random.randint(1,100)
 		if rand <= 100*self.epsilon:
-			move = self.random_move(valid_moves)
-			return move
+			random_move = self.random_move(valid_moves)
+			return random_move
 		else:
-			predictions = self.sess.run([self.Q_val_from], feed_dict={self.input: state})
+			predictions_choose = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type,
+										   self.decision_type = 1})
 			opt_val = -float('Inf')
-			for index, val in enumerate(predictions[0][0]):
-				if val > opt_val:
+			for index, val in enumerate(predictions_choose[0][0]):
+				if val > opt_val and index in pieces:
+					if index in valid_moves[i][0] for i in valid_moves:
+						opt_val = val
+						piece = index
+						if index == len(state):
+							break
+			
+			valid_spaces = []
+			for item in valid_moves:
+				if piece == valid_moves[item][0]:
+					valid_spaces.append(valid_moves[item][1])
+			predictions_move = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type,
+										   self.decision_type = 2})
+			for index, val in enumerate(predictions_choose[0][0]):
+				if val > opt_val and index in valid_spaces:
 					opt_val = val
-					if game_mode != 6:
-						move = node_list_9[index]
-					else:
-						move = node_list_6[index]
+					move = index
+					if index == len(state):
+						break
+					
+			predicted_move = (piece, move)		
 		self.state_index.append((deepcopy(state),move))
-		return move
+		return predicted_move
