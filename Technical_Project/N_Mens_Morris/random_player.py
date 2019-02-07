@@ -217,5 +217,5 @@ class Random_Player(object):
 		valid_moves = self.valid_move(state, game_type, free_space,pieces)
 		if len(valid_moves) == 0:
 			return (25, 25)
-        temp = random.randint(0, len(valid_moves) - 1)
+		temp = random.randint(0, len(valid_moves) - 1)
         return valid_moves[temp]
