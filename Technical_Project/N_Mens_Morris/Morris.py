@@ -389,7 +389,7 @@ def game_play(player1,player2,game_type,print_board):
 
 human_player = Human_Player()
 random_player = Random_Player()
-#learned_player = Learned_Player()
+learned_player = Learned_Player()
 #gameboard = define_board(6)
 #nx.draw(gameboard)
 #plt.show()
