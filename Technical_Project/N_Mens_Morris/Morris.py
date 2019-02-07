@@ -315,6 +315,7 @@ def game_play(player1,player2,game_type,print_board):
 				move = player2.place(state,free_space,game_type)
 				player2_piece_list.append(move)
 			state[move] = (move_no % 2) + 1
+			print('Free Space = ' +str(free_space))
 			free_space.remove(move)
 			if print_board:
 				printboard(game_type,state)
