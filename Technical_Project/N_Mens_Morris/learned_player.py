@@ -212,8 +212,8 @@ class Learned_Player(object):
 		self.x_game_type = tf.reshape(self.game_type_list, shape=[4])
 		
 		#decision_type = 1 at 0 if place, 1 if choose piece to move, 2 if move piece to, 3 if remove piece
-		self.decision_type = tf.placeholder(tf.float32, [4])
-		self.x_decision_type = tf.cast(self.decision_type, tf.float32)
+		self.decision_type = tf.placeholder(tf.float32, [4,1])
+		self.x_decision_type = tf.reshape(self.decision_type, shape=[4])
 		
 		self.x_bin = [self.x_empty,self.x_p1,self.x_p2]
 #		self.x_bin = [self.x_empty,self.x_p1,self.x_p2,self.x_game_type,self.x_decision_type]
