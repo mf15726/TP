@@ -360,7 +360,7 @@ class Learned_Player(object):
 			logits=l_out
 		)
 
-        	return l_norm
+		return l_norm
 	
 	def valid_move(self, state, game_type, free_space, pieces):
         valid_moves = []
