@@ -181,7 +181,8 @@ class Random_Player(object):
         	temp = random.randint(0, len(free_space) - 1)
         	return free_space[temp]
 
-	def valid_move(self, state, game_type, free_space, pieces):valid_moves = []
+	def valid_move(self, state, game_type, free_space, pieces):
+		valid_moves = []
 		if game_type == 3:
 			for piece in pieces:
 				for space in adj_dict_3[str(piece)]:
