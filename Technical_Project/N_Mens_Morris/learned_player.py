@@ -349,7 +349,7 @@ class Learned_Player(object):
 		rand = random.randint(1,100)
 		move = None
 		if rand <= 100*self.epsilon:
-			move = self.random_place(state)
+			move = self.random_place(state,free_space)
 			return move
 		else:
 			game_type_input = [0] * 4
