@@ -394,5 +394,5 @@ random_player = Random_Player()
 #plt.show()
 
 for i in range(1000):
-	winner, game_states = game_play(random_player,random_player, 9, False)
+	winner, game_states = game_play(random_player,random_player, 12, False)
 print(winner)
