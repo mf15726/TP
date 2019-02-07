@@ -353,7 +353,7 @@ class Learned_Player(object):
 			return move
 		else:
 			game_type_input = [0] * 4
-			game_type_input[game_type/3] = 1
+			game_type_input[(int(game_type)/3)-1] = 1
 			decision_type_place = [1,0,0,0]
 			predictions = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_place})
@@ -384,7 +384,7 @@ class Learned_Player(object):
 			return random_move
 		else:
 			game_type_input = [0] * 4
-			game_type_input[game_type/3] = 1
+			game_type_input[(int(game_type)/3)-1] = 1
 			decision_type_choose = [0,1,0,0]
 			decision_type_move = [0,0,1,0]
 			predictions_choose = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type_input,
@@ -423,7 +423,7 @@ class Learned_Player(object):
 			return piece_list[temp]		
 		else:
 			game_type_input = [0] * 4
-			game_type_input[game_type/3] = 1
+			game_type_input[(int(game_type)/3)-1] = 1
 			decision_type_remove = [0,0,0,1]
 			predictions = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_remove})
