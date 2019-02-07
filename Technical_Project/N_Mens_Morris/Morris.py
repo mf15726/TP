@@ -321,6 +321,7 @@ def game_play(player1,player2,game_type):
 			state[move] = (move_no % 2) + 1
 			free_space.remove(move)
 			printboard(game_type,state)
+			print('Placed by Player ' + str(move_no%2 + 1) + ' ' +  str(move))
 			if det_mill(state, move, game_type):
 				print('Mill Created')
 				if move_no % 2 == 0:
