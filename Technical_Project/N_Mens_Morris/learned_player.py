@@ -212,7 +212,7 @@ class Learned_Player(object):
 		
 		#decision_type = 1 at 0 if place, 1 if choose piece to move, 2 if move piece to, 3 if remove piece
 		self.decision_type = tf.placeholder(tf.float32, [4])
-		self.x_decision_type = tf.cast()
+		self.x_decision_type = tf.cast(self.decision_type, tf.float32)
 		
 		self.x_bin = [self.x_empty,self.x_p1,self.x_p2,self.x_game_type,self.x_decision_type]
 		self.x = tf.reshape(self.x_bin, shape=[1,self.n_input])
@@ -408,7 +408,7 @@ class Learned_Player(object):
 			return move
 		else:
 			predictions = self.sess.run([self.Q_val_place], feed_dict={self.input: state, self.game_type: game_type,
-										   self.decision_type: 0})
+										   self.decision_type: [1,0,0,0]})
 		opt_val = -float('Inf')
 		for index, val in enumerate(predictions[0][0]):
 			if index not in state:
@@ -436,7 +436,7 @@ class Learned_Player(object):
 			return random_move
 		else:
 			predictions_choose = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type,
-										   self.decision_type: 1})
+										   self.decision_type: [0,1,0,0]})
 			opt_val = -float('Inf')
 			for index, val in enumerate(predictions_choose[0][0]):
 				if val > opt_val and index in pieces:
@@ -452,7 +452,7 @@ class Learned_Player(object):
 				if piece == valid_moves[item][0]:
 					valid_spaces.append(valid_moves[item][1])
 			predictions_move = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type,
-										   self.decision_type: 2})
+										   self.decision_type: [0,0,1,0]})
 			for index, val in enumerate(predictions_choose[0][0]):
 				if val > opt_val and index in valid_spaces:
 					opt_val = val
@@ -471,7 +471,7 @@ class Learned_Player(object):
 			return piece_list[temp]		
 		else:
 			predictions = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type,
-										   self.decision_type: 3})
+										   self.decision_type: [0,0,0,1]})
 			opt_val = -float('Inf')
 			for index, val in enumerate(predictions[0][0]):
 				if val > opt_val and index in piece_list:
