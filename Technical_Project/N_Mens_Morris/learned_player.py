@@ -194,6 +194,11 @@ class Learned_Player(object):
 		self.choose_index = []
 		self.move_index = []
 		self.remove_index = []
+		
+		self.place_qval_index = []
+		self.choose_qval_index = []
+		self.move_qval_index = []
+		self.remove_qval_index = []
 
 		self.n_classes = 24
 		self.n_input = 80
@@ -353,22 +358,25 @@ class Learned_Player(object):
 	def place(self, state, free_space, game_type):
 		rand = random.randint(1,100)
 		move = None
+		game_type_input = [0] * 4
+		game_type_input[int((game_type/3)-1)] = 1
+		decision_type_place = [1,0,0,0]
+		predictions_place = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type_input,
+										   self.decision_type: decision_type_place})
 		if rand <= 100*self.epsilon:
 			move = self.random_place(state,free_space)
+			self.place_qval_index.append(predictions_place[0][0])
+			self.place_index.append((deepcopy(state),move))
 			return move
 		else:
-			game_type_input = [0] * 4
-			game_type_input[int((game_type/3)-1)] = 1
-			decision_type_place = [1,0,0,0]
-			predictions = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type_input,
-										   self.decision_type: decision_type_place})
 			opt_val = -float('Inf')
-			for index, val in enumerate(predictions[0][0]):
+			for index, val in enumerate(predictions_place[0][0]):
 				if val > opt_val and index in free_space:
 					opt_val = val
 					move = index
 				if index == len(state):
 					break
+			self.place_qval_index.append(predictions_place[0][0])
 			self.place_index.append((deepcopy(state),move))
 			return move
 	
@@ -382,18 +390,22 @@ class Learned_Player(object):
 			return (25, 25)
 		move = None
 		rand = random.randint(1,100)
+		game_type_input = [0] * 4
+		game_type_input[int((game_type/3)-1)] = 1
+		decision_type_choose = [0,1,0,0]
+		decision_type_move = [0,0,1,0]
+		predictions_choose = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type_input,
+										   self.decision_type: decision_type_choose})
 		if rand <= 100*self.epsilon:
 			random_move = self.random_move(valid_moves)
+			predictions_move = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type_input,
+										   self.decision_type: decision_type_move})
 			self.choose_index.append((deepcopy(state),random_move[0]))
 			self.move_index.append((deepcopy(state),random_move[1]))
+			self.choose_qval_index.append(predictions_choose[0][0])
+			self.move_qval_index.append(predictions_move[0][0])
 			return random_move
 		else:
-			game_type_input = [0] * 4
-			game_type_input[int((game_type/3)-1)] = 1
-			decision_type_choose = [0,1,0,0]
-			decision_type_move = [0,0,1,0]
-			predictions_choose = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type_input,
-										   self.decision_type: decision_type_choose})
 			opt_val = -float('Inf')
 			for index, val in enumerate(predictions_choose[0][0]):
 				if val > opt_val and index in pieces:
@@ -421,28 +433,32 @@ class Learned_Player(object):
 			predicted_move = (piece, move)
 		self.choose_index.append((deepcopy(state),piece))
 		self.move_index.append((deepcopy(state),move))
+		self.choose_qval_index.append(predictions_choose[0][0])
+		self.move_qval_index.append(predictions_move[0][0])
 		return predicted_move
 	
 	def remove_piece(self, state, piece_list, game_type):
 		rand = random.randint(1,100)
+		game_type_input = [0] * 4
+		game_type_input[int((game_type/3)-1)] = 1
+		decision_type_remove = [0,0,0,1]
+		predictions_remove = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type_input,
+										   self.decision_type: decision_type_remove})
 		if rand <= 100*self.epsilon:
 			temp = random.randint(0, len(piece_list) - 1)
-			self.move_index.append((deepcopy(state),piece_list[temp]))
-			return piece_list[temp]		
+			self.remove_index.append((deepcopy(state),piece_list[temp]))
+			self.remove_qval_index.append(predictions_remove[0][0])
+			return piece_list[temp]
 		else:
-			game_type_input = [0] * 4
-			game_type_input[int((game_type/3)-1)] = 1
-			decision_type_remove = [0,0,0,1]
-			predictions = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type_input,
-										   self.decision_type: decision_type_remove})
 			opt_val = -float('Inf')
-			for index, val in enumerate(predictions[0][0]):
+			for index, val in enumerate(predictions_remove[0][0]):
 				if val > opt_val and index in piece_list:
 					opt_val = val
 					piece = index
 					if index == len(state):
 						break
-			self.move_index.append((deepcopy(state),piece))
+			self.remove_index.append((deepcopy(state),piece))
+			self.remove_qval_index.append(predictions_remove[0][0])
 		return piece
 			
 			
