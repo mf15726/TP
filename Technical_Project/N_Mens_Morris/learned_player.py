@@ -219,8 +219,8 @@ class Learned_Player(object):
 #		self.x_bin = [self.x_empty,self.x_p1,self.x_p2,self.x_game_type,self.x_decision_type]
 		self.ttemp = [self.x_empty,self.x_p1,self.x_p2]
 		self.tempp = [self.x_game_type,self.x_decision_type]
-		self.tttemp = tf.reshape(self.ttemp, shape=[72])
-		self.temppp = tf.reshape(self.tempp, shape=[8])
+		self.tttemp = tf.reshape(self.ttemp, shape=[1, 72])
+		self.temppp = tf.reshape(self.tempp, shape=[1, 8])
 		self.x_bin = tf.concat(self.ttemp, self.tempp)
 		self.x = tf.reshape(self.x_bin, shape=[1,self.n_input])
 		self.reward = tf.placeholder(tf.float32,[self.n_classes])
