@@ -238,7 +238,7 @@ class Learned_Player(object):
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu,
 			activity_regularizer=tf.nn.softmax
-			kernal_regularizer=tf.contrib.layers.l1_regularizer(0.001)
+			kernal_regularizer=tf.contrib.layers.l2_regularizer(0.001)
 		)
 
 		l2 = tf.layers.dense(
