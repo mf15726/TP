@@ -212,7 +212,12 @@ class Learned_Player(object):
 		self.x_game_type = tf.reshape(self.game_type_list, shape=[4])
 		
 		#decision_type = 1 at 0 if place, 1 if choose piece to move, 2 if move piece to, 3 if remove piece
-		self.decision_type = tf.placeholder(tf.float32, [4,1])
+		self.decision_type = tf.placeholder(tf.float32, [1])
+		self.decision_place = tf.cast(tf.equal(self.decision_type, 0), tf.float32)
+		self.decision_move_to = tf.cast(tf.equal(self.decision_type, 1), tf.float32)
+		self.decision_move_from = tf.cast(tf.equal(self.decision_type, 2), tf.float32)
+		self.decision_take = tf.cast(tf.equal(self.game_type, 3), tf.float32)
+		self.decision_list = [self.decision_place,self.decision_move_to,self.decision_move_from,self.decision_take]
 		self.x_decision_type = tf.reshape(self.decision_type, shape=[4])
 		
 		self.x_bin = [self.x_empty,self.x_p1,self.x_p2]
@@ -348,7 +353,7 @@ class Learned_Player(object):
 			return move
 		else:
 			predictions = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type,
-										   self.decision_type: [1,0,0,0]})
+										   self.decision_type: 0})
 		opt_val = -float('Inf')
 		for index, val in enumerate(predictions[0][0]):
 			if index not in state:
@@ -376,7 +381,7 @@ class Learned_Player(object):
 			return random_move
 		else:
 			predictions_choose = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type,
-										   self.decision_type: [0,1,0,0]})
+										   self.decision_type: 1})
 			opt_val = -float('Inf')
 			for index, val in enumerate(predictions_choose[0][0]):
 				if val > opt_val and index in pieces:
@@ -392,7 +397,7 @@ class Learned_Player(object):
 				if piece == valid_moves[item][0]:
 					valid_spaces.append(valid_moves[item][1])
 			predictions_move = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type,
-										   self.decision_type: [0,0,1,0]})
+										   self.decision_type: 2})
 			for index, val in enumerate(predictions_choose[0][0]):
 				if val > opt_val and index in valid_spaces:
 					opt_val = val
@@ -411,7 +416,7 @@ class Learned_Player(object):
 			return piece_list[temp]		
 		else:
 			predictions = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type,
-										   self.decision_type: [0,0,0,1]})
+										   self.decision_type: 3})
 			opt_val = -float('Inf')
 			for index, val in enumerate(predictions[0][0]):
 				if val > opt_val and index in piece_list:
