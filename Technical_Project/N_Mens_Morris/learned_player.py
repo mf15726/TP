@@ -363,80 +363,80 @@ class Learned_Player(object):
 		return l_norm
 	
 	def valid_move(self, state, game_type, free_space, pieces):
-        valid_moves = []
+		valid_moves = []
 
-        if game_type == 3:
-            for piece in pieces:
-                for space in adj_dict_3[str(piece)]:
-                    if space in free_space:
-                        valid_moves.append((piece,space))
+		if game_type == 3:
+			for piece in pieces:
+				for space in adj_dict_3[str(piece)]:
+					if space in free_space:
+						valid_moves.append((piece,space))
 
-        if game_type == 6:
-            for piece in pieces:
-                for space in adj_dict_6[str(piece)]:
-                    if space in free_space:
-                        valid_moves.append((piece,space))
+		if game_type == 6:
+			for piece in pieces:
+				for space in adj_dict_6[str(piece)]:
+					if space in free_space:
+						valid_moves.append((piece,space))
 
-        if game_type == 9:
-            for piece in pieces:
-                for space in adj_dict_9[str(piece)]:
-                    if space in free_space:
-                        valid_moves.append((piece,space))
+		if game_type == 9:
+			for piece in pieces:
+				for space in adj_dict_9[str(piece)]:
+					if space in free_space:
+						valid_moves.append((piece,space))
 
-        if game_type == 12:
-            for piece in pieces:
-                for space in adj_dict_12[str(piece)]:
-                    if space in free_space:
-                        valid_moves.append((piece,space))
+		if game_type == 12:
+			for piece in pieces:
+				for space in adj_dict_12[str(piece)]:
+					if space in free_space:
+						valid_moves.append((piece,space))
 
 		return valid_moves
 		
 	def random_place(self, state, free_space):
-        temp = random.randint(0, len(free_space) - 1)
-        return free_space[temp]
+		temp = random.randint(0, len(free_space) - 1)
+		return free_space[temp]
 		
 	def place(self, state, free_space, game_type):
 		rand = random.randint(1,100)
-        move = None
-        if rand <= 100*self.epsilon:
-            move = self.random_place(state)
-            return move
-        else:
+		move = None
+		if rand <= 100*self.epsilon:
+			move = self.random_place(state)
+			return move
+		else:
 			predictions = self.sess.run([self.Q_val_place], feed_dict={self.input: state})
-            opt_val = -float('Inf')
-            for index, val in enumerate(predictions[0][0]):
-				if index not in state:
-					continue
-                if val > opt_val:
-                    opt_val = val
-                    move = index
-				if index == len(state):
-					break
-            self.state_index.append((deepcopy(state),move))
+		opt_val = -float('Inf')
+		for index, val in enumerate(predictions[0][0]):
+			if index not in state:
+				continue
+			if val > opt_val:
+				opt_val = val
+				move = index
+			if index == len(state):
+				break
+		self.state_index.append((deepcopy(state),move))
 		return move
 	
 	def random_move(self, valid_moves):
-        temp = random.randint(0, len(valid_moves) - 1)
-        return valid_moves[temp]
+		temp = random.randint(0, len(valid_moves) - 1)
+		return valid_moves[temp]
 	
 	def move(self, state, game_type, free_space, pieces, nodes):
 		valid_moves = self.valid_move(state, game_type, free_space, pieces)
 		if len(valid_moves) == 0:
-            return ([9,9], [9,9])
-        move = None
+			return ((9,9))
+		move = None
 		rand = random.randint(1,100)
-        if rand <= 100*self.epsilon:
-            move = self.random_move(valid_moves)
-            return move
-        else:
+		if rand <= 100*self.epsilon:
+			move = self.random_move(valid_moves)
+			return move
+		else:
 			predictions = self.sess.run([self.Q_val_from], feed_dict={self.input: state})
-            opt_val = -float('Inf')
-            for index, val in enumerate(predictions[0][0]):
-                	if val > opt_val:
-                    	opt_val = val
-						if game_mode != 6:
-							move = node_list_9[index]
-						else:
-							move = node_list_6[index]
-            self.state_index.append((deepcopy(state),move))
-            return move
+			opt_val = -float('Inf')
+			for index, val in enumerate(predictions[0][0]):
+				if val > opt_val:
+					opt_val = val
+					if game_mode != 6:
+						move = node_list_9[index]
+					else:
+						move = node_list_6[index]
+		self.state_index.append((deepcopy(state),move))
+		return move
