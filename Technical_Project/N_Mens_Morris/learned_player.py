@@ -462,3 +462,22 @@ class Learned_Player(object):
 			predicted_move = (piece, move)		
 		self.state_index.append((deepcopy(state),move))
 		return predicted_move
+	
+	def remove_piece(self, piece_list, game_type):
+		rand = random.randint(1,100)
+		if rand <= 100*self.epsilon:
+			temp = random.randint(0, len(piece_list) - 1)
+			return piece_list[temp]		
+		else:
+			predictions = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type,
+										   self.decision_type = 3})
+			opt_val = -float('Inf')
+			for index, val in enumerate(predictions[0][0]):
+				if val > opt_val and index in piece_list:
+					opt_val = val
+					piece = index
+					if index == len(state):
+						break
+		return piece
+			
+			
