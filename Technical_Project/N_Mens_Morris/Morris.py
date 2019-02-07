@@ -389,6 +389,6 @@ random_player = Random_Player()
 #nx.draw(gameboard)
 #plt.show()
 
-for i in range(1):
+for i in range(1000):
 	winner, game_states = game_play(random_player,random_player, 3)
 print(winner)
