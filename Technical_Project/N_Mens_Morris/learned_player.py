@@ -359,9 +359,7 @@ class Learned_Player(object):
 										   self.decision_type: decision_type_place})
 			opt_val = -float('Inf')
 			for index, val in enumerate(predictions[0][0]):
-				if index not in state:
-					continue
-				if val > opt_val:
+				if val > opt_val and index in free_space:
 					opt_val = val
 					move = index
 				if index == len(state):
