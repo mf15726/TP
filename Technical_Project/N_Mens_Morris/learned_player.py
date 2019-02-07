@@ -391,7 +391,7 @@ class Learned_Player(object):
 			for index, val in enumerate(predictions_choose[0][0]):
 				if val > opt_val and index in pieces:
 					for item in valid_moves:
-						if index == valid_moves[item][0]:
+						if index == item[0]:
 							opt_val = val
 							piece = index
 						if index == len(state):
