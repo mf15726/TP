@@ -208,7 +208,7 @@ class Learned_Player(object):
 		self.game_6 = tf.cast(tf.equal(self.game_type, 6), tf.float32)
 		self.game_9 = tf.cast(tf.equal(self.game_type, 9), tf.float32)
 		self.game_12 = tf.cast(tf.equal(self.game_type, 12), tf.float32)
-		self.game_type = [self.game_3,self.game_6,self.game_9,self.game_12]
+		self.x_game_type = [self.game_3,self.game_6,self.game_9,self.game_12]
 		
 		#decision_type = 1 at 0 if place, 1 if choose piece to move, 2 if move piece to, 3 if remove piece
 		self.decision_type = tf.placeholder(tf.float32, [4])
