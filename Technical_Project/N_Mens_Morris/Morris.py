@@ -306,8 +306,8 @@ def game_play(player1,player2,game_type,print_board):
 	if print_board:
 		printboard(game_type,state)
 	free_space = free_space_finder(state)
-	player = (move_no % 2) + 1
 	while winner == 0:
+		player = (move_no % 2) + 1
 		if move_no < game_type * 2:
 			if player == 1:
 				move = player1.place(state,free_space,game_type,player)
