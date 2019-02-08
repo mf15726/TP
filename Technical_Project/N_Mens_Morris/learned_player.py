@@ -348,10 +348,9 @@ class Learned_Player(object):
 							opt_val = val
 							piece = index
 							continue
-					if index == len(state):
-						break
-			print('Fuck my life')
-			print(piece)
+				if index == len(state):
+					break
+						
 			if piece is None:
 				return (25,25)
 			valid_spaces = []
@@ -369,8 +368,8 @@ class Learned_Player(object):
 				if val > opt_val and index in valid_spaces:
 					opt_val = val
 					move = index
-					if index == len(state):
-						break
+				if index == len(state):
+					break
 			if move is None:
 				return(25,25)
 					
