@@ -9,6 +9,11 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 from math import log
 import networkx as nx
+from pycallgraph import PyCallGraph
+from pycallgraph.output import GraphvizOutput
+
+with PyCallGraph(output=GraphvizOutput()):
+    code_to_profile()
 #Classes
 from learned_player import Learned_Player
 from random_player import Random_Player
