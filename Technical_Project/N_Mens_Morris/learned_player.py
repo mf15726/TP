@@ -463,3 +463,5 @@ class Learned_Player(object):
 		self.choose_qval_index = []
 		self.move_qval_index = []
 		self.remove_qval_index = []
+		
+		return 0
