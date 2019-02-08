@@ -342,6 +342,8 @@ class Learned_Player(object):
 		else:
 			opt_val = -float('Inf')
 			for index, val in enumerate(predictions_choose[0][0]):
+				print('Val ' +str(val))
+				print('OptVal ' +str(opt_val))
 				if val > opt_val and index in pieces:
 					for item in valid_moves:
 						if index == item[0] and item[1] in free_space:
