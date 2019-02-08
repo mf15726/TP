@@ -470,10 +470,23 @@ class Learned_Player(object):
 		decision_type_move = [0,0,1,0]
 		decision_type_remove = [0,0,0,1]
 		for item in self.place_index:
+			if winner == self.place_index[2]:
+				reward = [1] * self.n_classes
+			elif winner != 0:
+				reward =  [-1] * self.n_classes
+			else:
+				reward = [0] * self.n_classes
+				
 			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.input: item[0], self.game_type: game_type_input,
 								   self.decision_type: decision_type_place})
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.place_qval_index})
 		for item in self.choose_index:
+			if winner == self.choose_index[2]:
+				reward = [1] * self.n_classes
+			elif winner != 0:
+				reward =  [-1] * self.n_classes
+			else:
+				reward = [0] * self.n_classes
 			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.input: item[0], self.game_type: game_type_input,
 								   self.decision_type: decision_type_choose})
 			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.input: item[0], self.game_type: game_type_input,
@@ -481,6 +494,12 @@ class Learned_Player(object):
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.choose_qval_index})
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.move_qval_index})
 		for item in self.remove_index:
+			if winner == self.remove_index[2]:
+				reward = [1] * self.n_classes
+			elif winner != 0:
+				reward =  [-1] * self.n_classes
+			else:
+				reward = [0] * self.n_classes
 			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.input: item[0], self.game_type: game_type_input,
 								   self.decision_type: decision_type_remove})
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.place_remove_index})
