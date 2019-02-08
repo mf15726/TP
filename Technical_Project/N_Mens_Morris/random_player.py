@@ -1,6 +1,5 @@
 import random
 import numpy as np
-import networkx as nx
 
 adj_dict_3 = {
 "0": [1, 3, 4],
