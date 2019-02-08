@@ -376,6 +376,7 @@ class Learned_Player(object):
 		input_state = self.padding(state,game_type)
 		predictions_place = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_place})
+		print('pred place = '+str(predicitons[0][0])
 		if rand <= 100*self.epsilon:
 			move = self.random_place(state,free_space)
 			self.place_qval_index.append(predictions_place[0][0])
