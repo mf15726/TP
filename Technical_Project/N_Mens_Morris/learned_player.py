@@ -361,9 +361,10 @@ class Learned_Player(object):
 		if game_type > 6:
 			return temp
 		if game_type == 3:
-			return temp.extend([0]*16)
+			temp.extend([0]*16)
 		else:
-			return state.extend([0]*8)
+			temp.extend([0]*8)
+		return temp
 		
 	def place(self, state, free_space, game_type, player):
 		rand = random.randint(1,100)
