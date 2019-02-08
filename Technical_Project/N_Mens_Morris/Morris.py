@@ -290,8 +290,14 @@ def free_space_finder(state):
 
     	return free_space
 
+def flying(self, state, player):
+		count = state.count(player)
+		if count == 3:
+			return True
+		else:
+			return False
 
-def game_play(player1,player2,game_type,print_board):
+def game_play(player1,player2,game_type,print_board,flying):
 	winner = 0
 	move_no = 0
 	game_states = []
@@ -343,8 +349,10 @@ def game_play(player1,player2,game_type,print_board):
 				winner = end_game(state)
 				if winner != 0:
 					return winner, game_states
+				p1_fly = flying(state,1)
+				p2_fly = flying(state,2)
 			if player == 1:
-				prev_pos, move = player1.move(state,game_type,free_space,player1_piece_list,player)
+				prev_pos, move = player1.move(state,game_type,free_space,player1_piece_list,player,p1_fly)
 				if move == 25:
 					printboard(game_type,state)
 					return 2 ,game_states
@@ -353,7 +361,7 @@ def game_play(player1,player2,game_type,print_board):
 #				print('Player1 moves' + str(move))
 #				print('From ' + str(prev_pos))
 			else:
-				prev_pos, move = player2.move(state,game_type,free_space,player2_piece_list,player)
+				prev_pos, move = player2.move(state,game_type,free_space,player2_piece_list,player,p2_fly)
 				if move == 25:
 					printboard(game_type,state)
 					return 1 ,game_states
@@ -374,11 +382,13 @@ def game_play(player1,player2,game_type,print_board):
 #					print('Removed piece = ' + str(removed_piece))
 					state[removed_piece] = 0
 					player2_piece_list.remove(removed_piece)
+					p2_fly = flying(state,1)
 				else:
 					removed_piece = player2.remove_piece(state,player1_piece_list,game_type,player)
 #					print('Removed piece = ' + str(removed_piece))
 					state[removed_piece] = 0
 					player1_piece_list.remove(removed_piece)
+					p2_fly = flying(state,2)
 				free_space.append(removed_piece)
 				if print_board:
 					printboard(game_type,state)
@@ -400,11 +410,13 @@ learned_player.sess.run(tf.global_variables_initializer())
 #plt.show()
 
 winner_list = []
+enable_flying = True
 game_type = 9
+see_board = False
 for i in range(100):
 	if i%10 == 0:
 		print('Game Number = ' +str(i+1))
-	winner, game_states = game_play(learned_player,learned_player, game_type, False)
+	winner, game_states = game_play(learned_player,learned_player, game_type, see_board, enable_flying)
 #	winner, game_states = game_play(random_player,random_player, 12, False)
 	print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
 	winner_list.append(winner)
