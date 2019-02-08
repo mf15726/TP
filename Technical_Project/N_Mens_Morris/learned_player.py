@@ -350,6 +350,7 @@ class Learned_Player(object):
 							continue
 					if index == len(state):
 						break
+			print(piece)
 			if piece is None:
 				return (25,25)
 			valid_spaces = []
