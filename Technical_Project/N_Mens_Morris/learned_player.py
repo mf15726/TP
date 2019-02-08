@@ -489,6 +489,7 @@ class Learned_Player(object):
 		return piece
 	
 	def reward_function(self,game_type, winner, player, qval_index):
+		print('QVALS ' + str(qval_index))
 		if winner == player:
 			reward = [1] * self.n_classes
 		elif winner != 0:
@@ -509,7 +510,6 @@ class Learned_Player(object):
 		counter = 0
 		for item in self.place_index:
 			reward_place = self.reward_function(game_type,winner,item[2],self.place_qval_index[counter])
-			print(reward_place)
 			self.sess.run([self.optimiser], feed_dict={self.reward: reward_place, self.input: input_state, self.game_type: game_type_input,
 								   self.decision_type: decision_type_place})
 			counter += 1 
