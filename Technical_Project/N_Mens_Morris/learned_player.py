@@ -321,7 +321,7 @@ class Learned_Player(object):
 		if len(valid_moves) == 0 and not enable_flying:
 			return (25, 25)
 		move = None
-		piece = None
+		piece_work = None
 		rand = random.randint(1,100)
 		game_type_input = [0] * 4
 		game_type_input[int((game_type/3)-1)] = 1
@@ -346,19 +346,19 @@ class Learned_Player(object):
 					for item in valid_moves:
 						if index == item[0] and item[1] in free_space:
 							opt_val = val
-							piece = index
+							piece_work = index
 							continue
 				if index == len(state):
 					break
 						
-			if piece is None:
+			if piece_work is None:
 				return (25,25)
 			valid_spaces = []
 			if enable_flying:
 				valid_spaces = deepcopy(free_space)
 			else:
 				for item in valid_moves:
-					if piece == item[0]:
+					if piece_work == item[0]:
 						valid_spaces.append(item[1])
 			predictions_move = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_move})
@@ -373,7 +373,7 @@ class Learned_Player(object):
 			if move is None:
 				return(25,25)
 					
-			predicted_move = (piece, move)
+			predicted_move = (piece_work, move)
 		self.choose_index.append((deepcopy(state),piece,player))
 		self.move_index.append((deepcopy(state),move,player))
 		self.choose_qval_index.append(predictions_choose[0][0])
