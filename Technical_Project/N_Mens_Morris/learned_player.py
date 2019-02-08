@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 from math import log
 import networkx as nx
+import operator
 
 
 adj_dict_3 = {
@@ -492,8 +493,8 @@ class Learned_Player(object):
 			reward =  [-1] * self.n_classes
 		else:
 			reward = [0] * self.n_classes
-		reward = reward + qval_index
-		return reward
+		list(map(operator.add, qval_index,reward))
+		return list(map(operator.add, qval_index,reward))
 	
 	def learn(self, game_type, winner):
 		input_state = self.padding(self.place_index[0][0],game_type)
@@ -504,21 +505,22 @@ class Learned_Player(object):
 		decision_type_move = [0,0,1,0]
 		decision_type_remove = [0,0,0,1]
 		for item in self.place_index:
-			reward = self.reward_function(game_type,winner,item[2],self.place_qval_index)
-			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.input: input_state, self.game_type: game_type_input,
+			reward_place = self.reward_function(game_type,winner,item[2],self.place_qval_index)
+			self.sess.run([self.optimiser], feed_dict={self.reward: reward_place, self.input: input_state, self.game_type: game_type_input,
 								   self.decision_type: decision_type_place})
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.place_qval_index})
 		for item in self.choose_index:
-			reward = self.reward_function(game_type,winner,item[2])
-			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.input: input_state, self.game_type: game_type_input,
+			reward_choose = self.reward_function(game_type,winner,item[2],self.choose_qval_index) 
+			reward_move =  self.reward_function(game_type,winner,item[2],self.move_qval_index )
+			self.sess.run([self.optimiser], feed_dict={self.reward: reward_choose, self.input: input_state, self.game_type: game_type_input,
 								   self.decision_type: decision_type_choose})
 			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.input: input_state, self.game_type: game_type_input,
 								   self.decision_type: decision_type_move})
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.choose_qval_index})
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.move_qval_index})
 		for item in self.remove_index:
-			reward = self.reward_function(game_type,winner,item[2])
-			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.input: input_state, self.game_type: game_type_input,
+			reward_remove = self.reward_function(game_type,winner,item[2])
+			self.sess.run([self.optimiser], feed_dict={self.reward: reward_remove, self.input: input_state, self.game_type: game_type_input,
 								   self.decision_type: decision_type_remove})
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.place_remove_index})
 			
