@@ -360,7 +360,7 @@ class Learned_Player(object):
 		temp = deepcopy(state)
 		if game_type > 6:
 			return temp
-		elif game_type == 3:
+		if game_type == 3:
 			return temp.extend([0]*16)
 		else:
 			return state.extend([0]*8)
