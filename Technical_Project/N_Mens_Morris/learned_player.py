@@ -485,13 +485,14 @@ class Learned_Player(object):
 			self.remove_qval_index.append(predictions_remove[0][0])
 		return piece
 	
-	def reward_function(self,game_type, winner, player):
+	def reward_function(self,game_type, winner, player, qval_index):
 		if winner == player:
 			reward = [1] * self.n_classes
 		elif winner != 0:
 			reward =  [-1] * self.n_classes
 		else:
 			reward = [0] * self.n_classes
+		reward = reward + qval_index
 		return reward
 	
 	def learn(self, game_type, winner):
@@ -503,7 +504,7 @@ class Learned_Player(object):
 		decision_type_move = [0,0,1,0]
 		decision_type_remove = [0,0,0,1]
 		for item in self.place_index:
-			reward = self.reward_function(game_type,winner,item[2])
+			reward = self.reward_function(game_type,winner,item[2],self.place_qval_index)
 			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.input: input_state, self.game_type: game_type_input,
 								   self.decision_type: decision_type_place})
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.place_qval_index})
