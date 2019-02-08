@@ -270,7 +270,6 @@ def game_play(player1,player2,game_type,print_board,flying):
 			if player == 1:
 				prev_pos, move = player1.move(state,game_type,free_space,player1_piece_list,player,p1_fly)
 				if move == 25:
-					printboard(game_type,state)
 					return 2 ,game_states
 				player1_piece_list.append(move)
 				player1_piece_list.remove(prev_pos)
@@ -279,7 +278,6 @@ def game_play(player1,player2,game_type,print_board,flying):
 			else:
 				prev_pos, move = player2.move(state,game_type,free_space,player2_piece_list,player,p2_fly)
 				if move == 25:
-					printboard(game_type,state)
 					return 1 ,game_states
 				player2_piece_list.append(move)
 				player2_piece_list.remove(prev_pos)
@@ -332,7 +330,7 @@ enable_flying = True
 game_type = 9
 see_board = False
 for i in range(100):
-	if i%10 == 0:
+	if i%2 == 0:
 		print('Game Number = ' +str(i+1))
 	winner, game_states = game_play(learned_player,learned_player, game_type, see_board, enable_flying)
 #	winner, game_states = game_play(random_player,random_player, 12, False)
