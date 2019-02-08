@@ -396,18 +396,10 @@ class Learned_Player(object):
 		temp = random.randint(0, len(valid_moves) - 1)
 		return valid_moves[temp]
 	
-	def flying(self, state, player):
-		count = state.count(player)
-		if count == 3:
-			return True
-		else:
-			return False
 	
 	def move(self, state, game_type, free_space, pieces, player, enable_flying):
-		if enable_flying
-			can_fly = self.flying(state,player)
 		valid_moves = self.valid_move(state, game_type, free_space, pieces)
-		if len(valid_moves) == 0 and not can_fly
+		if len(valid_moves) == 0 and not enable_flying:
 			return (25, 25)
 		move = None
 		piecee = None
@@ -442,7 +434,7 @@ class Learned_Player(object):
 			if piece == None:
 				return (25,25)
 			valid_spaces = []
-			if can_fly:
+			if enable_flying:
 				valid_spaces = deepcopy(free_space)
 			else:
 				for item in valid_moves:
