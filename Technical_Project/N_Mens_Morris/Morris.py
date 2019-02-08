@@ -402,9 +402,11 @@ learned_player.sess.run(tf.global_variables_initializer())
 winner_list = []
 game_type = 9
 for i in range(100):
+	if i%10 == 0:
+		print('Game Number = ' +str(i+1))
 	winner, game_states = game_play(learned_player,learned_player, game_type, False)
 #	winner, game_states = game_play(random_player,random_player, 12, False)
-	print('Winner of game ' + str(i) + ' is Player ' + str(winner))
+	print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
 	winner_list.append(winner)
 	learned_player.learn(game_type, winner)
 print('P1 wins = ' + str(winner_list.count(1)))
