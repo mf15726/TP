@@ -346,6 +346,7 @@ def game_play(player1,player2,game_type,print_board):
 			if player == 1:
 				prev_pos, move = player1.move(state,game_type,free_space,player1_piece_list,player)
 				if move == 25:
+					print('YELP')
 					return 2 ,game_states
 				player1_piece_list.append(move)
 				player1_piece_list.remove(prev_pos)
