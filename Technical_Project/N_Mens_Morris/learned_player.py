@@ -396,7 +396,7 @@ class Learned_Player(object):
 		temp = random.randint(0, len(valid_moves) - 1)
 		return valid_moves[temp]
 	
-	def move(self, state, game_type, free_space, pieces, player):
+	def move(self, state, game_type, free_space, pieces, player, enable_flying):
 		valid_moves = self.valid_move(state, game_type, free_space, pieces)
 		if len(valid_moves) == 0:
 			return (25, 25)
@@ -433,9 +433,12 @@ class Learned_Player(object):
 			if piece == None:
 				return (25,25)
 			valid_spaces = []
-			for item in valid_moves:
-				if piece == item[0]:
-					valid_spaces.append(item[1])
+			if enable_flying:
+				valid_spaces = deepcopy(free_space)
+			else:
+				for item in valid_moves:
+					if piece == item[0]:
+						valid_spaces.append(item[1])
 			predictions_move = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_move})
 #			print('Valid space = '+ str(valid_spaces)
