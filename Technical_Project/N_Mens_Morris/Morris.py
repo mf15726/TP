@@ -401,5 +401,6 @@ winner_list = []
 for i in range(1000):
 	winner, game_states = game_play(random_player,learned_player, 12, False)
 	winner_list.append(winner)
+	learned_player.learn(12)
 print('P1 wins = ' + str(winner_list.count(1)))
 print('P2 wins = ' + str(winner_list.count(2)))
