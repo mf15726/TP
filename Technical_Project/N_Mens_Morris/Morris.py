@@ -401,7 +401,7 @@ learned_player.sess.run(tf.global_variables_initializer())
 winner_list = []
 game_type = 3
 for i in range(1000):
-	winner, game_states = game_play(learned_player,learned_player, game_type, True)
+	winner, game_states = game_play(learned_player,learned_player, game_type, False)
 #	winner, game_states = game_play(random_player,random_player, 12, False)
 	print('Winner of game ' + str(i) + ' is Player ' + str(winner))
 	winner_list.append(winner)
