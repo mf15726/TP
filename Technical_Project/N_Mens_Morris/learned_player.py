@@ -357,12 +357,13 @@ class Learned_Player(object):
 		return free_space[temp]
 	
 	def padding(self,state,game_type):
+		temp = deepcopy(state)
 		if game_type > 6:
-			return deepcopy(state)
+			return temp
 		elif game_type == 3:
-			return deepcopy(state.extend([0]*16))
+			return temp.extend([0]*16)
 		else:
-			return deepcopy(state.extend([0]*8))
+			return state.extend([0]*8)
 		
 	def place(self, state, free_space, game_type, player):
 		rand = random.randint(1,100)
