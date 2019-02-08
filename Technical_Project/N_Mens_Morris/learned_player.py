@@ -349,6 +349,8 @@ class Learned_Player(object):
 				for space in adj_dict_12[str(piece)]:
 					if space in free_space:
 						valid_moves.append((piece,space))
+		
+		print('Valid Moves = ' + str(valid_moves))
 
 		return valid_moves
 		
