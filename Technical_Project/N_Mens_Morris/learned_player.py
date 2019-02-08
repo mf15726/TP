@@ -445,6 +445,8 @@ class Learned_Player(object):
 					move = index
 					if index == len(state):
 						break
+			if move == None:
+				return(25,25)
 					
 			predicted_move = (piece, move)
 		self.choose_index.append((deepcopy(state),piece,player))
