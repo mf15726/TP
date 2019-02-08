@@ -494,6 +494,7 @@ class Learned_Player(object):
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.choose_qval_index})
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.move_qval_index})
 		for item in self.remove_index:
+			print(item)
 			if winner == self.remove_index[2]:
 				reward = [1] * self.n_classes
 			elif winner != 0:
