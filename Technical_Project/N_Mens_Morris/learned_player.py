@@ -350,7 +350,7 @@ class Learned_Player(object):
 							continue
 					if index == len(state):
 						break
-			if piece == None:
+			if piece is None:
 				return (25,25)
 			valid_spaces = []
 			if enable_flying:
@@ -369,7 +369,7 @@ class Learned_Player(object):
 					move = index
 					if index == len(state):
 						break
-			if move == None:
+			if move is None:
 				return(25,25)
 					
 			predicted_move = (piece, move)
