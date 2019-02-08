@@ -290,7 +290,7 @@ def free_space_finder(state):
 
     	return free_space
 
-def flying_check(self, state, player):
+def flying_check(state, player):
 		count = state.count(player)
 		if count == 3:
 			return True
