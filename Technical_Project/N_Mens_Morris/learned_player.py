@@ -403,6 +403,7 @@ class Learned_Player(object):
 		if len(valid_moves) == 0:
 			return (25, 25)
 		move = None
+		piecee = None
 		rand = random.randint(1,100)
 		game_type_input = [0] * 4
 		game_type_input[int((game_type/3)-1)] = 1
@@ -430,7 +431,7 @@ class Learned_Player(object):
 							piece = index
 						if index == len(state):
 							break
-			if move == None:
+			if piece == None:
 				return (25,25)
 			valid_spaces = []
 			for item in valid_moves:
