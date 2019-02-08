@@ -520,7 +520,7 @@ class Learned_Player(object):
 			reward_move =  self.reward_function(game_type,winner,item[2],self.move_qval_index[counter])
 			self.sess.run([self.optimiser], feed_dict={self.reward: reward_choose, self.input: input_state, self.game_type: game_type_input,
 								   self.decision_type: decision_type_choose})
-			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.input: input_state, self.game_type: game_type_input,
+			self.sess.run([self.optimiser], feed_dict={self.reward: reward_move, self.input: input_state, self.game_type: game_type_input,
 								   self.decision_type: decision_type_move})
 			counter += 1
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.choose_qval_index})
