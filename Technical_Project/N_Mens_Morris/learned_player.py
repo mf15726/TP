@@ -491,6 +491,7 @@ class Learned_Player(object):
 		return reward
 	
 	def learn(self, game_type, winner):
+		input_state = self.padding(self.place_index[0][0],game_type)
 		game_type_input = [0] * 4
 		game_type_input[int((game_type/3)-1)] = 1
 		decision_type_place = [1,0,0,0]
@@ -498,13 +499,11 @@ class Learned_Player(object):
 		decision_type_move = [0,0,1,0]
 		decision_type_remove = [0,0,0,1]
 		for item in self.place_index:
-			input_state = self.padding(item[0],game_type)
 			reward = self.reward_function(game_type,winner,item[2])
 			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.input: input_state, self.game_type: game_type_input,
 								   self.decision_type: decision_type_place})
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.place_qval_index})
 		for item in self.choose_index:
-			input_state = self.padding(item[0],game_type)
 			reward = self.reward_function(game_type,winner,item[2])
 			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.input: input_state, self.game_type: game_type_input,
 								   self.decision_type: decision_type_choose})
@@ -513,7 +512,6 @@ class Learned_Player(object):
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.choose_qval_index})
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.move_qval_index})
 		for item in self.remove_index:
-			input_state = self.padding(item[0],game_type)
 			reward = self.reward_function(game_type,winner,item[2])
 			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.input: input_state, self.game_type: game_type_input,
 								   self.decision_type: decision_type_remove})
