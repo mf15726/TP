@@ -316,8 +316,8 @@ def game_play(player1,player2,game_type,print_board):
 				move = player2.place(state,free_space,game_type,player)
 				player2_piece_list.append(move)
 			state[move] = player
-			print('Placed by Player ' + str(player) + ' ' +  str(move))
-			print('Free Space = ' +str(free_space))
+#			print('Placed by Player ' + str(player) + ' ' +  str(move))
+#			print('Free Space = ' +str(free_space))
 			free_space.remove(move)
 			if print_board:
 				printboard(game_type,state)
@@ -325,14 +325,14 @@ def game_play(player1,player2,game_type,print_board):
 				print('Mill Created')
 				if player == 1:
 					removed_piece = player1.remove_piece(state,player2_piece_list,game_type,player)
-					print('P2 Plist = ' + str(player2_piece_list))
-					print('Removed piece = ' + str(removed_piece))
+#					print('P2 Plist = ' + str(player2_piece_list))
+#					print('Removed piece = ' + str(removed_piece))
 					state[removed_piece] = 0
 					player2_piece_list.remove(removed_piece)
 				else:
 					removed_piece = player2.remove_piece(state,player1_piece_list,game_type,player)
-					print('P1 Plist = ' + str(player1_piece_list))
-					print('Removed piece = ' + str(removed_piece))
+#					print('P1 Plist = ' + str(player1_piece_list))
+#					print('Removed piece = ' + str(removed_piece))
 					state[removed_piece] = 0
 					player1_piece_list.remove(removed_piece)
 				free_space.append(removed_piece)
@@ -349,16 +349,16 @@ def game_play(player1,player2,game_type,print_board):
 					return 2 ,game_states
 				player1_piece_list.append(move)
 				player1_piece_list.remove(prev_pos)
-				print('Player1 moves' + str(move))
-				print('From ' + str(prev_pos))
+#				print('Player1 moves' + str(move))
+#				print('From ' + str(prev_pos))
 			else:
 				prev_pos, move = player2.move(state,game_type,free_space,player2_piece_list,player)
 				if move == 25:
 					return 1 ,game_states
 				player2_piece_list.append(move)
 				player2_piece_list.remove(prev_pos)
-				print('Player2 moves' + str(move))
-				print('From ' + str(prev_pos))
+#				print('Player2 moves' + str(move))
+#				print('From ' + str(prev_pos))
 			state[move] = player
 			state[prev_pos] = 0
 			free_space.remove(move)
@@ -369,12 +369,12 @@ def game_play(player1,player2,game_type,print_board):
 				print('Mill Created')
 				if player == 1:
 					removed_piece = player1.remove_piece(state,player2_piece_list,game_type,player)
-					print('Removed piece = ' + str(removed_piece))
+#					print('Removed piece = ' + str(removed_piece))
 					state[removed_piece] = 0
 					player2_piece_list.remove(removed_piece)
 				else:
 					removed_piece = player2.remove_piece(state,player1_piece_list,game_type,player)
-					print('Removed piece = ' + str(removed_piece))
+#					print('Removed piece = ' + str(removed_piece))
 					state[removed_piece] = 0
 					player1_piece_list.remove(removed_piece)
 				free_space.append(removed_piece)
@@ -400,7 +400,7 @@ learned_player.sess.run(tf.global_variables_initializer())
 winner_list = []
 
 for i in range(1000):
-	winner, game_states = game_play(random_player,learned_player, 12, False)
+	winner, game_states = game_play(learned_player,learned_player, 12, False)
 	winner_list.append(winner)
 	learned_player.learn(12, winner)
 print('P1 wins = ' + str(winner_list.count(1)))
