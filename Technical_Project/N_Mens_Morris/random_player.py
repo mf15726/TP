@@ -222,7 +222,7 @@ class Random_Player(object):
 		if enable_flying:
 			temp2 = random.randint(0, len(free_Space) - 1)
 			if free_space == valid_moves[0]:
-				temp -= 1
-			return((valid_moves[temp][0],free_space[temp2])
+				temp2 -= 1
+			return (valid_moves[temp][0],free_space[temp2])
 		else:
 			return valid_moves[temp]
