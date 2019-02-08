@@ -462,7 +462,7 @@ class Learned_Player(object):
 			self.remove_qval_index.append(predictions_remove[0][0])
 		return piece
 	
-	def learn(self, game_type):
+	def learn(self, game_type, winner):
 		game_type_input = [0] * 4
 		game_type_input[int((game_type/3)-1)] = 1
 		decision_type_place = [1,0,0,0]
