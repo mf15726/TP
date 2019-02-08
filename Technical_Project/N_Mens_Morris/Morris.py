@@ -243,7 +243,7 @@ def game_play(player1,player2,game_type,print_board,flying):
 			if print_board:
 				printboard(game_type,state)
 			if det_mill(state, move, game_type):
-				print('Mill Created')
+#				print('Mill Created')
 				if player == 1:
 					removed_piece = player1.remove_piece(state,player2_piece_list,game_type,player)
 #					print('P2 Plist = ' + str(player2_piece_list))
@@ -292,7 +292,7 @@ def game_play(player1,player2,game_type,print_board,flying):
 			if print_board:
 				printboard(game_type,state)
 			if det_mill(state, move, game_type):
-				print('Mill Created')
+#				print('Mill Created')
 				if player == 1:
 					removed_piece = player1.remove_piece(state,player2_piece_list,game_type,player)
 #					print('Removed piece = ' + str(removed_piece))
