@@ -321,7 +321,7 @@ class Learned_Player(object):
 		if len(valid_moves) == 0 and not enable_flying:
 			return (25, 25)
 		move = None
-		piecee = None
+		piece = None
 		rand = random.randint(1,100)
 		game_type_input = [0] * 4
 		game_type_input[int((game_type/3)-1)] = 1
