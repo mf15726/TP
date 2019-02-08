@@ -222,7 +222,7 @@ class Learned_Player(object):
 #		self.x_game_type = tf.reshape(self.game_type, shape=[1,4])
 		
 		#decision_type = 1 at 0 if place, 1 if choose piece to move, 2 if move piece to, 3 if remove piece
-		self.decision_type = tf.placeholder(tf.float32, [4])
+		self.decision_type = tf.placeholder(tf.float32, shape=[4])
 #		self.decision_place = tf.cast(tf.equal(self.decision_type, 0), tf.float32)
 #		self.decision_move_to = tf.cast(tf.equal(self.decision_type, 1), tf.float32)
 #		self.decision_move_from = tf.cast(tf.equal(self.decision_type, 2), tf.float32)
@@ -242,11 +242,12 @@ class Learned_Player(object):
 		self.y = tf.reshape(self.reward, [1, self.n_classes])
 		self.Q_val = self.neural_network()
 #		self.Q_val_from = self.neural_network_from()
-
+		self.Q_val_stored = tf.placeholder(tf.float32, shape=[self.n_classes])
 		#cost
 		#        self.cost = tf.reduce_mean(tf.square(self.y - self.Q_val))
 		#        self.cost = tf.square(self.Q_val - self.y)
-		self.cost = tf.square(self.y - self.Q_val)
+#		self.cost = tf.square(self.y - self.Q_val)
+		self.cost = tf.square(self.y - self.Q_val_stored)
 #		self.cost_from = tf.square(self.y - self.Q_val_from)
 		#optimiser
 
@@ -460,5 +461,31 @@ class Learned_Player(object):
 			self.remove_index.append((deepcopy(state),piece))
 			self.remove_qval_index.append(predictions_remove[0][0])
 		return piece
+	
+	def learn(self, game_type):
+		game_type_input = [0] * 4
+		game_type_input[int((game_type/3)-1)] = 1
+		decision_type_place = [1,0,0,0]
+		decision_type_choose = [0,1,0,0]
+		decision_type_move = [0,0,1,0]
+		decision_type_remove = [0,0,0,1]
+		for item in self.place_index:
+			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.place_qval_index}
+		for item in self.choose_index:
+			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.choose_qval_index}
+			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.move_qval_index}
+		for item in self.remove_index:
+			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.place_remove_index}
 			
 			
+		
+		
+		self.place_index = []
+		self.choose_index = []
+		self.move_index = []
+		self.remove_index = []
+		
+		self.place_qval_index = []
+		self.choose_qval_index = []
+		self.move_qval_index = []
+		self.remove_qval_index = []
