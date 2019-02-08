@@ -306,30 +306,31 @@ def game_play(player1,player2,game_type,print_board):
 	if print_board:
 		printboard(game_type,state)
 	free_space = free_space_finder(state)
+	player = (move_no % 2) + 1
 	while winner == 0:
 		if move_no < game_type * 2:
-			if move_no % 2 == 0:
-				move = player1.place(state,free_space,game_type)
+			if player == 1:
+				move = player1.place(state,free_space,game_type,player)
 				player1_piece_list.append(move)
 			else:
-				move = player2.place(state,free_space,game_type)
+				move = player2.place(state,free_space,game_type,player)
 				player2_piece_list.append(move)
-			state[move] = (move_no % 2) + 1
-			print('Placed by Player ' + str(move_no%2 + 1) + ' ' +  str(move))
+			state[move] = player
+			print('Placed by Player ' + str(player) + ' ' +  str(move))
 			print('Free Space = ' +str(free_space))
 			free_space.remove(move)
 			if print_board:
 				printboard(game_type,state)
 			if det_mill(state, move, game_type):
 				print('Mill Created')
-				if move_no % 2 == 0:
-					removed_piece = player1.remove_piece(state,player2_piece_list,game_type)
+				if player == 1:
+					removed_piece = player1.remove_piece(state,player2_piece_list,game_type,player)
 					print('P2 Plist = ' + str(player2_piece_list))
 					print('Removed piece = ' + str(removed_piece))
 					state[removed_piece] = 0
 					player2_piece_list.remove(removed_piece)
 				else:
-					removed_piece = player2.remove_piece(state,player1_piece_list,game_type)
+					removed_piece = player2.remove_piece(state,player1_piece_list,game_type,player)
 					print('P1 Plist = ' + str(player1_piece_list))
 					print('Removed piece = ' + str(removed_piece))
 					state[removed_piece] = 0
@@ -342,8 +343,8 @@ def game_play(player1,player2,game_type,print_board):
 				winner = end_game(state)
 				if winner != 0:
 					return winner, game_states
-			if move_no % 2 == 0:
-				prev_pos, move = player1.move(state,game_type,free_space,player1_piece_list)
+			if player == 1:
+				prev_pos, move = player1.move(state,game_type,free_space,player1_piece_list,player)
 				if move == 25:
 					return 2 ,game_states
 				player1_piece_list.append(move)
@@ -351,14 +352,14 @@ def game_play(player1,player2,game_type,print_board):
 				print('Player1 moves' + str(move))
 				print('From ' + str(prev_pos))
 			else:
-				prev_pos, move = player2.move(state,game_type,free_space,player2_piece_list)
+				prev_pos, move = player2.move(state,game_type,free_space,player2_piece_list,player)
 				if move == 25:
 					return 1 ,game_states
 				player2_piece_list.append(move)
 				player2_piece_list.remove(prev_pos)
 				print('Player2 moves' + str(move))
 				print('From ' + str(prev_pos))
-			state[move] = (move_no % 2) + 1
+			state[move] = player
 			state[prev_pos] = 0
 			free_space.remove(move)
 			free_space.append(prev_pos)
@@ -366,13 +367,13 @@ def game_play(player1,player2,game_type,print_board):
 				printboard(game_type,state)
 			if det_mill(state, move, game_type):
 				print('Mill Created')
-				if move_no % 2 == 0:
-					removed_piece = player1.remove_piece(state,player2_piece_list,game_type)
+				if player == 1:
+					removed_piece = player1.remove_piece(state,player2_piece_list,game_type,player)
 					print('Removed piece = ' + str(removed_piece))
 					state[removed_piece] = 0
 					player2_piece_list.remove(removed_piece)
 				else:
-					removed_piece = player2.remove_piece(state,player1_piece_list,game_type)
+					removed_piece = player2.remove_piece(state,player1_piece_list,game_type,player)
 					print('Removed piece = ' + str(removed_piece))
 					state[removed_piece] = 0
 					player1_piece_list.remove(removed_piece)
