@@ -441,6 +441,7 @@ class Learned_Player(object):
 			print('Valid Space = ' + str(valid_spaces))
 			predictions_move = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_move})
+			opt_val = -float('Inf')
 			for index, val in enumerate(predictions_move[0][0]):
 				if val > opt_val and index in valid_spaces:
 					opt_val = val
