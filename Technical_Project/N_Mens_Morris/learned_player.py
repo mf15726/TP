@@ -350,6 +350,7 @@ class Learned_Player(object):
 							continue
 					if index == len(state):
 						break
+			print('Fuck my life')
 			print(piece)
 			if piece is None:
 				return (25,25)
