@@ -438,7 +438,6 @@ class Learned_Player(object):
 			for item in valid_moves:
 				if piece == item[0]:
 					valid_spaces.append(item[1])
-			print('Valid Space = ' + str(valid_spaces))
 			predictions_move = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_move})
 			opt_val = -float('Inf')
