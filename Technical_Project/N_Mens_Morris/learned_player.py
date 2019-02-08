@@ -378,6 +378,8 @@ class Learned_Player(object):
 										   self.decision_type: decision_type_place})
 		
 		print('pred place = '+str(predictions_place[0][0]))
+		print(len(predictions_place[0][0]))
+		print(type(predictions_place[0][0]))
 		if rand <= 100*self.epsilon:
 			move = self.random_place(state,free_space)
 			self.place_qval_index.append(predictions_place[0][0])
