@@ -213,9 +213,16 @@ class Random_Player(object):
 		temp = random.randint(0, len(piece_list) - 1)
 		return piece_list[temp]
 
-	def move(self, state, game_type, free_space, pieces, player):
+	
+	def move(self, state, game_type, free_space, pieces, player, enable_flying):
 		valid_moves = self.valid_move(state, game_type, free_space,pieces)
 		if len(valid_moves) == 0:
 			return (25, 25)
 		temp = random.randint(0, len(valid_moves) - 1)
-		return valid_moves[temp]
+		if enable_flying:
+			temp2 = random.randint(0, len(free_Space) - 1)
+			if free_space == valid_moves[0]:
+				temp -= 1
+			return((valid_moves[temp][0],free_space[temp2])
+		else:
+			return valid_moves[temp]
