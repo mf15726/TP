@@ -489,7 +489,6 @@ class Learned_Player(object):
 		return piece
 	
 	def reward_function(self,game_type, winner, player, qval_index):
-		print('QVALS ' + str(qval_index))
 		if winner == player:
 			reward = [1] * self.n_classes
 		elif winner != 0:
