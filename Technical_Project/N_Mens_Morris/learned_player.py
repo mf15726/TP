@@ -359,7 +359,7 @@ class Learned_Player(object):
 	def padding(self,state,game_type):
 		if game_type > 6:
 			return deepcopy(state)
-		elif game_type = 3:
+		elif game_type == 3:
 			return deepcopy(state.extend([0]*16))
 		else:
 			return deepcopy(state.extend([0]*8))
