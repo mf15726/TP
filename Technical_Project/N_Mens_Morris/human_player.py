@@ -50,15 +50,22 @@ class Human_Player(object):
 
 		return valid_moves
 
-	def move(self, state, game_type, free_space, pieces, player):
+	def move(self, state, game_type, free_space, pieces, player, enable_flying):
 		valid_moves = valid_move(self, state, game_type, free_space, pieces)
 		print('List of valid moves ((piece, space to move to)): ')
 		print(valid_moves)
 		temp = input('Pick a move (counting from 0): ')
-		return valid_moves[int(temp)]
+		if enable_flying:
+			print('We can fly! Free Spaces: ')
+			print(free_space)
+			temp2 = input('Pick a space (counting from 0): ')
+			return (valid_moves[int(temp)][0],free_space[int(temp2)])
+		else:
+			return valid_moves[int(temp)]
 	
 	def remove_piece(self, state, piece_list, game_type, player, enable_flying):
 		print('List of opposition pieces: ')
 		print(piece_list)
 		temp = input('Pick a piece to remove (counting from 0): ')
+		
 		return piece_list[int(temp)]
