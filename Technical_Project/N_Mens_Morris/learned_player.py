@@ -506,6 +506,7 @@ class Learned_Player(object):
 		decision_type_remove = [0,0,0,1]
 		for item in self.place_index:
 			reward_place = self.reward_function(game_type,winner,item[2],self.place_qval_index)
+			print(reward_place)
 			self.sess.run([self.optimiser], feed_dict={self.reward: reward_place, self.input: input_state, self.game_type: game_type_input,
 								   self.decision_type: decision_type_place})
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.place_qval_index})
