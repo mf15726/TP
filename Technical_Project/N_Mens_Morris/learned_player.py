@@ -411,7 +411,6 @@ class Learned_Player(object):
 			reward =  [-1] * self.n_classes
 		else:
 			reward = [0] * self.n_classes
-		list(map(operator.add, qval_index,reward))
 		return list(map(operator.add, qval_index,reward))
 	
 	def learn(self, game_type, winner):
