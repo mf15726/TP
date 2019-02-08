@@ -361,7 +361,7 @@ class Learned_Player(object):
 		if game_type > 6:
 			return temp
 		if game_type == 3:
-			temp.extend([0]*16)
+			temp.extend([0]*15)
 		else:
 			temp.extend([0]*8)
 		return temp
