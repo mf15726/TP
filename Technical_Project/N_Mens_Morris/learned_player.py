@@ -342,6 +342,7 @@ class Learned_Player(object):
 		else:
 			opt_val = -float('Inf')
 			print('Free Space ' +  str(free_space))
+			print('Pieces ' +  str(pieces))
 			for index, val in enumerate(predictions_choose[0][0]):
 				print('Index, Val ' +str(index) + ' ' + str(val))
 				if val > opt_val and index in pieces:
