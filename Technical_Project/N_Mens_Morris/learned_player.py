@@ -235,6 +235,35 @@ class Learned_Player(object):
 		return l_norm
 		
 		
+	def piece_adj(self, state, game_type, space, pieces):
+		piece_to_move = []
+		
+		
+		if game_type == 3:
+			for item in adj_dict_3[str(space)]:
+				if state[item] == 0:
+					piece_to_move.append(item)
+					
+		if game_type == 6:
+			for item in adj_dict_6[str(space)]:
+				if state[item] == 0:
+					piece_to_move.append(item)
+		
+		if game_type == 9:
+			for item in adj_dict_9[str(space)]:
+				if state[item] == 0:
+					piece_to_move.append(item)
+					
+		if game_type == 12:
+			for item in adj_dict_3[str(space)]:
+				if state[item] == 0:
+					piece_to_move.append(item)
+					
+		if not piece_to_move:
+			return False, None
+		else:
+			return True, piece_to_move
+		
 	def valid_move(self, state, game_type, free_space, pieces):
 		valid_moves = []
 
@@ -289,7 +318,7 @@ class Learned_Player(object):
 		
 		if rand <= 100*self.epsilon:
 			move = self.random_place(state,free_space)
-			self.place_qval_index.append(predictions_place[0][0])
+			self.place_qval_index.append(predictions_to[0][0])
 			self.place_index.append((deepcopy(state),move,player))
 			return move
 		else:
@@ -318,63 +347,68 @@ class Learned_Player(object):
 		rand = random.randint(1,100)
 		game_type_input = [0] * 4
 		game_type_input[int((game_type/3)-1)] = 1
-		decision_type_to = [1,0,0]
-		decision_type_from = [0,1,0]
 		input_state = self.padding(state,game_type)
-		predictions_from = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
-										   self.decision_type: decision_type_from})
-		if rand <= 100*self.epsilon:
-			random_move = self.random_move(valid_moves)
-			predictions_to = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
+		predictions_to = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_to})
+		if rand <= 100*self.epsilon:
+			valid_moves = self.valid_move(state, game_type, free_space, pieces)
+			random_move = self.random_move(valid_moves)
+			predictions_from = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
+										   self.decision_type: decision_type_from})
 			self.choose_index.append((deepcopy(state),random_move[0], player))
 			self.move_index.append((deepcopy(state),random_move[1],player))
-			self.choose_qval_index.append(predictions_choose[0][0])
-			self.move_qval_index.append(predictions_move[0][0])
+			self.to_qval_index.append(predictions_to[0][0])
+			self.from_qval_index.append(predictions_from[0][0])
 			return random_move
 		else:
 			opt_val = -float('Inf')
 			print('Free Space ' +  str(free_space))
 			print('Pieces ' +  str(pieces))
-			for index, val in enumerate(predictions_from[0][0]):
-				print('Index, Val ' +str(index) + ' ' + str(val))
-				if val > opt_val and index in pieces:
-					for item in valid_moves:
-						if index == item[0] and item[1] in free_space:
-							opt_val = val
-							piece = index
-							print('Piece' + str(index))
-							continue
-				if index == len(state):
-					break
-						
-			if piece is None:
-				return (25,25)
-			valid_spaces = []
 			if enable_flying:
-				valid_spaces = deepcopy(free_space)
+				adj_piece_list = deepcopy(pieces)
+				for index, val in enumerate(predictions_from[0][0]):
+					print('Index, Val ' +str(index) + ' ' + str(val))
+					if val > opt_val and index in free_space:
+						if index == item[1] and item[0] in free_space:
+							opt_val = val
+							move = index
+							continue
+					if index == len(state):
+						break
 			else:
-				for item in valid_moves:
-					if piece_work == item[0]:
-						valid_spaces.append(item[1])
-			predictions_to = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
-										   self.decision_type: decision_type_to})
+				for index, val in enumerate(predictions_from[0][0]):
+					print('Index, Val ' +str(index) + ' ' + str(val))
+					if val > opt_val and index in free_space:
+						if index == item[1] and item[0] in free_space:
+							adj_piece, adj_piece_list = self.piece_adj(state, game_type, index, pieces)
+							if adj_piece:
+								opt_val = val
+								move = index
+								continue
+					if index == len(state):
+						break
+						
+			if move is None:
+				return (25,25)
+			
+			predictions_from = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
+										   self.decision_type: decision_type_from})
 #			print('Valid space = '+ str(valid_spaces)
 			opt_val = -float('Inf')
 			for index, val in enumerate(predictions_to[0][0]):
-				if val > opt_val and index in valid_spaces:
+				if val > opt_val and index in adj_spaces:
 					opt_val = val
 					move = index
 				if index == len(state):
 					break
-			if move is None:
+			if piece is None:
 				return(25,25)
 					
 			predicted_move = (piece, move)
 		self.to_index.append((deepcopy(state),piece,player))
 		self.from_index.append((deepcopy(state),move,player))
-		self.to_qval_index.append(predictions_choose[0][0])
-		self.from_qval_index.append(predictions_move[0][0])
+		self.to_qval_index.append(predictions_to[0][0])
+		self.from_qval_index.append(predictions_from[0][0])
 		return predicted_move
 	
 	def remove_piece(self, state, piece_list, game_type, player):
