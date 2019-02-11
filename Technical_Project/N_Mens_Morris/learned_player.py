@@ -97,6 +97,10 @@ adj_dict_12 = {
 "23": [22, 14, 20]
 }
 
+decision_type_to = [1,0,0]
+decision_type_from = [0,1,0]
+decision_type_remove = [0,0,1]
+
 3_sym = [2,5,8,1,4,7,0,3,6]
 6_sym = [2,9,15,5,8,12,1,4,11,14,3,7,10,0,6,13]
 9_sym = [2,14,23,5,13,20,8,12,17,1,4,7,16,19,22,6,11,15,3,10,18,0,9,21]
@@ -111,14 +115,12 @@ class Learned_Player(object):
 		self.gamma = gamma
 		self.state_index = []
 		
-		self.place_index = []
-		self.choose_index = []
-		self.move_index = []
+		self.to_index = []
+		self.from_index = []
 		self.remove_index = []
 		
-		self.place_qval_index = []
-		self.choose_qval_index = []
-		self.move_qval_index = []
+		self.to_qval_index = []
+		self.from_qval_index = []
 		self.remove_qval_index = []
 
 		self.n_classes = 24
@@ -135,28 +137,16 @@ class Learned_Player(object):
 		
 		#game_type = 1 at 0 if game_type = 3, 1 if 6, 2 if 9, 3 if 12
 		self.game_type = tf.placeholder(tf.float32, [4])
-#		self.game_3 = tf.cast(tf.equal(self.game_type, 3), tf.float32)
-#		self.game_6 = tf.cast(tf.equal(self.game_type, 6), tf.float32)
-#		self.game_9 = tf.cast(tf.equal(self.game_type, 9), tf.float32)
-#		self.game_12 = tf.cast(tf.equal(self.game_type, 12), tf.float32)
 #		self.game_type_list = [self.game_3,self.game_6,self.game_9,self.game_12]
 #		self.x_game_type = tf.reshape(self.game_type, shape=[1,4])
 		
 		#decision_type = 1 at 0 if place, 1 if choose piece to move, 2 if move piece to, 3 if remove piece
-		self.decision_type = tf.placeholder(tf.float32, shape=[4])
-#		self.decision_place = tf.cast(tf.equal(self.decision_type, 0), tf.float32)
-#		self.decision_move_to = tf.cast(tf.equal(self.decision_type, 1), tf.float32)
-#		self.decision_move_from = tf.cast(tf.equal(self.decision_type, 2), tf.float32)
-#		self.decision_take = tf.cast(tf.equal(self.game_type, 3), tf.float32)
-#		self.decision_list = [self.decision_place,self.decision_move_to,self.decision_move_from,self.decision_take]
-#		self.x_decision_type = tf.reshape(self.decision_type, shape=[1,4])
+		self.decision_type = tf.placeholder(tf.float32, shape=[3])
 		
-#		self.x_bin = [self.x_empty,self.x_p1,self.x_p2]
-#		self.x_bin = [self.x_empty,self.x_p1,self.x_p2,self.x_game_type,self.x_decision_type]
 		self.ttemp = [self.x_empty,self.x_p1,self.x_p2]
 		self.tempp = [self.game_type,self.decision_type]
 		self.tttemp = tf.reshape(self.ttemp, shape=[72])
-		self.temppp = tf.reshape(self.tempp, shape=[8])
+		self.temppp = tf.reshape(self.tempp, shape=[7])
 		self.x_bin = tf.concat([self.tttemp, self.temppp], 0)
 		self.x = tf.reshape(self.x_bin, shape=[1,self.n_input])
 		self.reward = tf.placeholder(tf.float32,[self.n_classes])
@@ -292,7 +282,7 @@ class Learned_Player(object):
 		move = None
 		game_type_input = [0] * 4
 		game_type_input[int((game_type/3)-1)] = 1
-		decision_type_place = [1,0,0,0]
+		decision_type_to = [1,0,0]
 		input_state = self.padding(state,game_type)
 		predictions_place = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_place})
@@ -311,8 +301,8 @@ class Learned_Player(object):
 				if index == len(state):
 					break
 #			predictions_place.to_list()
-			self.place_qval_index.append(predictions_place[0][0])
-			self.place_index.append((deepcopy(state),move,player))
+			self.to_qval_index.append(predictions_place[0][0])
+			self.to_index.append((deepcopy(state),move,player))
 			return move
 	
 	def random_move(self, valid_moves):
@@ -329,15 +319,15 @@ class Learned_Player(object):
 		rand = random.randint(1,100)
 		game_type_input = [0] * 4
 		game_type_input[int((game_type/3)-1)] = 1
-		decision_type_choose = [0,1,0,0]
-		decision_type_move = [0,0,1,0]
+		decision_type_to = [1,0,0]
+		decision_type_from = [0,1,0]
 		input_state = self.padding(state,game_type)
-		predictions_choose = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
-										   self.decision_type: decision_type_choose})
+		predictions_from = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
+										   self.decision_type: decision_type_from})
 		if rand <= 100*self.epsilon:
 			random_move = self.random_move(valid_moves)
-			predictions_move = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
-										   self.decision_type: decision_type_move})
+			predictions_to = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
+										   self.decision_type: decision_type_to})
 			self.choose_index.append((deepcopy(state),random_move[0], player))
 			self.move_index.append((deepcopy(state),random_move[1],player))
 			self.choose_qval_index.append(predictions_choose[0][0])
@@ -382,17 +372,17 @@ class Learned_Player(object):
 				return(25,25)
 					
 			predicted_move = (piece, move)
-		self.choose_index.append((deepcopy(state),piece,player))
-		self.move_index.append((deepcopy(state),move,player))
-		self.choose_qval_index.append(predictions_choose[0][0])
-		self.move_qval_index.append(predictions_move[0][0])
+		self.to_index.append((deepcopy(state),piece,player))
+		self.from_index.append((deepcopy(state),move,player))
+		self.to_qval_index.append(predictions_choose[0][0])
+		self.from_qval_index.append(predictions_move[0][0])
 		return predicted_move
 	
 	def remove_piece(self, state, piece_list, game_type, player):
 		rand = random.randint(1,100)
 		game_type_input = [0] * 4
 		game_type_input[int((game_type/3)-1)] = 1
-		decision_type_remove = [0,0,0,1]
+		decision_type_remove = [0,0,1]
 		input_state = self.padding(state,game_type)
 		predictions_remove = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_remove})
@@ -426,10 +416,6 @@ class Learned_Player(object):
 		input_state = self.padding(self.place_index[0][0],game_type)
 		game_type_input = [0] * 4
 		game_type_input[int((game_type/3)-1)] = 1
-		decision_type_place = [1,0,0,0]
-		decision_type_choose = [0,1,0,0]
-		decision_type_move = [0,0,1,0]
-		decision_type_remove = [0,0,0,1]
 		counter = 0
 		for item in self.place_index:
 			reward_place = self.reward_function(game_type,winner,item[2],self.place_qval_index[counter])
@@ -441,8 +427,6 @@ class Learned_Player(object):
 		for item in self.choose_index:
 			reward_choose = self.reward_function(game_type,winner,item[2],self.choose_qval_index[counter]) 
 			reward_move =  self.reward_function(game_type,winner,item[2],self.move_qval_index[counter])
-			self.sess.run([self.optimiser], feed_dict={self.reward: reward_choose, self.input: input_state, self.game_type: game_type_input,
-								   self.decision_type: decision_type_choose})
 			self.sess.run([self.optimiser], feed_dict={self.reward: reward_move, self.input: input_state, self.game_type: game_type_input,
 								   self.decision_type: decision_type_move})
 			counter += 1
@@ -457,16 +441,12 @@ class Learned_Player(object):
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.place_remove_index})
 			
 			
-		
-		
-		self.place_index = []
-		self.choose_index = []
-		self.move_index = []
+		self.to_index = []
+		self.from_index = []
 		self.remove_index = []
 		
-		self.place_qval_index = []
-		self.choose_qval_index = []
-		self.move_qval_index = []
+		self.to_qval_index = []
+		self.from_qval_index = []
 		self.remove_qval_index = []
 		
 		return 0
