@@ -13,7 +13,7 @@ import networkx as nx
 from learned_player import Learned_Player
 from random_player import Random_Player
 from human_player import Human_Player
-from multi_task_player import Multi_Task_Player
+#from multi_task_player import Multi_Task_Player
 
 #game_type = 3, 6, 9, 12 (Men's Morris)
 
