@@ -369,10 +369,9 @@ class Learned_Player(object):
 				for index, val in enumerate(predictions_to[0][0]):
 					print('Index, Val ' +str(index) + ' ' + str(val))
 					if val > opt_val and index in free_space:
-						if index == item[1] and item[0] in free_space:
-							opt_val = val
-							move = index
-							continue
+						opt_val = val
+						move = index
+						continue
 					if index == len(state):
 						break
 			else:
@@ -392,10 +391,10 @@ class Learned_Player(object):
 			
 			predictions_from = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_from})
-#			print('Valid space = '+ str(valid_spaces)
+			
 			opt_val = -float('Inf')
 			for index, val in enumerate(predictions_to[0][0]):
-				if val > opt_val and index in adj_spaces:
+				if val > opt_val and index in adj_piece_list:
 					opt_val = val
 					move = index
 				if index == len(state):
