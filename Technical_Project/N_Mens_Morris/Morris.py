@@ -204,7 +204,7 @@ def free_space_finder(state):
 		if state[i] == 0:
 			free_space.append(i)
 
-    	return free_space
+	return free_space
 
 def flying_check(state, player):
 	if game_type == 3:
