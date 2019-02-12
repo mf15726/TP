@@ -199,19 +199,21 @@ def det_mill(state, move, game_type):
 				return False
 
 def free_space_finder(state):
-    	free_space = []
-    	for i in range(len(state)):
-        	if state[i] == 0:
-            		free_space.append(i)
+	free_space = []
+	for i in range(len(state)):
+		if state[i] == 0:
+			free_space.append(i)
 
     	return free_space
 
 def flying_check(state, player):
-		count = state.count(player)
-		if count == 3:
-			return True
-		else:
-			return False
+	if game_type == 3:
+		return False
+	count = state.count(player)
+	if count == 3:
+		return True
+	else:
+		return False
 
 def game_play(player1,player2,game_type,print_board,flying):
 	winner = 0
