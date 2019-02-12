@@ -379,12 +379,11 @@ class Learned_Player(object):
 				for index, val in enumerate(predictions_from[0][0]):
 					print('Index, Val ' +str(index) + ' ' + str(val))
 					if val > opt_val and index in free_space:
-						if index == item[1] and item[0] in free_space:
-							adj_piece, adj_piece_list = self.piece_adj(state, game_type, index, pieces)
-							if adj_piece:
-								opt_val = val
-								move = index
-								continue
+						adj_piece, adj_piece_list = self.piece_adj(state, game_type, index, pieces)
+						if adj_piece:
+							opt_val = val
+							move = index
+							continue
 					if index == len(state):
 						break
 						
