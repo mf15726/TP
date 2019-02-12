@@ -454,9 +454,8 @@ class Learned_Player(object):
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.place_qval_index})
 		counter = 0
 		for item in self.from_index:
-			reward_choose = self.reward_function(game_type,winner,item[2],self.choose_qval_index[counter]) 
-			reward_move =  self.reward_function(game_type,winner,item[2],self.move_qval_index[counter])
-			self.sess.run([self.optimiser], feed_dict={self.reward: reward_move, self.input: item[0], self.game_type: game_type_input,
+			reward_from = self.reward_function(game_type,winner,item[2],self.from_qval_index[counter]) 
+			self.sess.run([self.optimiser], feed_dict={self.reward: reward_from, self.input: item[0], self.game_type: game_type_input,
 								   self.decision_type: decision_type_from})
 			counter += 1
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.choose_qval_index})
