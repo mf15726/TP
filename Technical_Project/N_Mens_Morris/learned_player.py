@@ -306,13 +306,23 @@ class Learned_Player(object):
 		else:
 			temp.extend([0]*8)
 		return temp
+	
+	def convert_board(self, state, player):
+		if player == 1:
+			return state
+		else:
+			new_state = deepcopy(state)
+			for item in new_state:
+				item = (item % 2) + 1
+			return new_state
 		
 	def place(self, state, free_space, game_type, player):
 		rand = random.randint(1,100)
 		move = None
 		game_type_input = [0] * 4
 		game_type_input[int((game_type/3)-1)] = 1
-		input_state = self.padding(state,game_type)
+		input_state = self.convert_board(state,player)
+		input_state = self.padding(input_state,game_type)
 		predictions_to = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_to})
 		
@@ -347,7 +357,8 @@ class Learned_Player(object):
 		rand = random.randint(1,100)
 		game_type_input = [0] * 4
 		game_type_input[int((game_type/3)-1)] = 1
-		input_state = self.padding(state,game_type)
+		input_state = self.convert_board(state,player)
+		input_state = self.padding(input_state,game_type)
 		predictions_to = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_to})
 		if rand <= 100*self.epsilon:
@@ -413,7 +424,8 @@ class Learned_Player(object):
 		rand = random.randint(1,100)
 		game_type_input = [0] * 4
 		game_type_input[int((game_type/3)-1)] = 1
-		input_state = self.padding(state,game_type)
+		input_state = self.convert_board(state,player)
+		input_state = self.padding(input_state,game_type)
 		predictions_remove = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_remove})
 		if rand <= 100*self.epsilon:
