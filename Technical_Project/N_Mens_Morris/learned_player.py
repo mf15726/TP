@@ -318,8 +318,8 @@ class Learned_Player(object):
 		
 		if rand <= 100*self.epsilon:
 			move = self.random_place(state,free_space)
-			self.place_qval_index.append(predictions_to[0][0])
-			self.place_index.append((deepcopy(input_state),move,player))
+			self.to_qval_index.append(predictions_to[0][0])
+			self.to_index.append((deepcopy(input_state),move,player))
 			return move
 		else:
 			opt_val = -float('Inf')
@@ -355,8 +355,8 @@ class Learned_Player(object):
 			random_move = self.random_move(valid_moves)
 			predictions_from = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_from})
-			self.choose_index.append((deepcopy(input_state),random_move[0], player))
-			self.move_index.append((deepcopy(input_state),random_move[1],player))
+			self.to_index.append((deepcopy(input_state),random_move[0], player))
+			self.from_index.append((deepcopy(input_state),random_move[1],player))
 			self.to_qval_index.append(predictions_to[0][0])
 			self.from_qval_index.append(predictions_from[0][0])
 			return random_move
