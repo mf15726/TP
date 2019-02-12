@@ -135,7 +135,7 @@ class Random_Player(object):
 			return (25, 25)
 		temp = random.randint(0, len(valid_moves) - 1)
 		if enable_flying:
-			temp2 = random.randint(0, len(free_Space) - 1)
+			temp2 = random.randint(0, len(free_space) - 1)
 			if free_space == valid_moves[0]:
 				temp2 -= 1
 			return (valid_moves[temp][0],free_space[temp2])
