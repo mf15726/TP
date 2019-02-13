@@ -235,28 +235,28 @@ class Learned_Player(object):
 		return l_norm
 		
 		
-	def piece_adj(self, state, game_type, space, pieces):
+	def piece_adj(self, state, game_type, space, pieces, player):
 		piece_to_move = []
 		
 		
 		if game_type == 3:
 			for item in adj_dict_3[str(space)]:
-				if state[item] == 0:
+				if state[item] == player:
 					piece_to_move.append(item)
 					
 		if game_type == 6:
 			for item in adj_dict_6[str(space)]:
-				if state[item] == 0:
+				if state[item] == player:
 					piece_to_move.append(item)
 		
 		if game_type == 9:
 			for item in adj_dict_9[str(space)]:
-				if state[item] == 0:
+				if state[item] == player:
 					piece_to_move.append(item)
 					
 		if game_type == 12:
 			for item in adj_dict_3[str(space)]:
-				if state[item] == 0:
+				if state[item] == player:
 					piece_to_move.append(item)
 					
 		if not piece_to_move:
@@ -390,7 +390,7 @@ class Learned_Player(object):
 				for index, val in enumerate(predictions_to[0][0]):
 #					print('Index, Val ' +str(index) + ' ' + str(val))
 					if val > opt_val and index in free_space:
-						adj_piece, adj_piece_list = self.piece_adj(state, game_type, index, pieces)
+						adj_piece, adj_piece_list = self.piece_adj(state, game_type, index, pieces, player)
 						print('Adj_Piece_List ' + str(adj_piece_list))
 						if adj_piece:
 							opt_val = val
