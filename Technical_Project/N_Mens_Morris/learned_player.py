@@ -375,9 +375,6 @@ class Learned_Player(object):
 			return random_move
 		else:
 			opt_val = -float('Inf')
-			print('Free Space ' +  str(free_space))
-			print('Pieces ' +  str(pieces))
-			print('Valid Moves ' + str(valid_moves))
 			if enable_flying:
 				adj_piece_list = deepcopy(pieces)
 				for item in free_space:
@@ -412,11 +409,9 @@ class Learned_Player(object):
 										   self.decision_type: decision_type_from})
 			
 			opt_val = -float('Inf')
-			print('Adj Pieces ' +str(adj_piece_list))
+#			print('Adj Pieces ' +str(adj_piece_list))
 			for item in adj_piece_list:
 				val = predictions_from[0][0][item]
-				print('The value for the problem time is ' + str(val))
-				print('The optimal value for the problem time is ' + str(opt_val))
 #			for index, val in enumerate(predictions_from[0][0]):
 				if val > opt_val:
 					opt_val = val
