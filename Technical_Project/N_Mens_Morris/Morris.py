@@ -331,7 +331,7 @@ learned_player.sess.run(tf.global_variables_initializer())
 winner_list = []
 enable_flying = True
 game_type = 6
-see_board = False
+see_board = True
 for i in range(100):
 	if i%2 == 0:
 		print('Game Number = ' +str(i+1))
