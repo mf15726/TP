@@ -420,7 +420,7 @@ class Learned_Player(object):
 #			for index, val in enumerate(predictions_from[0][0]):
 				if val > opt_val:
 					opt_val = val
-					move = item
+					piece = item
 				if item == len(state):
 					break
 			if piece is None:
