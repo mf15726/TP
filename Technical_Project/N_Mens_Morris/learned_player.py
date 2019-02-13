@@ -378,7 +378,7 @@ class Learned_Player(object):
 			if enable_flying:
 				adj_piece_list = deepcopy(pieces)
 				for index, val in enumerate(predictions_to[0][0]):
-					print('Index, Val ' +str(index) + ' ' + str(val))
+#					print('Index, Val ' +str(index) + ' ' + str(val))
 					if val > opt_val and index in free_space:
 						opt_val = val
 						move = index
