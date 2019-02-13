@@ -400,7 +400,6 @@ class Learned_Player(object):
 						break
 						
 			if move is None:
-				print('THIS IS THE PROBLEM')
 				return (25,25)
 			
 			predictions_from = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
@@ -410,7 +409,7 @@ class Learned_Player(object):
 			print('Adj Pieces ' +str(adj_piece_list))
 			for item in adj_piece_list:
 				val = predictions_from[0][0][adj_piece_list[item]
-				print('VAL' + str(val))							     
+				print('VAL ' + str(val))							     
 #			for index, val in enumerate(predictions_from[0][0]):
 				if val > opt_val and index in adj_piece_list:
 					opt_val = val
