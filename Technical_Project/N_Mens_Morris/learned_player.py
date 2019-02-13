@@ -391,6 +391,7 @@ class Learned_Player(object):
 #					print('Index, Val ' +str(index) + ' ' + str(val))
 					if val > opt_val and index in free_space:
 						adj_piece, adj_piece_list = self.piece_adj(state, game_type, index, pieces)
+						print('Adj_Piece_List ' + str(adj_piece_list))
 						if adj_piece:
 							opt_val = val
 							move = index
