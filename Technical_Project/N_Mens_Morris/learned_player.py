@@ -384,7 +384,7 @@ class Learned_Player(object):
 #					print('Index, Val ' +str(index) + ' ' + str(val))
 					if val > opt_val:
 						opt_val = val
-						move = index
+						move = item
 						continue
 					if index == len(state):
 						break
@@ -398,7 +398,7 @@ class Learned_Player(object):
 						if adj_piece:
 							adj_piece_list = deepcopy(_)
 							opt_val = val
-							move = index
+							move = item
 							continue
 					if index == len(state):
 						break
@@ -416,7 +416,7 @@ class Learned_Player(object):
 #			for index, val in enumerate(predictions_from[0][0]):
 				if val > opt_val:
 					opt_val = val
-					move = index
+					move = item
 				if index == len(state):
 					break
 			if piece is None:
