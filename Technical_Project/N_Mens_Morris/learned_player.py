@@ -185,7 +185,7 @@ class Learned_Player(object):
 					piece_to_move.append(item)
 					
 		if game_type == 12:
-			for item in adj_dict_3[space]:
+			for item in adj_dict_12[space]:
 				if state[item] == player:
 					piece_to_move.append(item)
 					
