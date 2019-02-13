@@ -43,13 +43,13 @@ class Learned_Player(object):
 		self.gamma = gamma
 		self.state_index = []
 		
-		self.to_index = []
-		self.from_index = []
-		self.remove_index = []
+		self.to_index = [None] * 100
+		self.from_index = [None] * 94
+		self.remove_index = [None] * 19
 		
-		self.to_qval_index = []
-		self.from_qval_index = []
-		self.remove_qval_index = []
+		self.to_qval_index = [None] * 100
+		self.from_qval_index = [None] * 94
+		self.remove_qval_index = [None] * 19
 
 		self.n_classes = 24
 		self.n_input = 79
@@ -243,7 +243,7 @@ class Learned_Player(object):
 				item = (item % 2) + 1
 			return new_state
 		
-	def place(self, state, free_space, game_type, player):
+	def place(self, state, free_space, game_type, player, move_no):
 		rand = random.randint(1,100)
 		move = None
 		game_type_input = [0] * 4
@@ -268,8 +268,8 @@ class Learned_Player(object):
 					move = item
 				if item == len(state):
 					break
-			self.to_qval_index.append(predictions_to[0][0])
-			self.to_index.append((deepcopy(input_state),move,player))
+			self.to_qval_index[move_no] = predictions_to[0][0]
+			self.to_index[move_no] = ((deepcopy(input_state),move,player))
 			return move
 	
 	def random_move(self, valid_moves):
@@ -295,10 +295,10 @@ class Learned_Player(object):
 			random_move = self.random_move(valid_moves)
 			predictions_from = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_from})
-			self.to_index.append((deepcopy(input_state),random_move[0], player))
-			self.from_index.append((deepcopy(input_state),random_move[1],player))
-			self.to_qval_index.append(predictions_to[0][0])
-			self.from_qval_index.append(predictions_from[0][0])
+			self.to_index[move_no] = (deepcopy(input_state),random_move[0], player)
+			self.from_index[move_no - (game_type * 2)] = (deepcopy(input_state),random_move[1],player)
+			self.to_qval_index[move_no] = predictions_to[0][0]
+			self.from_qval_indexx[move_no - (game_type * 2)] = predictions_from[0][0]
 			return random_move
 		else:
 			opt_val = -float('Inf')
@@ -350,13 +350,13 @@ class Learned_Player(object):
 				return(25,25)
 					
 			predicted_move = (piece, move)
-		self.to_index.append((deepcopy(input_state),piece,player))
-		self.from_index.append((deepcopy(input_state),move,player))
-		self.to_qval_index.append(predictions_to[0][0])
-		self.from_qval_index.append(predictions_from[0][0])
+		self.to_index[move_no] = (deepcopy(input_state),piece,player))
+		self.from_index[move_no - (game_type * 2)] = (deepcopy(input_state),move,player)
+		self.to_qval_index[move_no] = predictions_to[0][0]
+		self.from_qval_index[move_no - (game_type * 2)] = predictions_from[0][0]
 		return predicted_move
 	
-	def remove_piece(self, state, piece_list, game_type, player):
+	def remove_piece(self, state, piece_list, game_type, player, pieces_removed):
 		rand = random.randint(1,100)
 		game_type_input = [0] * 4
 		game_type_input[int((game_type/3)-1)] = 1
@@ -366,8 +366,8 @@ class Learned_Player(object):
 										   self.decision_type: decision_type_remove})
 		if rand <= 100*self.epsilon:
 			temp = random.randint(0, len(piece_list) - 1)
-			self.remove_index.append((deepcopy(input_state),piece_list[temp],player))
-			self.remove_qval_index.append(predictions_remove[0][0])
+			self.remove_index[pieces_removed] = (deepcopy(input_state),piece_list[temp],player)
+			self.remove_qval_index[pieces_removed] = predictions_remove[0][0]
 			return piece_list[temp]
 		else:
 			opt_val = -float('Inf')
@@ -379,8 +379,8 @@ class Learned_Player(object):
 					piece = item
 					if item == len(state):
 						break
-			self.remove_index.append((deepcopy(input_state),piece,player))
-			self.remove_qval_index.append(predictions_remove[0][0])
+			self.remove_index[pieces_removed] = (deepcopy(input_state),piece,player)
+			self.remove_qval_index[pieces_removed] = predictions_remove[0][0]
 		return piece
 	
 	def reward_function(self,game_type, winner, player, qval_index):
