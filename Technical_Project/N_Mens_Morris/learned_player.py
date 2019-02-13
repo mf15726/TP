@@ -373,8 +373,9 @@ class Learned_Player(object):
 			return random_move
 		else:
 			opt_val = -float('Inf')
-#			print('Free Space ' +  str(free_space))
-#			print('Pieces ' +  str(pieces))
+			print('Free Space ' +  str(free_space))
+			print('Pieces ' +  str(pieces))
+			print('Valid Moves ' + str(valid_moves))
 			if enable_flying:
 				adj_piece_list = deepcopy(pieces)
 				for index, val in enumerate(predictions_to[0][0]):
