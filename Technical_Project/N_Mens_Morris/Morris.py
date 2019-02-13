@@ -272,6 +272,8 @@ def game_play(player1,player2,game_type,print_board,flying):
 				winner = end_game(state)				
 		game_states.append(state)
 		move_no += 1
+		if move_no == 100:
+			return 0, game_states
 
 
 
