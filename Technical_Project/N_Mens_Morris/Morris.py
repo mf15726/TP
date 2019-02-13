@@ -339,6 +339,6 @@ for i in range(100):
 #	winner, game_states = game_play(random_player,random_player, 12, False)
 	print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
 	winner_list.append(winner)
-	learned_player.learn(game_type, winner)
+#	learned_player.learn(game_type, winner)
 print('P1 wins = ' + str(winner_list.count(1)))
 print('P2 wins = ' + str(winner_list.count(2)))
