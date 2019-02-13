@@ -391,7 +391,6 @@ class Learned_Player(object):
 #					print('Index, Val ' +str(index) + ' ' + str(val))
 					if val > opt_val and index in free_space:
 						adj_piece, _ = self.piece_adj(state, game_type, index, pieces, player)
-						print('Adj_Piece_List ' + str(_))
 						if adj_piece:
 							adj_piece_list = deepcopy(_)
 							opt_val = val
@@ -408,6 +407,7 @@ class Learned_Player(object):
 										   self.decision_type: decision_type_from})
 			
 			opt_val = -float('Inf')
+			print('Adj Pieces ' +str(adj_piece_list))
 			for index, val in enumerate(predictions_from[0][0]):
 				if val > opt_val and index in adj_piece_list:
 					opt_val = val
