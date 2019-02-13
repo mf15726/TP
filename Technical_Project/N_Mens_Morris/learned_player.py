@@ -415,6 +415,7 @@ class Learned_Player(object):
 			print('Adj Pieces ' +str(adj_piece_list))
 			for item in adj_piece_list:
 				val = predictions_from[0][0][item]
+				print('The value for the problem time is ' + str(val))
 #			for index, val in enumerate(predictions_from[0][0]):
 				if val > opt_val:
 					opt_val = val
