@@ -386,7 +386,7 @@ class Learned_Player(object):
 						opt_val = val
 						move = item
 						continue
-					if index == len(state):
+					if item == len(state):
 						break
 			else:
 				for item in free_space:
@@ -400,7 +400,7 @@ class Learned_Player(object):
 							opt_val = val
 							move = item
 							continue
-					if index == len(state):
+					if item == len(state):
 						break
 						
 			if move is None:
@@ -417,7 +417,7 @@ class Learned_Player(object):
 				if val > opt_val:
 					opt_val = val
 					move = item
-				if index == len(state):
+				if item == len(state):
 					break
 			if piece is None:
 				print('THAT IS THE PROBLEm')
