@@ -333,11 +333,13 @@ class Learned_Player(object):
 			return move
 		else:
 			opt_val = -float('Inf')
-			for index, val in enumerate(predictions_to[0][0]):
-				if val > opt_val and index in free_space:
+			for item in free_space:
+				val = predictions_to[0][0][item]
+#			for index, val in enumerate(predictions_to[0][0]):
+				if val > opt_val:
 					opt_val = val
-					move = index
-				if index == len(state):
+					move = item
+				if item == len(state):
 					break
 			self.to_qval_index.append(predictions_to[0][0])
 			self.to_index.append((deepcopy(input_state),move,player))
@@ -445,11 +447,13 @@ class Learned_Player(object):
 			return piece_list[temp]
 		else:
 			opt_val = -float('Inf')
-			for index, val in enumerate(predictions_remove[0][0]):
-				if val > opt_val and index in piece_list:
+			for item in piece_list:
+				val = predicitions_remove[0][0][item]
+#			for index, val in enumerate(predictions_remove[0][0]):
+				if val > opt_val:
 					opt_val = val
-					piece = index
-					if index == len(state):
+					piece = item
+					if item == len(state):
 						break
 			self.remove_index.append((deepcopy(input_state),piece,player))
 			self.remove_qval_index.append(predictions_remove[0][0])
