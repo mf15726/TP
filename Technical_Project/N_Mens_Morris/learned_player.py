@@ -361,7 +361,7 @@ class Learned_Player(object):
 		input_state = self.padding(input_state,game_type)
 		predictions_to = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_to})
-		print(predictions_to[0][0][0])
+		print('WOW' +str(predictions_to[0][0][0]))
 		if rand <= 100*self.epsilon:
 			valid_moves = self.valid_move(state, game_type, free_space, pieces)
 			random_move = self.random_move(valid_moves)
