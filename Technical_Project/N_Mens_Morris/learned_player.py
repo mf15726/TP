@@ -415,6 +415,7 @@ class Learned_Player(object):
 				if index == len(state):
 					break
 			if piece is None:
+				print('THAT IS THE PROBLEm')
 				return(25,25)
 					
 			predicted_move = (piece, move)
