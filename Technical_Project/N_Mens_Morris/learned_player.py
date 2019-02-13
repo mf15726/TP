@@ -361,7 +361,6 @@ class Learned_Player(object):
 		input_state = self.padding(input_state,game_type)
 		predictions_to = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_to})
-		print('WOW' +str(predictions_to[0][0][0]))
 		if rand <= 100*self.epsilon:
 			valid_moves = self.valid_move(state, game_type, free_space, pieces)
 			random_move = self.random_move(valid_moves)
@@ -379,7 +378,9 @@ class Learned_Player(object):
 			print('Valid Moves ' + str(valid_moves))
 			if enable_flying:
 				adj_piece_list = deepcopy(pieces)
-				for index, val in enumerate(predictions_to[0][0]):
+				for item in free_space:
+					val = predictions_to[0][0][item]
+#				for index, val in enumerate(predictions_to[0][0]):
 #					print('Index, Val ' +str(index) + ' ' + str(val))
 					if val > opt_val and index in free_space:
 						opt_val = val
@@ -388,7 +389,9 @@ class Learned_Player(object):
 					if index == len(state):
 						break
 			else:
-				for index, val in enumerate(predictions_to[0][0]):
+				for item in free_space:
+					val = predictions_to[0][0][item]
+#				for index, val in enumerate(predictions_to[0][0]):
 #					print('Index, Val ' +str(index) + ' ' + str(val))
 					if val > opt_val and index in free_space:
 						adj_piece, _ = self.piece_adj(state, game_type, index, pieces, player)
@@ -409,8 +412,7 @@ class Learned_Player(object):
 			opt_val = -float('Inf')
 			print('Adj Pieces ' +str(adj_piece_list))
 			for item in adj_piece_list:
-				val = predictions_from[0][adj_piece_list[item]]
-				print('VAL ' + str(val))
+				val = predictions_from[0][0][item]
 #			for index, val in enumerate(predictions_from[0][0]):
 				if val > opt_val and index in adj_piece_list:
 					opt_val = val
