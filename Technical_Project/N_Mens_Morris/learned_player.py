@@ -170,22 +170,22 @@ class Learned_Player(object):
 		
 		
 		if game_type == 3:
-			for item in adj_dict_3[str(space)]:
+			for item in adj_dict_3[space]:
 				if state[item] == player:
 					piece_to_move.append(item)
 					
 		if game_type == 6:
-			for item in adj_dict_6[str(space)]:
+			for item in adj_dict_6[space]:
 				if state[item] == player:
 					piece_to_move.append(item)
 		
 		if game_type == 9:
-			for item in adj_dict_9[str(space)]:
+			for item in adj_dict_9[space]:
 				if state[item] == player:
 					piece_to_move.append(item)
 					
 		if game_type == 12:
-			for item in adj_dict_3[str(space)]:
+			for item in adj_dict_3[space]:
 				if state[item] == player:
 					piece_to_move.append(item)
 					
