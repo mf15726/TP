@@ -371,7 +371,7 @@ learned_player.sess.run(tf.global_variables_initializer())
 
 winner_list = []
 enable_flying = True
-game_type = 12
+game_type = 9
 see_board = False
 for i in range(100):
 	if i%2 == 0:
