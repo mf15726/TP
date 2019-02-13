@@ -387,7 +387,7 @@ class Learned_Player(object):
 						break
 			else:
 				for index, val in enumerate(predictions_to[0][0]):
-					print('Index, Val ' +str(index) + ' ' + str(val))
+#					print('Index, Val ' +str(index) + ' ' + str(val))
 					if val > opt_val and index in free_space:
 						adj_piece, adj_piece_list = self.piece_adj(state, game_type, index, pieces)
 						if adj_piece:
