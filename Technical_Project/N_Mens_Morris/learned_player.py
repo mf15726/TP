@@ -382,7 +382,7 @@ class Learned_Player(object):
 					val = predictions_to[0][0][item]
 #				for index, val in enumerate(predictions_to[0][0]):
 #					print('Index, Val ' +str(index) + ' ' + str(val))
-					if val > opt_val and index in free_space:
+					if val > opt_val:
 						opt_val = val
 						move = index
 						continue
@@ -393,7 +393,7 @@ class Learned_Player(object):
 					val = predictions_to[0][0][item]
 #				for index, val in enumerate(predictions_to[0][0]):
 #					print('Index, Val ' +str(index) + ' ' + str(val))
-					if val > opt_val and index in free_space:
+					if val > opt_val:
 						adj_piece, _ = self.piece_adj(state, game_type, index, pieces, player)
 						if adj_piece:
 							adj_piece_list = deepcopy(_)
@@ -414,7 +414,7 @@ class Learned_Player(object):
 			for item in adj_piece_list:
 				val = predictions_from[0][0][item]
 #			for index, val in enumerate(predictions_from[0][0]):
-				if val > opt_val and index in adj_piece_list:
+				if val > opt_val:
 					opt_val = val
 					move = index
 				if index == len(state):
