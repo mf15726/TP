@@ -450,7 +450,7 @@ class Learned_Player(object):
 		else:
 			opt_val = -float('Inf')
 			for item in piece_list:
-				val = predicitions_remove[0][0][item]
+				val = predictions_remove[0][0][item]
 #			for index, val in enumerate(predictions_remove[0][0]):
 				if val > opt_val:
 					opt_val = val
