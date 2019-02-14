@@ -347,7 +347,7 @@ class Learned_Player(object):
 										   self.decision_type: decision_type_from})
 			
 			opt_val = -float('Inf')
-#			print('Adj Pieces ' +str(adj_piece_list))
+			print('Adj Pieces ' +str(adj_piece_list))
 			for item in adj_piece_list:
 				val = predictions_from[0][0][index]
 #			for index, val in enumerate(predictions_from[0][0]):
