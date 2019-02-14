@@ -21,7 +21,7 @@ class Random_Player(object):
 		
 		self.state_index = []
 
-	def place(self,state, free_space, game_type, player):
+	def place(self,state, free_space, game_type, player, move_no):
         	temp = random.randint(0, len(free_space) - 1)
         	return free_space[temp]
 
@@ -53,12 +53,12 @@ class Random_Player(object):
 
 		return valid_moves
 
-	def remove_piece(self, state, piece_list, game_type, player):
+	def remove_piece(self, state, piece_list, game_type, player, removed_pieces):
 		temp = random.randint(0, len(piece_list) - 1)
 		return piece_list[temp]
 
 	
-	def move(self, state, game_type, free_space, pieces, player, enable_flying):
+	def move(self, state, game_type, free_space, pieces, player, enable_flying, move_no):
 		valid_moves = self.valid_move(state, game_type, free_space,pieces)
 		if len(valid_moves) == 0:
 			return (25, 25)
