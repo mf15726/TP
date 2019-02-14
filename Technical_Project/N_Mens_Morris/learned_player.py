@@ -390,14 +390,14 @@ class Learned_Player(object):
 			return piece
 		else:
 			opt_val = -float('Inf')
-			for index, item in enumerate(piece_list):
+			for index, item in enumerate(state):
 				if item == None:
 					continue
 				val = predictions_remove[0][0][index]
 #			for index, val in enumerate(predictions_remove[0][0]):
 				if val > opt_val:
 					opt_val = val
-					piece = item
+					piece = index
 			self.remove_index[pieces_removed] = (deepcopy(input_state),piece,player)
 			self.remove_qval_index[pieces_removed] = predictions_remove[0][0]
 		return piece
