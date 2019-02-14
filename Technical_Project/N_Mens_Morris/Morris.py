@@ -304,7 +304,7 @@ winner_list = []
 enable_flying = True
 game_type = 9
 see_board = True
-total_move_no = 1000
+total_move_no = 100000
 
 human_player = Human_Player()
 random_player = Random_Player()
