@@ -376,6 +376,7 @@ class Learned_Player(object):
 			return valid_moves[temp]
 	
 	def remove_piece(self, state, piece_list, game_type, player, pieces_removed):
+		opponent = (player % 2) + 1
 		rand = random.randint(1,100)
 		game_type_input = [0] * 4
 		game_type_input[int((game_type/3)-1)] = 1
@@ -391,7 +392,7 @@ class Learned_Player(object):
 		else:
 			opt_val = -float('Inf')
 			for index, item in enumerate(state):
-				if item == None:
+				if item == opponent:
 					continue
 				val = predictions_remove[0][0][index]
 #			for index, val in enumerate(predictions_remove[0][0]):
