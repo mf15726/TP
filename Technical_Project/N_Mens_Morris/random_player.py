@@ -24,9 +24,9 @@ class Random_Player(object):
 	def place(self, state, free_space, game_type, player, move_no):
 		space_val = 1
 		while space_val != 0:
-			temp = random.randint(0, len(state) - 1)
+			space = random.randint(0, len(state) - 1)
 			space_val = state[temp]
-		return space_val
+		return space
 	
 	def valid_move(self, state, game_type, pieces):
 		valid_moves = []
