@@ -214,6 +214,8 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 			if print_board:
 				printboard(game_type,state)
 			if det_mill(state, move, game_type):
+				if game_type == 3:
+					return player
 #				print('Mill Created')
 				if player == 1:
 					removed_piece = player1.remove_piece(state,player2_piece_list,game_type,player,p2_pieces_removed)
