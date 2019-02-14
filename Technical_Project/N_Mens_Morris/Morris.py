@@ -224,14 +224,16 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 #					print('Removed piece = ' + str(removed_piece))
 					state[removed_piece] = 0
 					p2_pieces_removed += 1
-					player2_piece_list.remove(removed_piece)
+					_ = player2_piece_list.index(removed_piece)
+					player2_piece_list[_] = None
 				else:
 					removed_piece = player2.remove_piece(state,player1_piece_list,game_type,player,p1_pieces_removed)
 #					print('P1 Plist = ' + str(player1_piece_list))
 #					print('Removed piece = ' + str(removed_piece))
 					state[removed_piece] = 0
 					p1_pieces_removed += 1
-					player1_piece_list.remove(removed_piece)
+					_ = player1_piece_list.index(removed_piece)
+					player1_piece_list[_] = None
 				free_space.append(removed_piece)
 				if print_board:
 					printboard(game_type,state)
@@ -273,7 +275,8 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 #					print('Removed piece = ' + str(removed_piece))
 					state[removed_piece] = 0
 					p2_pieces_removed += 1
-					player2_piece_list.remove(removed_piece)
+					_ = player2_piece_list.index(removed_piece)
+					player2_piece_list[_] = None
 					if flying:
 						p1_fly = flying_check(state,1)
 				else:
@@ -282,7 +285,8 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 #					print('Removed piece = ' + str(removed_piece))
 					state[removed_piece] = 0
 					p1_pieces_removed += 1
-					player1_piece_list.remove(removed_piece)
+					_ = player1_piece_list.index(removed_piece)
+					player1_piece_list[_] = None
 					if flying:
 						p2_fly = flying_check(state,2)
 				free_space.append(removed_piece)
