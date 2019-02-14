@@ -229,9 +229,12 @@ class Learned_Player(object):
 
 		return valid_moves
 		
-	def random_place(self, state, free_space):
-		temp = random.randint(0, len(free_space) - 1)
-		return free_space[temp]
+	def random_place(self, state):
+		space_val = 1
+		while space_val != 0:
+			space = random.randint(0, len(state) - 1)
+			space_val = state[space]
+		return space
 	
 	def padding(self,state,game_type):
 		temp = deepcopy(state)
@@ -252,7 +255,7 @@ class Learned_Player(object):
 				item = (item % 2) + 1
 			return new_state
 		
-	def place(self, state, free_space, game_type, player, move_no):
+	def place(self, state, game_type, player, move_no):
 		rand = random.randint(1,100)
 		move = None
 		game_type_input = [0] * 4
@@ -263,14 +266,14 @@ class Learned_Player(object):
 										   self.decision_type: decision_type_to})
 		
 		if rand <= 100*self.epsilon:
-			move = self.random_place(state,free_space)
+			move = self.random_place(state)
 			self.to_qval_index.append(predictions_to[0][0])
 			self.to_index.append((deepcopy(input_state),move,player))
 			return move
 		else:
 			opt_val = -float('Inf')
-			for index, item in enumerate(free_space):
-				if item is None:
+			for index, item in enumerate(state):
+				if item != 0:
 					continue
 				val = predictions_to[0][0][index]
 #			for index, val in enumerate(predictions_to[0][0]):
@@ -288,7 +291,7 @@ class Learned_Player(object):
 		return valid_moves[temp]
 	
 	
-	def move(self, state, game_type, free_space, pieces, player, enable_flying, move_no):
+	def move(self, state, game_type, pieces, player, enable_flying, move_no):
 		valid_moves = self.valid_move(state, game_type, pieces)
 		if len(valid_moves) == 0 and not enable_flying:
 			return (25, 25)
@@ -370,12 +373,15 @@ class Learned_Player(object):
 		self.from_qval_index[int(move_no - (game_type * 2))] = predictions_from[0][0]
 		return predicted_move
 	
-	def random_remove_piece(self, state, piece_list):
-		piece_to_remove = None
-		while piece_to_remove is None:
-			temp = random.randint(0, len(piece_list) - 1)
-			piece_to_remove = piece_list[temp]
-		return piece_to_remove
+	def random_move(self, valid_moves):
+		temp = random.randint(0, len(valid_moves) - 1)
+		if enable_flying:			
+			temp2 = random.randint(0, len(valid_moves) - 1)
+			if free_space == valid_moves[0]:
+				temp2 -= 1
+			return (valid_moves[temp][0],valid_moves[temp2][1])
+		else:
+			return valid_moves[temp]
 	
 	def remove_piece(self, state, piece_list, game_type, player, pieces_removed):
 		rand = random.randint(1,100)
