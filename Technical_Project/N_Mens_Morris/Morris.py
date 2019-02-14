@@ -318,7 +318,7 @@ learned_player.sess.run(tf.global_variables_initializer())
 for i in range(100):
 	if i%2 == 0:
 		print('Game Number = ' +str(i+1))
-	winner = game_play(learned_player,learned_player, game_type, see_board, enable_flying, total_move_no)
+	winner = game_play(random_player,random_player, game_type, see_board, enable_flying, total_move_no)
 #	winner = game_play(random_player,random_player, 12, False)
 	print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
 	winner_list.append(winner)
