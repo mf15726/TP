@@ -32,7 +32,7 @@ class Random_Player(object):
 				if piece is None:
 					continue
 				for space in adj_dict_3[piece]:
-					if space in free_space:
+					if state[space] == 0:
 						valid_moves.append((piece,space))
 
 		if game_type == 6:
@@ -40,7 +40,7 @@ class Random_Player(object):
 				if piece is None:
 					continue
 				for space in adj_dict_6[piece]:
-					if space in free_space:
+					if state[space] == 0:
 						valid_moves.append((piece,space))
 
 		if game_type == 9:
@@ -48,7 +48,7 @@ class Random_Player(object):
 				if piece is None:
 					continue
 				for space in adj_dict_9[piece]:
-					if space in free_space:
+					if state[space] == 0:
 						valid_moves.append((piece,space))
 
 		if game_type == 12:
@@ -56,7 +56,7 @@ class Random_Player(object):
 				if piece is None:
 					continue
 				for space in adj_dict_12[piece]:
-					if space in free_space:
+					if state[space] == 0:
 						valid_moves.append((piece,space))
 
 		return valid_moves
