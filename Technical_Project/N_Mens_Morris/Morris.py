@@ -203,7 +203,6 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 				move = player2.place(state,game_type,player,move_no)
 				player2_piece_list[int((move_no - 1)/2)] = move
 			state[move] = player
-			_ = free_space.index(move)
 #			print('Placed by Player ' + str(player) + ' ' +  str(move))
 #			print('Free Space = ' +str(free_space))
 			free_space.remove(move)
