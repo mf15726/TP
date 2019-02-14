@@ -315,8 +315,8 @@ class Learned_Player(object):
 			opt_val = -float('Inf')
 			if enable_flying:
 				adj_piece_list = deepcopy(pieces)
-				for index, item in enumerate(free_space):
-					if item is None:
+				for index, item in enumerate(state):
+					if item != 0:
 						continue
 					val = predictions_to[0][0][index]
 #				for index, val in enumerate(predictions_to[0][0]):
@@ -328,8 +328,8 @@ class Learned_Player(object):
 					if item == len(state):
 						break
 			else:
-				for index, item in enumerate(free_space):
-					if item is None:
+				for index, item in enumerate(state):
+					if item != 0:
 						continue
 					val = predictions_to[0][0][index]
 #				for index, val in enumerate(predictions_to[0][0]):
