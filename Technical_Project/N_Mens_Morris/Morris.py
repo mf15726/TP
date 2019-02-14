@@ -236,7 +236,7 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 			if move_no == game_type * 2:
 				winner = end_game(state)
 				if winner != 0:
-					return winner, game_states
+					return winner
 				if flying:
 					p1_fly = flying_check(state,1)
 					p2_fly = flying_check(state,2)
