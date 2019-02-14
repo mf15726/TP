@@ -287,7 +287,7 @@ def game_play(player1,player2,game_type,print_board,flying):
 					printboard(game_type,state)
 				winner = end_game(state)
 		move_no += 1
-		if move_no == 100:
+		if move_no == 1000:
 			return 0
 
 
