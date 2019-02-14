@@ -164,9 +164,9 @@ def free_space_finder(state):
 
 	return free_space
 
-def free_space_finder(state):
-	free_space = [0] * 9
-	for i in range(len(state)):
+#def free_space_finder(state):
+#	free_space = [0] * 9
+#	for i in range(len(state)):
 		
 
 def flying_check(state, player):
