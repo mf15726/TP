@@ -392,7 +392,7 @@ class Learned_Player(object):
 		else:
 			opt_val = -float('Inf')
 			for index, item in enumerate(state):
-				if item == opponent:
+				if item != opponent:
 					continue
 				val = predictions_remove[0][0][index]
 #			for index, val in enumerate(predictions_remove[0][0]):
