@@ -22,6 +22,7 @@ class Random_Player(object):
 		self.state_index = []
 
 	def place(self,state, free_space, game_type, player, move_no):
+		print(free_space)
         	temp = random.randint(0, len(free_space) - 1)
         	return free_space[temp]
 
