@@ -56,7 +56,7 @@ class Random_Player(object):
 	
 	def remove_piece(self, state, piece_list, game_type, player, removed_pieces):
 		piece_to_remove = None
-		while move != None:
+		while piece_to_remove is None:
 			temp = random.randint(0, len(piece_list) - 1)
 			piece_to_remove = piece_list[temp]
 		return piece_to_remove
