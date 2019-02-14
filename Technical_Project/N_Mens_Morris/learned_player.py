@@ -45,7 +45,7 @@ class Learned_Player(object):
 		self.state_index = []
 		
 		self.to_index = [(None, None, None)] * self.limit
-		self.from_index = [(None, None, None)] * self.limit - 6
+		self.from_index = [(None, None, None)] * (self.limit - 6)
 		self.remove_index = [(None, None, None)] * 19
 		
 		self.to_qval_index = [None] * 100
