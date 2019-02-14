@@ -399,6 +399,7 @@ class Learned_Player(object):
 				if val > opt_val:
 					opt_val = val
 					piece = index
+					print('Current removal = ' + str(piece))
 			self.remove_index[pieces_removed] = (deepcopy(input_state),piece,player)
 			self.remove_qval_index[pieces_removed] = predictions_remove[0][0]
 		return piece
