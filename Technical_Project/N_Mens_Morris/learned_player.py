@@ -188,10 +188,7 @@ class Learned_Player(object):
 				if state[item] == player:
 					piece_to_move.append(item)
 					
-		if not piece_to_move:
-			return False, None
-		else:
-			return True, piece_to_move
+		return piece_to_move
 		
 	def valid_move(self, state, game_type, pieces):
 		valid_moves = []
@@ -333,7 +330,7 @@ class Learned_Player(object):
 #				for index, val in enumerate(predictions_to[0][0]):
 #					print('Index, Val ' +str(index) + ' ' + str(val))
 					if val > opt_val:
-						adj_piece, _ = self.piece_adj(state, game_type, item, pieces, player)
+						adj_piece = self.piece_adj(state, game_type, item, pieces, player)
 						if adj_piece:
 							adj_piece_list = deepcopy(_)
 							opt_val = val
