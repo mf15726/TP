@@ -197,24 +197,32 @@ class Learned_Player(object):
 		valid_moves = []
 		if game_type == 3:
 			for piece in pieces:
+				if piece is None:
+					continue
 				for space in adj_dict_3[piece]:
 					if space in free_space:
 						valid_moves.append((piece,space))
 
 		if game_type == 6:
 			for piece in pieces:
+				if piece is None:
+					continue
 				for space in adj_dict_6[piece]:
 					if space in free_space:
 						valid_moves.append((piece,space))
 
 		if game_type == 9:
 			for piece in pieces:
+				if piece is None:
+					continue
 				for space in adj_dict_9[piece]:
 					if space in free_space:
 						valid_moves.append((piece,space))
 
 		if game_type == 12:
 			for piece in pieces:
+				if piece is None:
+					continue
 				for space in adj_dict_12[piece]:
 					if space in free_space:
 						valid_moves.append((piece,space))
