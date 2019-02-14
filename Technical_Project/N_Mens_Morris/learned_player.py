@@ -35,16 +35,17 @@ sym9 = [2,14,23,5,13,20,8,12,17,1,4,7,16,19,22,6,11,15,3,10,18,0,9,21]
 
 class Learned_Player(object):
 	
-	def __init__(self, epsilon, alpha, gamma):
+	def __init__(self, epsilon, alpha, gamma, limit):
 
 		self.sess = tf.Session()
 		self.epsilon = epsilon
 		self.alpha = alpha
 		self.gamma = gamma
+		self.limit = limit
 		self.state_index = []
 		
-		self.to_index = [(None, None, None)] * 100
-		self.from_index = [(None, None, None)] * 94
+		self.to_index = [(None, None, None)] * self.limit
+		self.from_index = [(None, None, None)] * self.limit - 6
 		self.remove_index = [(None, None, None)] * 19
 		
 		self.to_qval_index = [None] * 100
