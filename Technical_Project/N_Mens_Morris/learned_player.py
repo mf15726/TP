@@ -280,8 +280,6 @@ class Learned_Player(object):
 				if val > opt_val:
 					opt_val = val
 					move = item
-				if item == len(state):
-					break
 			self.to_qval_index[move_no] = predictions_to[0][0]
 			self.to_index[move_no] = ((deepcopy(input_state),move,player))
 			return move
@@ -327,8 +325,6 @@ class Learned_Player(object):
 						opt_val = val
 						move = item
 						continue
-					if item == len(state):
-						break
 			else:
 				for index, item in enumerate(state):
 					if item != 0:
@@ -343,8 +339,6 @@ class Learned_Player(object):
 							opt_val = val
 							move = item
 							continue
-					if item == len(state):
-						break
 						
 			if move is None:
 				return (25,25)
@@ -360,8 +354,6 @@ class Learned_Player(object):
 				if val > opt_val:
 					opt_val = val
 					piece = item
-				if item == len(state):
-					break
 			if piece is None:
 				print('THAT IS THE PROBLEm')
 				return(25,25)
@@ -406,8 +398,6 @@ class Learned_Player(object):
 				if val > opt_val:
 					opt_val = val
 					piece = item
-					if item == len(state):
-						break
 			self.remove_index[pieces_removed] = (deepcopy(input_state),piece,player)
 			self.remove_qval_index[pieces_removed] = predictions_remove[0][0]
 		return piece
