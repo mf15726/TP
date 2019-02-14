@@ -43,9 +43,9 @@ class Learned_Player(object):
 		self.gamma = gamma
 		self.state_index = []
 		
-		self.to_index = [None] * 100
-		self.from_index = [None] * 94
-		self.remove_index = [None] * 19
+		self.to_index = [(None, None, None)] * 100
+		self.from_index = [(None, None, None)] * 94
+		self.remove_index = [(None, None, None)] * 19
 		
 		self.to_qval_index = [None] * 100
 		self.from_qval_index = [None] * 94
