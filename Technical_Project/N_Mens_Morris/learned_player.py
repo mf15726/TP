@@ -279,7 +279,7 @@ class Learned_Player(object):
 #			for index, val in enumerate(predictions_to[0][0]):
 				if val > opt_val:
 					opt_val = val
-					move = item
+					move = index
 			self.to_qval_index[move_no] = predictions_to[0][0]
 			self.to_index[move_no] = ((deepcopy(input_state),move,player))
 			return move
@@ -323,7 +323,7 @@ class Learned_Player(object):
 #					print('Index, Val ' +str(index) + ' ' + str(val))
 					if val > opt_val:
 						opt_val = val
-						move = item
+						move = index
 						continue
 			else:
 				for index, item in enumerate(state):
@@ -337,7 +337,7 @@ class Learned_Player(object):
 						if adj_piece:
 							adj_piece_list = deepcopy(_)
 							opt_val = val
-							move = item
+							move = index
 							continue
 						
 			if move is None:
@@ -353,7 +353,7 @@ class Learned_Player(object):
 #			for index, val in enumerate(predictions_from[0][0]):
 				if val > opt_val:
 					opt_val = val
-					piece = item
+					piece = index
 			if piece is None:
 				print('THAT IS THE PROBLEm')
 				return(25,25)
