@@ -22,10 +22,13 @@ class Random_Player(object):
 		self.state_index = []
 
 	def place(self, state, free_space, game_type, player, move_no):
-		temp = random.randint(0, len(free_space) - 1)
-		return free_space[temp]
-
-	def valid_move(self, state, game_type, free_space, pieces):
+		space_val = 1
+		while space_val != 0:
+			temp = random.randint(0, len(state) - 1)
+			space_val = state[temp]
+		return space_val
+	
+	def valid_move(self, state, game_type, pieces):
 		valid_moves = []
 		if game_type == 3:
 			for piece in pieces:
@@ -71,14 +74,14 @@ class Random_Player(object):
 
 	
 	def move(self, state, game_type, free_space, pieces, player, enable_flying, move_no):
-		valid_moves = self.valid_move(state, game_type, free_space,pieces)
+		valid_moves = self.valid_move(state, game_type, pieces)
 		if len(valid_moves) == 0:
 			return (25, 25)
 		temp = random.randint(0, len(valid_moves) - 1)
-		if enable_flying:
-			temp2 = random.randint(0, len(free_space) - 1)
+		if enable_flying:			
+			temp2 = random.randint(0, len(valid_moves) - 1)
 			if free_space == valid_moves[0]:
 				temp2 -= 1
-			return (valid_moves[temp][0],free_space[temp2])
+			return (valid_moves[temp][0],valid_moves[temp2][1])
 		else:
 			return valid_moves[temp]
