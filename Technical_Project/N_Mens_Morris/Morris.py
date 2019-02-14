@@ -285,8 +285,7 @@ def game_play(player1,player2,game_type,print_board,flying):
 				free_space.append(removed_piece)
 				if print_board:
 					printboard(game_type,state)
-				winner = end_game(state)				
-		game_states.append(state)
+				winner = end_game(state)
 		move_no += 1
 		if move_no == 100:
 			return 0
@@ -311,8 +310,8 @@ see_board = False
 for i in range(100):
 	if i%2 == 0:
 		print('Game Number = ' +str(i+1))
-	winner, game_states = game_play(learned_player,learned_player, game_type, see_board, enable_flying)
-#	winner, game_states = game_play(random_player,random_player, 12, False)
+	winner = game_play(learned_player,learned_player, game_type, see_board, enable_flying)
+#	winner = game_play(random_player,random_player, 12, False)
 	print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
 	winner_list.append(winner)
 #	learned_player.learn(game_type, winner)
