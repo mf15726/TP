@@ -296,9 +296,9 @@ class Learned_Player(object):
 			predictions_from = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_from})
 			self.to_index[move_no] = (deepcopy(input_state),random_move[0], player)
-			self.from_index[move_no - (game_type * 2)] = (deepcopy(input_state),random_move[1],player)
+			self.from_index[int(move_no - (game_type * 2))] = (deepcopy(input_state),random_move[1],player)
 			self.to_qval_index[move_no] = predictions_to[0][0]
-			self.from_qval_indexx[move_no - (game_type * 2)] = predictions_from[0][0]
+			self.from_qval_indexx[int(move_no - (game_type * 2))] = predictions_from[0][0]
 			return random_move
 		else:
 			opt_val = -float('Inf')
@@ -351,9 +351,9 @@ class Learned_Player(object):
 					
 			predicted_move = (piece, move)
 		self.to_index[move_no] = (deepcopy(input_state),piece,player)
-		self.from_index[move_no - (game_type * 2)] = (deepcopy(input_state),move,player)
+		self.from_index[int(move_no - (game_type * 2))] = (deepcopy(input_state),move,player)
 		self.to_qval_index[move_no] = predictions_to[0][0]
-		self.from_qval_index[move_no - (game_type * 2)] = predictions_from[0][0]
+		self.from_qval_index[int(move_no - (game_type * 2))] = predictions_from[0][0]
 		return predicted_move
 	
 	def remove_piece(self, state, piece_list, game_type, player, pieces_removed):
