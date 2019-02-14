@@ -370,7 +370,7 @@ class Learned_Player(object):
 		print('Valid Moves = ' + str(valid_moves))
 		if enable_flying:			
 			temp2 = random.randint(0, len(valid_moves) - 1)
-			if free_space == valid_moves[0]:
+			if valid_moves[temp][0] == valid_moves[temp2][1]:
 				temp2 -= 1
 			return (valid_moves[temp][0],valid_moves[temp2][1])
 		else:
