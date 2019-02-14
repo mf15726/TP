@@ -367,6 +367,7 @@ class Learned_Player(object):
 	
 	def random_move(self, valid_moves, enable_flying):
 		temp = random.randint(0, len(valid_moves) - 1)
+		print('Valid Moves = ' + str(valid_moves))
 		if enable_flying:			
 			temp2 = random.randint(0, len(valid_moves) - 1)
 			if free_space == valid_moves[0]:
