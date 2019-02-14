@@ -277,7 +277,7 @@ class Learned_Player(object):
 		return valid_moves[temp]
 	
 	
-	def move(self, state, game_type, free_space, pieces, player, enable_flying):
+	def move(self, state, game_type, free_space, pieces, player, enable_flying, move_no):
 		valid_moves = self.valid_move(state, game_type, free_space, pieces)
 		if len(valid_moves) == 0 and not enable_flying:
 			return (25, 25)
@@ -350,7 +350,7 @@ class Learned_Player(object):
 				return(25,25)
 					
 			predicted_move = (piece, move)
-#		self.to_index[move_no] = (deepcopy(input_state),piece,player))
+		self.to_index[move_no] = (deepcopy(input_state),piece,player)
 		self.from_index[move_no - (game_type * 2)] = (deepcopy(input_state),move,player)
 		self.to_qval_index[move_no] = predictions_to[0][0]
 		self.from_qval_index[move_no - (game_type * 2)] = predictions_from[0][0]
