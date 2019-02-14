@@ -193,14 +193,14 @@ class Learned_Player(object):
 		else:
 			return True, piece_to_move
 		
-	def valid_move(self, state, game_type, free_space, pieces):
+	def valid_move(self, state, game_type, pieces):
 		valid_moves = []
 		if game_type == 3:
 			for piece in pieces:
 				if piece is None:
 					continue
 				for space in adj_dict_3[piece]:
-					if space in free_space:
+					if state[space] == 0:
 						valid_moves.append((piece,space))
 
 		if game_type == 6:
@@ -208,7 +208,7 @@ class Learned_Player(object):
 				if piece is None:
 					continue
 				for space in adj_dict_6[piece]:
-					if space in free_space:
+					if state[space] == 0:
 						valid_moves.append((piece,space))
 
 		if game_type == 9:
@@ -216,7 +216,7 @@ class Learned_Player(object):
 				if piece is None:
 					continue
 				for space in adj_dict_9[piece]:
-					if space in free_space:
+					if state[space] == 0:
 						valid_moves.append((piece,space))
 
 		if game_type == 12:
@@ -224,7 +224,7 @@ class Learned_Player(object):
 				if piece is None:
 					continue
 				for space in adj_dict_12[piece]:
-					if space in free_space:
+					if state[space] == 0:
 						valid_moves.append((piece,space))
 
 		return valid_moves
@@ -289,7 +289,7 @@ class Learned_Player(object):
 	
 	
 	def move(self, state, game_type, free_space, pieces, player, enable_flying, move_no):
-		valid_moves = self.valid_move(state, game_type, free_space, pieces)
+		valid_moves = self.valid_move(state, game_type, pieces)
 		if len(valid_moves) == 0 and not enable_flying:
 			return (25, 25)
 		move = None
@@ -302,7 +302,6 @@ class Learned_Player(object):
 		predictions_to = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_to})
 		if rand <= 100*self.epsilon:
-			valid_moves = self.valid_move(state, game_type, free_space, pieces)
 			random_move = self.random_move(valid_moves)
 			predictions_from = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_from})
