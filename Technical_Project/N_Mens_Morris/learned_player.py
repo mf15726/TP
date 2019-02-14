@@ -49,7 +49,7 @@ class Learned_Player(object):
 		self.remove_index = [(None, None, None)] * 19
 		
 		self.to_qval_index = [None] * self.limit
-		self.from_qval_index = [None] (self.limit - 6)
+		self.from_qval_index = [None] * (self.limit - 6)
 		self.remove_qval_index = [None] * 19
 
 		self.n_classes = 24
