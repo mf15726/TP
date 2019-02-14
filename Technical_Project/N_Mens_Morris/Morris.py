@@ -27,7 +27,6 @@ mill_dict_3 = [[[1, 2], [3, 6], [4, 8]],
 	       [[6, 8], [1, 4]],
 	       [[7, 6], [2, 5], [0, 4]]]
 
-
 mill_dict_6 = [[[1, 2], [13, 6]],
 	       [[0, 2]],
 	       [[0, 1], [9, 15]],
@@ -44,7 +43,6 @@ mill_dict_6 = [[[1, 2], [13, 6]],
 	       [[0, 6], [14, 15]],
 	       [[13, 15]],
 	       [[2, 9], [13, 14]]]
-
 
 mill_dict_9 = [[[1, 2], [9, 21]],[[0, 2], [7, 4]],[[0,  1], [14, 23]],[[18, 10], [4, 5]],[[3, 5], [1, 7]],[[13, 20], [4, 3]],
 	       [[11, 15], [7, 8]],[[6, 8], [1, 4]],[[12, 17], [6, 7]],[[10, 11], [0, 21]],[[9, 11], [3, 18]],[[6, 15], [9, 11]],
@@ -109,8 +107,6 @@ def printboard(game_type,state):
 		print('| '+str(state[18])+'---'+str(state[19])+'---'+str(state[20])+' |')
 		print('|/    |    \|')
 		print(str(state[21])+'-----'+str(state[22])+'-----'+str(state[23]))
-
-
 
 def end_game(state):
 	count1 = state.count(1)
@@ -320,7 +316,7 @@ learned_player.sess.run(tf.global_variables_initializer())
 for i in range(100):
 	if i%2 == 0:
 		print('Game Number = ' +str(i+1))
-	winner = game_play(random_player,random_player, game_type, see_board, enable_flying, total_move_no)
+	winner = game_play(learned_player, learned_player, game_type, see_board, enable_flying, total_move_no)
 #	winner = game_play(random_player,random_player, 12, False)
 	print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
 	winner_list.append(winner)
