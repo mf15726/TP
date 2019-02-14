@@ -205,7 +205,6 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 			state[move] = player
 #			print('Placed by Player ' + str(player) + ' ' +  str(move))
 #			print('Free Space = ' +str(free_space))
-			free_space.remove(move)
 			if print_board:
 				printboard(game_type,state)
 			if det_mill(state, move, game_type):
@@ -258,8 +257,6 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 #				print('From ' + str(prev_pos))
 			state[move] = player
 			state[prev_pos] = 0
-			free_space.remove(move)
-			free_space.append(prev_pos)
 			if print_board:
 				printboard(game_type,state)
 			if det_mill(state, move, game_type):
@@ -285,7 +282,6 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 					player1_piece_list[_] = None
 					if flying:
 						p2_fly = flying_check(state,2)
-				free_space.append(removed_piece)
 				if print_board:
 					printboard(game_type,state)
 				winner = end_game(state)
