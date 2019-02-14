@@ -37,6 +37,7 @@ class Random_Player(object):
 		if game_type == 6:
 			for piece in pieces:
 				for space in adj_dict_6[piece]:
+					print('DICT = ' + str(adj_dict_6[piece]))
 					if space in free_space:
 						valid_moves.append((piece,space))
 
