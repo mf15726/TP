@@ -261,7 +261,7 @@ class Learned_Player(object):
 			return move
 		else:
 			opt_val = -float('Inf')
-			for item in free_space:
+			for index, item in enumerate(free_space):
 				if item is None:
 					continue
 				val = predictions_to[0][0][index]
