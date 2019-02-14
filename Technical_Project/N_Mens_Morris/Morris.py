@@ -164,6 +164,11 @@ def free_space_finder(state):
 
 	return free_space
 
+def free_space_finder(state):
+	free_space = [0] * 9
+	for i in range(len(state)):
+		
+
 def flying_check(state, player):
 	if game_type == 3:
 		return False
@@ -176,15 +181,17 @@ def flying_check(state, player):
 def game_play(player1,player2,game_type,print_board,flying):
 	winner = 0
 	move_no = 0
-	game_states = []
-	player1_piece_list = []
-	player2_piece_list = []
+	player1_piece_list = [None] * game_type
+	player2_piece_list = [None] * game_type
 	if game_type == 3:
 		state = [0,0,0,0,0,0,0,0,0]
+#		free_space = [1,1,1,1,1,1,1,1,1]
 	elif game_type == 6:
 		state = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+#		free_space = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 	else:
 		state = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+#		free_space = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 	if print_board:
 		printboard(game_type,state)
 	free_space = free_space_finder(state)
@@ -193,11 +200,12 @@ def game_play(player1,player2,game_type,print_board,flying):
 		if move_no < game_type * 2:
 			if player == 1:
 				move = player1.place(state,free_space,game_type,player)
-				player1_piece_list.append(move)
+				player1_piece_list[move_no/2] = move
 			else:
 				move = player2.place(state,free_space,game_type,player)
-				player2_piece_list.append(move)
+				player2_piece_list[(move_no - 1)/2] = move
 			state[move] = player
+			_ = free_space.index(move)
 #			print('Placed by Player ' + str(player) + ' ' +  str(move))
 #			print('Free Space = ' +str(free_space))
 			free_space.remove(move)
@@ -273,12 +281,12 @@ def game_play(player1,player2,game_type,print_board,flying):
 		game_states.append(state)
 		move_no += 1
 		if move_no == 100:
-			return 0, game_states
+			return 0
 
 
 
 
-	return winner, game_states
+	return winner
 
 human_player = Human_Player()
 random_player = Random_Player()
