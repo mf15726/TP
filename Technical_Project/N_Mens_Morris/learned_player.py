@@ -353,7 +353,7 @@ class Learned_Player(object):
 			opt_val = -float('Inf')
 #			print('Adj Pieces ' +str(adj_piece_list))
 			for item in adj_piece_list:
-				val = predictions_from[0][0][item]
+				val = predictions_from[0][0][index]
 #			for index, val in enumerate(predictions_from[0][0]):
 				if val > opt_val:
 					opt_val = val
@@ -389,7 +389,7 @@ class Learned_Player(object):
 			for index, item in enumerate(piece_list):
 #				if item == None:
 #					continue
-				val = predictions_remove[0][0][item]
+				val = predictions_remove[0][0][index]
 #			for index, val in enumerate(predictions_remove[0][0]):
 				if val > opt_val:
 					opt_val = val
