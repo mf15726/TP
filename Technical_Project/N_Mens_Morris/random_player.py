@@ -53,10 +53,13 @@ class Random_Player(object):
 
 		return valid_moves
 
+	
 	def remove_piece(self, state, piece_list, game_type, player, removed_pieces):
-		print(piece_list)
-		temp = random.randint(0, len(piece_list) - 1)
-		return piece_list[temp]
+		piece_to_remove = None
+		while move != None:
+			temp = random.randint(0, len(piece_list) - 1)
+			piece_to_remove = piece_list[temp]
+		return piece_to_remove
 
 	
 	def move(self, state, game_type, free_space, pieces, player, enable_flying, move_no):
