@@ -183,6 +183,8 @@ def game_play(player1,player2,game_type,print_board,flying):
 	move_no = 0
 	player1_piece_list = [None] * game_type
 	player2_piece_list = [None] * game_type
+	p1_pieces_removed = 0
+	p2_pieces_removed = 0
 	if game_type == 3:
 		state = [0,0,0,0,0,0,0,0,0]
 #		free_space = [1,1,1,1,1,1,1,1,1]
@@ -199,10 +201,10 @@ def game_play(player1,player2,game_type,print_board,flying):
 		player = (move_no % 2) + 1
 		if move_no < game_type * 2:
 			if player == 1:
-				move = player1.place(state,free_space,game_type,player)
+				move = player1.place(state,free_space,game_type,player,move_no)
 				player1_piece_list[move_no/2] = move
 			else:
-				move = player2.place(state,free_space,game_type,player)
+				move = player2.place(state,free_space,game_type,player,move_no)
 				player2_piece_list[(move_no - 1)/2] = move
 			state[move] = player
 			_ = free_space.index(move)
@@ -214,16 +216,18 @@ def game_play(player1,player2,game_type,print_board,flying):
 			if det_mill(state, move, game_type):
 #				print('Mill Created')
 				if player == 1:
-					removed_piece = player1.remove_piece(state,player2_piece_list,game_type,player)
+					removed_piece = player1.remove_piece(state,player2_piece_list,game_type,player,p2_pieces_removed)
 #					print('P2 Plist = ' + str(player2_piece_list))
 #					print('Removed piece = ' + str(removed_piece))
 					state[removed_piece] = 0
+					p2_removed_pieces += 1
 					player2_piece_list.remove(removed_piece)
 				else:
-					removed_piece = player2.remove_piece(state,player1_piece_list,game_type,player)
+					removed_piece = player2.remove_piece(state,player1_piece_list,game_type,player,p1_pieces_removed)
 #					print('P1 Plist = ' + str(player1_piece_list))
 #					print('Removed piece = ' + str(removed_piece))
 					state[removed_piece] = 0
+					p1_removed_pieces += 1
 					player1_piece_list.remove(removed_piece)
 				free_space.append(removed_piece)
 				if print_board:
@@ -237,7 +241,7 @@ def game_play(player1,player2,game_type,print_board,flying):
 					p1_fly = flying_check(state,1)
 					p2_fly = flying_check(state,2)
 			if player == 1:
-				prev_pos, move = player1.move(state,game_type,free_space,player1_piece_list,player,p1_fly)
+				prev_pos, move = player1.move(state,game_type,free_space,player1_piece_list,player,p1_fly,move_no)
 				if move == 25:
 					return 2 ,game_states
 				player1_piece_list.append(move)
@@ -245,7 +249,7 @@ def game_play(player1,player2,game_type,print_board,flying):
 #				print('Player1 moves' + str(move))
 #				print('From ' + str(prev_pos))
 			else:
-				prev_pos, move = player2.move(state,game_type,free_space,player2_piece_list,player,p2_fly)
+				prev_pos, move = player2.move(state,game_type,free_space,player2_piece_list,player,p2_fly,move_no)
 				if move == 25:
 					return 1 ,game_states
 				player2_piece_list.append(move)
@@ -261,16 +265,20 @@ def game_play(player1,player2,game_type,print_board,flying):
 			if det_mill(state, move, game_type):
 #				print('Mill Created')
 				if player == 1:
-					removed_piece = player1.remove_piece(state,player2_piece_list,game_type,player)
+					removed_piece = player1.remove_piece(state,player2_piece_list,game_type,player,p2_pieces_removed)
+#					print('P2 Plist = ' + str(player2_piece_list))
 #					print('Removed piece = ' + str(removed_piece))
 					state[removed_piece] = 0
+					p2_removed_pieces += 1
 					player2_piece_list.remove(removed_piece)
 					if flying:
 						p1_fly = flying_check(state,1)
 				else:
-					removed_piece = player2.remove_piece(state,player1_piece_list,game_type,player)
+					removed_piece = player2.remove_piece(state,player1_piece_list,game_type,player,p1_pieces_removed)
+#					print('P1 Plist = ' + str(player1_piece_list))
 #					print('Removed piece = ' + str(removed_piece))
 					state[removed_piece] = 0
+					p1_removed_pieces += 1
 					player1_piece_list.remove(removed_piece)
 					if flying:
 						p2_fly = flying_check(state,2)
