@@ -295,6 +295,12 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 
 	return winner
 
+winner_list = []
+enable_flying = True
+game_type = 3
+see_board = True
+total_move_no = 1000
+
 human_player = Human_Player()
 random_player = Random_Player()
 learned_player = Learned_Player(epsilon=0.01, alpha=0.3, gamma=0.9, limit=total_move_no)
@@ -302,12 +308,6 @@ learned_player.sess.run(tf.global_variables_initializer())
 #gameboard = define_board(6)
 #nx.draw(gameboard)
 #plt.show()
-
-winner_list = []
-enable_flying = True
-game_type = 3
-see_board = True
-total_move_no = 1000
 for i in range(100):
 	if i%2 == 0:
 		print('Game Number = ' +str(i+1))
