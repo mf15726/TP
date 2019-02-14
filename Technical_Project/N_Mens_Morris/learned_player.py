@@ -262,7 +262,9 @@ class Learned_Player(object):
 		else:
 			opt_val = -float('Inf')
 			for item in free_space:
-				val = predictions_to[0][0][item]
+				if item is None:
+					continue
+				val = predictions_to[0][0][index]
 #			for index, val in enumerate(predictions_to[0][0]):
 				if val > opt_val:
 					opt_val = val
@@ -305,8 +307,10 @@ class Learned_Player(object):
 			opt_val = -float('Inf')
 			if enable_flying:
 				adj_piece_list = deepcopy(pieces)
-				for item in free_space:
-					val = predictions_to[0][0][item]
+				for index, item in enumerate(free_space):
+					if item is None:
+						continue
+					val = predictions_to[0][0][index]
 #				for index, val in enumerate(predictions_to[0][0]):
 #					print('Index, Val ' +str(index) + ' ' + str(val))
 					if val > opt_val:
@@ -316,8 +320,10 @@ class Learned_Player(object):
 					if item == len(state):
 						break
 			else:
-				for item in free_space:
-					val = predictions_to[0][0][item]
+				for index, item in enumerate(free_space):
+					if item is None:
+						continue
+					val = predictions_to[0][0][index]
 #				for index, val in enumerate(predictions_to[0][0]):
 #					print('Index, Val ' +str(index) + ' ' + str(val))
 					if val > opt_val:
@@ -372,8 +378,10 @@ class Learned_Player(object):
 			return piece_list[temp]
 		else:
 			opt_val = -float('Inf')
-			for item in piece_list:
-				val = predictions_remove[0][0][item]
+			for index, item in enumerate(piece_list):
+				if item == None:
+					continue
+				val = predictions_remove[0][0][index]
 #			for index, val in enumerate(predictions_remove[0][0]):
 				if val > opt_val:
 					opt_val = val
