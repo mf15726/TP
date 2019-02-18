@@ -76,6 +76,7 @@ class Learned_Player(object):
 		self.n_nodes_2 = self.n_classes * 2
 		self.n_nodes_3 = self.n_classes * 2
 		self.n_nodes_4 = self.n_classes * 2
+		self.future_steps = 0
 
 		self.input = tf.placeholder(tf.float32, [24])
 		self.x_p1 = tf.cast(tf.equal(self.input, 1), tf.float32)
@@ -450,7 +451,7 @@ class Learned_Player(object):
 		reward = list(map(operator.add, qval_index,reward))
 		
 		for item in reward:
-			for i in range(self.gamma):
+			for i in range(self.future_steps):
 				reward[item] += self.gamma**(i+1) * self.max_next_Q(state, game_type, player, decision)
 			
 		return reward
