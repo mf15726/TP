@@ -448,7 +448,7 @@ class Learned_Player(object):
 			reward =  [-1] * self.n_classes
 		else:
 			reward = [0] * self.n_classes
-		reward = list(map(operator.add, zip(qval_index,reward)))
+		reward = list(map(sum, zip(qval_index,reward)))
 		
 		for item in reward:
 			for i in range(self.future_steps):
