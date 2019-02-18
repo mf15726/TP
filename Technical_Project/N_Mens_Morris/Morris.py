@@ -140,7 +140,6 @@ def det_mill(state, move, game_type):
 	if game_type == 12:
 		for item in mill_dict_12[move]:	
 			if state[move] == state[item[0]] == state[item[1]]:
-				print('success' + str(item))
 				return True
 	return False
 
