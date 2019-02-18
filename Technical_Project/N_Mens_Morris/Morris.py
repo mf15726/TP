@@ -173,7 +173,8 @@ def flying_check(state, player, game_type):
 		return True
 	else:
 		return False
-
+		
+	
 def game_play(player1,player2,game_type,print_board,flying,limit):
 	winner = 0
 	move_no = 0
@@ -210,6 +211,22 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 			if det_mill(state, move, game_type):
 				if game_type == 3:
 					return player
+				if player == 1:
+					removed_piece = player1.remove_piece(state,player2_piece_list,game_type,player,p2_pieces_removed)
+#					print('P2 Plist = ' + str(player2_piece_list))
+#					print('Removed piece = ' + str(removed_piece))
+					state[removed_piece] = 0
+					p2_pieces_removed += 1
+					_ = player2_piece_list.index(removed_piece)
+					player2_piece_list[_] = None
+				else:
+					removed_piece = player2.remove_piece(state,player1_piece_list,game_type,player,p1_pieces_removed)
+#					print('P1 Plist = ' + str(player1_piece_list))
+#					print('Removed piece = ' + str(removed_piece))
+					state[removed_piece] = 0
+					p1_pieces_removed += 1
+					_ = player1_piece_list.index(removed_piece)
+					player1_piece_list[_] = None
 				if print_board:
 					print('Mill Created by Player ' + str(player))
 				if player == 1:
