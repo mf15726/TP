@@ -355,6 +355,7 @@ class Learned_Player(object):
 					print('Now Im confused')
 					opt_val = val
 					piece = index
+					print('Piece is ' +str(piece))
 			if piece is None:
 				print('THAT IS THE PROBLEm')
 				return(25,25)
