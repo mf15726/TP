@@ -324,7 +324,7 @@ class Learned_Player(object):
 			else:
 				for index, item in enumerate(state):
 					if item != 0:
-						print('We skip' + str(index))
+#						print('We skip' + str(index))
 						continue
 					val = predictions_to[0][0][index]
 #				for index, val in enumerate(predictions_to[0][0]):
@@ -338,7 +338,7 @@ class Learned_Player(object):
 							opt_val = val
 							move = index					
 			if move is None:
-				print('Problem1')
+				print('No move')
 				return (25,25)
 			
 			predictions_from = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
@@ -352,16 +352,16 @@ class Learned_Player(object):
 #				print('VAl = ' +str(val) + ' Opt_Val = ' +str(opt_val))
 #			for index, val in enumerate(predictions_from[0][0]):
 				if val > opt_val:
-					print('Now Im confused')
+#					print('Now Im confused')
 					opt_val = val
 					piece = item
-					print('Piece is ' +str(piece))
+#					print('Piece is ' +str(piece))
 			if piece is None:
-				print('THAT IS THE PROBLEm')
+				print('No piece')
 				return(25,25)
 					
 			predicted_move = (piece, move)
-			print('We predict ' +str(predicted_move))
+#			print('We predict ' +str(predicted_move))
 		self.to_index[move_no] = (deepcopy(input_state),piece,player)
 		self.from_index[int(move_no - (game_type * 2))] = (deepcopy(input_state),move,player)
 		self.to_qval_index[move_no] = predictions_to[0][0]
