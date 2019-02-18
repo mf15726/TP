@@ -464,7 +464,7 @@ class Learned_Player(object):
 		counter = 0
 		print(len(self.to_index))
 		print(len(self.to_qval_index))
-		for item in self.to_index:
+		for item in self.to_qval_index:
 			if not item:
 				continue
 			reward_to = self.reward_function(game_type,winner,item[2],self.to_qval_index[counter], decision_type_to)
