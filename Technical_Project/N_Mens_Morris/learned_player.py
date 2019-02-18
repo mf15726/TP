@@ -331,6 +331,7 @@ class Learned_Player(object):
 					print('OptVal = ' + str(opt_val))
 					print('Index, Val ' +str(index) + ' ' + str(val))
 					if val > opt_val:
+						print('WE HAVE SUCCESS')
 						adj_piece = self.piece_adj(state, game_type, item, pieces, player)
 						if adj_piece:
 							adj_piece_list = deepcopy(_)
