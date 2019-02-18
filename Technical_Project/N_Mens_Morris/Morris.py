@@ -127,6 +127,11 @@ def det_mill(state, move, game_type):
 				return True
 
 	if game_type == 6:
+		if isinstance(mill_dict_6[move][0],int):
+			if state[move] == state[mill_dict_6[0]] == state[mill_dict_6[1]]:
+				return True
+			else:
+				return False
 		for item in mill_dict_6[move]:
 			if state[move] == state[item[0]] == state[item[1]]:
 				return True
