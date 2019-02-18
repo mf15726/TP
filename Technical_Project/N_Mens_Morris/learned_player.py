@@ -334,7 +334,7 @@ class Learned_Player(object):
 						adj_piece = self.piece_adj(state, game_type, item, pieces, player)
 						print('WE HAVE SUCCESS' + str(adj_piece))
 						if adj_piece:
-							adj_piece_list = deepcopy(_)
+							adj_piece_list = deepcopy(adj_piece)
 							opt_val = val
 							move = index					
 			if move is None:
