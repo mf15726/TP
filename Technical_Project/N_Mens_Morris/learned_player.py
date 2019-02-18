@@ -347,6 +347,7 @@ class Learned_Player(object):
 			opt_val = -float('Inf')
 			print('Adj Pieces ' +str(adj_piece_list))
 			for item in adj_piece_list:
+				print('Alright here we go ' + str(item))
 				val = predictions_from[0][0][index]
 #			for index, val in enumerate(predictions_from[0][0]):
 				if val > opt_val:
