@@ -442,7 +442,6 @@ class Learned_Player(object):
 		return piece
 	
 	def reward_function(self,game_type, winner, player, qval_index, decision):
-		print('QVAL ' + str(qval_index))
 		if winner == player:
 			reward = [1] * self.n_classes
 		elif winner != 0:
@@ -464,7 +463,6 @@ class Learned_Player(object):
 		print(len(self.to_index))
 		print(len(self.to_qval_index))
 		for item in self.to_index:
-			print('ITEM = ' + str(item))
 			if None in item:
 				break
 			reward_to = self.reward_function(game_type,winner,item[2],self.to_qval_index[counter], decision_type_to)
