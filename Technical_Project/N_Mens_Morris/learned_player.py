@@ -374,6 +374,8 @@ class Learned_Player(object):
 #			print('Adj Pieces ' +str(adj_piece_list))
 			print('ADJ PIECES = ' + str(adj_piece_list))
 			for item in adj_piece_list:
+				if item == None:
+					continue
 #				print('Alright here we go ' + str(item))
 				val = predictions_from[0][0][item]
 #				print('VAl = ' +str(val) + ' Opt_Val = ' +str(opt_val))
