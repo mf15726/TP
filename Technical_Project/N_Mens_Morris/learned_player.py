@@ -321,7 +321,6 @@ class Learned_Player(object):
 					if val > opt_val:
 						opt_val = val
 						move = index
-						continue
 			else:
 				for index, item in enumerate(state):
 					if item != 0:
@@ -336,9 +335,7 @@ class Learned_Player(object):
 						if adj_piece:
 							adj_piece_list = deepcopy(_)
 							opt_val = val
-							move = index
-							continue
-						
+							move = index					
 			if move is None:
 				print('Problem1')
 				return (25,25)
