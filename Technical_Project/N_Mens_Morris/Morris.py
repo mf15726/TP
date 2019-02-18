@@ -277,6 +277,7 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 			if print_board:
 				printboard(game_type,state)
 			if det_mill(state, move, game_type):
+				print('W O W')
 				if print_board:
 					print('Mill Created by Player ' + str(player))
 				if player == 1:
