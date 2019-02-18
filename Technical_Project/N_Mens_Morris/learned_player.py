@@ -12,9 +12,27 @@ import networkx as nx
 import operator
 
 
-adj_dict_3 = [[1,3,4],[0, 2, 4],[1, 4, 5],[0, 4, 6],[0, 1, 2, 3, 5, 6, 7, 8],[2, 4, 8],[7, 3, 4],[6, 8, 4],[7, 4, 5]]
+adj_dict_3 = [[1, 3, 4],
+	      [0, 2, 4],
+	      [1, 4, 5],
+	      [0, 4, 6],
+	      [0, 1, 2, 3, 5, 6, 7, 8],
+	      [2, 4, 8],
+	      [7, 3, 4],
+	      [6, 8, 4],
+	      [7, 4, 5]]
 
-adj_dict_6 = [[1, 6],[0, 2, 4],[1, 9],[4, 7],[1, 3, 5],[4, 8],[7, 0, 13],[10, 3, 6],[12, 5, 9],[2, 8, 15],[7, 11],[12, 14, 10],[8, 11],
+adj_dict_6 = [[1, 6],
+	      [0, 2, 4],
+	      [1, 9],
+	      [4, 7],
+	      [1, 3, 5],
+	      [4, 8],
+	      [7, 0, 13],
+	      [10, 3, 6],
+	      [12, 5, 9],
+	      [2, 8, 15],
+	      [7, 11],[12, 14, 10],[8, 11],
 	     [14, 6],[13, 15, 11],[9, 14]]
 
 adj_dict_9 = [[1, 9],[0, 2, 4],[1, 14],[4, 10],[1, 3, 5, 7],[4, 13],[7, 11],[4, 6, 8],[12, 7],[0, 21, 10],[11, 18, 3, 9],[6, 15, 10],
@@ -326,12 +344,13 @@ class Learned_Player(object):
 					if item != 0:
 #						print('We skip' + str(index))
 						continue
+					
 					val = predictions_to[0][0][index]
 #				for index, val in enumerate(predictions_to[0][0]):
 #					print('OptVal = ' + str(opt_val))
 #					print('Index, Val ' +str(index) + ' ' + str(val))
 					if val > opt_val:
-						adj_piece = self.piece_adj(state, game_type, item, pieces, player)
+						adj_piece = self.piece_adj(state, game_type, index, pieces, player)
 #						print('WE HAVE SUCCESS' + str(adj_piece))
 						if adj_piece:
 							adj_piece_list = deepcopy(adj_piece)
