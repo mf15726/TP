@@ -328,11 +328,11 @@ class Learned_Player(object):
 						continue
 					val = predictions_to[0][0][index]
 #				for index, val in enumerate(predictions_to[0][0]):
-					print('OptVal = ' + str(opt_val))
-					print('Index, Val ' +str(index) + ' ' + str(val))
+#					print('OptVal = ' + str(opt_val))
+#					print('Index, Val ' +str(index) + ' ' + str(val))
 					if val > opt_val:
 						adj_piece = self.piece_adj(state, game_type, item, pieces, player)
-						print('WE HAVE SUCCESS' + str(adj_piece))
+#						print('WE HAVE SUCCESS' + str(adj_piece))
 						if adj_piece:
 							adj_piece_list = deepcopy(adj_piece)
 							opt_val = val
@@ -345,11 +345,11 @@ class Learned_Player(object):
 										   self.decision_type: decision_type_from})
 			
 			opt_val = -float('Inf')
-			print('Adj Pieces ' +str(adj_piece_list))
+#			print('Adj Pieces ' +str(adj_piece_list))
 			for item in adj_piece_list:
-				print('Alright here we go ' + str(item))
+#				print('Alright here we go ' + str(item))
 				val = predictions_from[0][0][item]
-				print('VAl = ' +str(val) + ' Opt_Val = ' +str(opt_val))
+#				print('VAl = ' +str(val) + ' Opt_Val = ' +str(opt_val))
 #			for index, val in enumerate(predictions_from[0][0]):
 				if val > opt_val:
 					print('Now Im confused')
