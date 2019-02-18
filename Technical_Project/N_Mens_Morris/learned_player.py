@@ -397,7 +397,6 @@ class Learned_Player(object):
 	
 	def random_move(self, valid_moves, enable_flying):
 		temp = random.randint(0, len(valid_moves) - 1)
-		print('Valid Moves = ' + str(valid_moves))
 		if enable_flying:			
 			temp2 = random.randint(0, len(valid_moves) - 1)
 			if valid_moves[temp][0] == valid_moves[temp2][1]:
@@ -459,8 +458,6 @@ class Learned_Player(object):
 		game_type_input = [0] * 4
 		game_type_input[int((game_type/3)-1)] = 1
 		counter = 0
-		print(len(self.to_index))
-		print(len(self.to_qval_index))
 		for item in self.to_index:
 			if None in item:
 				break
