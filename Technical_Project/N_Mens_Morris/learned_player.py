@@ -463,7 +463,7 @@ class Learned_Player(object):
 		game_type_input[int((game_type/3)-1)] = 1
 		counter = 0
 		print(len(self.to_index))
-		print(len(self_to_qval_index))
+		print(len(self.to_qval_index))
 		for item in self.to_index:
 			reward_to = self.reward_function(game_type,winner,item[2],self.to_qval_index[counter], decision_type_to)
 			self.sess.run([self.optimiser], feed_dict={self.reward: reward_to, self.input: item[0], self.game_type: game_type_input,
