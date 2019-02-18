@@ -314,7 +314,6 @@ class Learned_Player(object):
 				adj_piece_list = deepcopy(pieces)
 				for index, item in enumerate(state):
 					if item != 0:
-						print('We skip' + str(item))
 						continue
 					val = predictions_to[0][0][index]
 #				for index, val in enumerate(predictions_to[0][0]):
@@ -326,6 +325,7 @@ class Learned_Player(object):
 			else:
 				for index, item in enumerate(state):
 					if item != 0:
+						print('We skip' + str(item))
 						continue
 					val = predictions_to[0][0][index]
 #				for index, val in enumerate(predictions_to[0][0]):
