@@ -274,7 +274,7 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 #				print('P2PList = ' + str(player2_piece_list))
 			state[move] = player
 			state[prev_pos] = 0
-			print('State 3,4,5 = ' + str(state[3]) + ' ' + str(state[4]) + ' ' + str(state[5]))))
+			print('State 3,4,5 = ' + str(state[3]) + ' ' + str(state[4]) + ' ' + str(state[5]))
 			if print_board:
 				printboard(game_type,state)
 			if det_mill(state, move, game_type):
