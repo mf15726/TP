@@ -244,21 +244,17 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 				if move == 25:
 					return 2
 				print('P1 move to = ' + str(move) + ' from = ' + str(prev_pos))
-				print('P1PList = ' + str(player1_piece_list))
 				player1_piece_list.append(move)
 				player1_piece_list.remove(prev_pos)
-#				print('Player1 moves' + str(move))
-#				print('From ' + str(prev_pos))
+				print('P1PList = ' + str(player1_piece_list))
 			else:
 				prev_pos, move = player2.move(state,game_type,player2_piece_list,player,p2_fly,move_no)
 				if move == 25:
 					return 1
 				print('P2 move to = ' + str(move) + ' from = ' + str(prev_pos))
-				print('P2PList = ' + str(player2_piece_list))
 				player2_piece_list.append(move)
 				player2_piece_list.remove(prev_pos)
-#				print('Player2 moves' + str(move))
-#				print('From ' + str(prev_pos))
+				print('P2PList = ' + str(player2_piece_list))
 			state[move] = player
 			state[prev_pos] = 0
 			if print_board:
