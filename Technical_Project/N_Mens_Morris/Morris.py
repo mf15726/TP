@@ -165,7 +165,7 @@ def free_space_finder(state):
 #	for i in range(len(state)):
 		
 
-def flying_check(state, player):
+def flying_check(state, player, game_type):
 	if game_type == 3:
 		return False
 	count = state.count(player)
@@ -237,24 +237,24 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 				if winner != 0:
 					return winner
 				if flying:
-					p1_fly = flying_check(state,1)
-					p2_fly = flying_check(state,2)
+					p1_fly = flying_check(state,1,game_type)
+					p2_fly = flying_check(state,2,game_type)
 			if player == 1:
 				prev_pos, move = player1.move(state,game_type,player1_piece_list,player,p1_fly,move_no)
 				if move == 25:
 					return 2
-				print('P1 move to = ' + str(move) + ' from = ' + str(prev_pos))
+#				print('P1 move to = ' + str(move) + ' from = ' + str(prev_pos))
 				player1_piece_list.append(move)
 				player1_piece_list.remove(prev_pos)
-				print('P1PList = ' + str(player1_piece_list))
+#				print('P1PList = ' + str(player1_piece_list))
 			else:
 				prev_pos, move = player2.move(state,game_type,player2_piece_list,player,p2_fly,move_no)
 				if move == 25:
 					return 1
-				print('P2 move to = ' + str(move) + ' from = ' + str(prev_pos))
+#				print('P2 move to = ' + str(move) + ' from = ' + str(prev_pos))
 				player2_piece_list.append(move)
 				player2_piece_list.remove(prev_pos)
-				print('P2PList = ' + str(player2_piece_list))
+#				print('P2PList = ' + str(player2_piece_list))
 			state[move] = player
 			state[prev_pos] = 0
 			if print_board:
@@ -271,7 +271,7 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 					_ = player2_piece_list.index(removed_piece)
 					player2_piece_list[_] = None
 					if flying:
-						p1_fly = flying_check(state,1)
+						p2_fly = flying_check(state,2)
 				else:
 					removed_piece = player2.remove_piece(state,player1_piece_list,game_type,player,p1_pieces_removed)
 #					print('P1 Plist = ' + str(player1_piece_list))
@@ -281,7 +281,7 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 					_ = player1_piece_list.index(removed_piece)
 					player1_piece_list[_] = None
 					if flying:
-						p2_fly = flying_check(state,2)
+						p1_fly = flying_check(state,1)
 				if print_board:
 					printboard(game_type,state)
 				winner = end_game(state)
