@@ -348,13 +348,13 @@ class Learned_Player(object):
 			print('Adj Pieces ' +str(adj_piece_list))
 			for item in adj_piece_list:
 				print('Alright here we go ' + str(item))
-				val = predictions_from[0][0][index]
+				val = predictions_from[0][0][item]
 				print('VAl = ' +str(val) + ' Opt_Val = ' +str(opt_val))
 #			for index, val in enumerate(predictions_from[0][0]):
 				if val > opt_val:
 					print('Now Im confused')
 					opt_val = val
-					piece = index
+					piece = item
 					print('Piece is ' +str(piece))
 			if piece is None:
 				print('THAT IS THE PROBLEm')
