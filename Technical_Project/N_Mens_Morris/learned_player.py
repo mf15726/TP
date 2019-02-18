@@ -442,14 +442,13 @@ class Learned_Player(object):
 		return piece
 	
 	def reward_function(self,game_type, winner, player, qval_index, decision):
-		print('qval index ' + str(qval_index))
 		if winner == player:
 			reward = [1] * self.n_classes
 		elif winner != 0:
 			reward =  [-1] * self.n_classes
 		else:
 			reward = [0] * self.n_classes
-		reward = list(map(sum, zip(qval_index,reward)))
+		reward = list(map(sum, zip(list(qval_index),reward)))
 		
 		for item in reward:
 			for i in range(self.future_steps):
