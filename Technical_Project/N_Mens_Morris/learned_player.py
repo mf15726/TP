@@ -105,7 +105,7 @@ class Learned_Player(object):
 		#cost
 		#        self.cost = tf.reduce_mean(tf.square(self.y - self.Q_val))
 		#        self.cost = tf.square(self.Q_val - self.y)
-		self.cost = tf.square(self.y - self.Q_val)
+		self.cost = tf.reduce_mean(tf.squared_difference(self.y - self.Q_val))
 #		self.cost = tf.square(self.y - self.Q_val_stored)
 #		self.cost_from = tf.square(self.y - self.Q_val_from)
 		#optimiser
@@ -270,6 +270,16 @@ class Learned_Player(object):
 				item = (item % 2) + 1
 			return new_state
 		
+	
+	def max_next_Q(self, state, game_type, player, decision):
+		predictions = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
+										   self.decision_type: decision_type_to})
+		val = np.argmax(predictions[0][0])
+		return val
+		
+		
+	
+	
 	def place(self, state, game_type, player, move_no):
 		rand = random.randint(1,100)
 		move = None
@@ -291,7 +301,6 @@ class Learned_Player(object):
 				if item != 0:
 					continue
 				val = predictions_to[0][0][index]
-#			for index, val in enumerate(predictions_to[0][0]):
 				if val > opt_val:
 					opt_val = val
 					move = index
@@ -334,7 +343,6 @@ class Learned_Player(object):
 					if item != 0:
 						continue
 					val = predictions_to[0][0][index]
-#				for index, val in enumerate(predictions_to[0][0]):
 #					print('Index, Val ' +str(index) + ' ' + str(val))
 					if val > opt_val:
 						opt_val = val
@@ -346,7 +354,6 @@ class Learned_Player(object):
 						continue
 					
 					val = predictions_to[0][0][index]
-#				for index, val in enumerate(predictions_to[0][0]):
 #					print('OptVal = ' + str(opt_val))
 #					print('Index, Val ' +str(index) + ' ' + str(val))
 					if val > opt_val:
@@ -369,9 +376,7 @@ class Learned_Player(object):
 #				print('Alright here we go ' + str(item))
 				val = predictions_from[0][0][item]
 #				print('VAl = ' +str(val) + ' Opt_Val = ' +str(opt_val))
-#			for index, val in enumerate(predictions_from[0][0]):
 				if val > opt_val:
-#					print('Now Im confused')
 					opt_val = val
 					piece = item
 #					print('Piece is ' +str(piece))
@@ -425,7 +430,6 @@ class Learned_Player(object):
 				if item != opponent:
 					continue
 				val = predictions_remove[0][0][index]
-#			for index, val in enumerate(predictions_remove[0][0]):
 				if val > opt_val:
 					opt_val = val
 					piece = index
@@ -433,28 +437,34 @@ class Learned_Player(object):
 			self.remove_qval_index[pieces_removed] = predictions_remove[0][0]
 		return piece
 	
-	def reward_function(self,game_type, winner, player, qval_index):
+	def reward_function(self,game_type, winner, player, qval_index, decision):
 		if winner == player:
 			reward = [1] * self.n_classes
 		elif winner != 0:
 			reward =  [-1] * self.n_classes
 		else:
 			reward = [0] * self.n_classes
-		return list(map(operator.add, qval_index,reward))
+		reward = list(map(operator.add, qval_index,reward))
+		
+		for item in reward:
+			for i in range(self.gamma):
+				reward[item] += self.gamma**(i+1) * self.max_next_Q(state, game_type, player, decision)
+			
+		return reward
 	
 	def learn(self, game_type, winner):
 		game_type_input = [0] * 4
 		game_type_input[int((game_type/3)-1)] = 1
 		counter = 0
 		for item in self.to_index:
-			reward_to = self.reward_function(game_type,winner,item[2],self.to_qval_index[counter])
+			reward_to = self.reward_function(game_type,winner,item[2],self.to_qval_index[counter], decision_type_to)
 			self.sess.run([self.optimiser], feed_dict={self.reward: reward_to, self.input: item[0], self.game_type: game_type_input,
 								   self.decision_type: decision_type_to})
 			counter += 1 
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.place_qval_index})
 		counter = 0
 		for item in self.from_index:
-			reward_from = self.reward_function(game_type,winner,item[2],self.from_qval_index[counter]) 
+			reward_from = self.reward_function(game_type,winner,item[2],self.from_qval_index[counter], decision_type_from) 
 			self.sess.run([self.optimiser], feed_dict={self.reward: reward_from, self.input: item[0], self.game_type: game_type_input,
 								   self.decision_type: decision_type_from})
 			counter += 1
@@ -462,7 +472,7 @@ class Learned_Player(object):
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.move_qval_index})
 		counter = 0
 		for item in self.remove_index:
-			reward_remove = self.reward_function(game_type,winner,item[2],self.remove_qval_index[counter])
+			reward_remove = self.reward_function(game_type,winner,item[2],self.remove_qval_index[counter], decision_type_remove)
 			self.sess.run([self.optimiser], feed_dict={self.reward: reward_remove, self.input: item[0], self.game_type: game_type_input,
 								   self.decision_type: decision_type_remove})
 			counter += 1
