@@ -325,7 +325,7 @@ class Learned_Player(object):
 			else:
 				for index, item in enumerate(state):
 					if item != 0:
-						print('We skip' + str(item))
+						print('We skip' + str(index))
 						continue
 					val = predictions_to[0][0][index]
 #				for index, val in enumerate(predictions_to[0][0]):
