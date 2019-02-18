@@ -352,6 +352,7 @@ class Learned_Player(object):
 				print('VAl = ' +str(val) + ' Opt_Val = ' +str(opt_val))
 #			for index, val in enumerate(predictions_from[0][0]):
 				if val > opt_val:
+					print('Now Im confused')
 					opt_val = val
 					piece = index
 			if piece is None:
