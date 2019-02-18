@@ -328,7 +328,7 @@ for i in range(1000):
 	if i%2 == 0:
 		print('Game Number = ' +str(i+1))
 #	winner = game_play(random_player, random_player, game_type, see_board, enable_flying, total_move_no)
-	winner = game_play(random_player, random_player, game_type, see_board, enable_flying, total_move_no)
+	winner = game_play(leanred_player, learned_player, game_type, see_board, enable_flying, total_move_no)
 	print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
 	winner_list.append(winner)
 #	learned_player.learn(game_type, winner)
