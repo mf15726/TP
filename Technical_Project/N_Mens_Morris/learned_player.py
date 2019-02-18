@@ -373,7 +373,6 @@ class Learned_Player(object):
 			
 			opt_val = -float('Inf')
 #			print('Adj Pieces ' +str(adj_piece_list))
-			print('ADJ PIECES = ' + str(adj_piece_list))
 			for item in adj_piece_list:
 				if item == None:
 					continue
