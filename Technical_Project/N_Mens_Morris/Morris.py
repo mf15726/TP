@@ -342,8 +342,8 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 
 winner_list = []
 enable_flying = True
-game_type = 3
-see_board = True
+game_type = 6
+see_board = False
 total_move_no = 100000
 
 human_player = Human_Player()
