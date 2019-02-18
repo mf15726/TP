@@ -395,14 +395,17 @@ class Learned_Player(object):
 		self.from_qval_index[int(move_no - (game_type * 2))] = predictions_from[0][0]
 		return predicted_move
 	
-	def random_move(self, valid_moves, enable_flying):
-		temp = random.randint(0, len(valid_moves) - 1)
-		if enable_flying:			
-			temp2 = random.randint(0, len(valid_moves) - 1)
+	def random_move(self, valid_moves, enable_flying, piece_list):
+		if enable_flying:
+			temp = random.randint(0, len(state) - 1)
+			while state[temp] != 0:
+				temp = random.randint(0, len(state) - 1)
+			temp2 = random.randint(0, len(piece_list) - 1)
 			if valid_moves[temp][0] == valid_moves[temp2][1]:
 				temp2 -= 1
-			return (valid_moves[temp][0],valid_moves[temp2][1])
+			return (valid_moves[temp][0],piece_list[temp2][1])
 		else:
+			temp = random.randint(0, len(valid_moves) - 1)
 			return valid_moves[temp]
 	
 	def random_remove_piece(self, piece_list):
