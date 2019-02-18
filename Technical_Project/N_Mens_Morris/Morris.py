@@ -216,13 +216,10 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 	p2_pieces_removed = 0
 	if game_type == 3:
 		state = [0,0,0,0,0,0,0,0,0]
-#		free_space = [1,1,1,1,1,1,1,1,1]
 	elif game_type == 6:
 		state = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-#		free_space = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 	else:
 		state = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-#		free_space = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 	if print_board:
 		printboard(game_type,state)
 	free_space = free_space_finder(state)
