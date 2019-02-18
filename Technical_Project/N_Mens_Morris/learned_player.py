@@ -403,7 +403,7 @@ class Learned_Player(object):
 			temp2 = random.randint(0, len(piece_list) - 1)
 			if valid_moves[temp][0] == valid_moves[temp2][1]:
 				temp2 -= 1
-			return (valid_moves[temp][0],piece_list[temp2][1])
+			return (state[temp][0],piece_list[temp2][1])
 		else:
 			temp = random.randint(0, len(valid_moves) - 1)
 			return valid_moves[temp]
