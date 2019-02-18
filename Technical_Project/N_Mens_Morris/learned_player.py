@@ -338,6 +338,7 @@ class Learned_Player(object):
 							continue
 						
 			if move is None:
+				print('Problem1')
 				return (25,25)
 			
 			predictions_from = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
