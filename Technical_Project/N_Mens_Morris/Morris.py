@@ -352,7 +352,7 @@ total_move_no = 100000
 
 human_player = Human_Player()
 random_player = Random_Player()
-learned_player = Learned_Player(epsilon=0, alpha=0.3, gamma=0.9, limit=total_move_no)
+learned_player = Learned_Player(epsilon=0.01, alpha=0.3, gamma=0.9, limit=total_move_no)
 learned_player.sess.run(tf.global_variables_initializer())
 for i in range(1000):
 	if i%2 == 0:
@@ -361,6 +361,6 @@ for i in range(1000):
 	winner = game_play(learned_player, learned_player, game_type, see_board, enable_flying, total_move_no)
 	print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
 	winner_list.append(winner)
-#	learned_player.learn(game_type, winner)
+	learned_player.learn(game_type, winner)
 print('P1 wins = ' + str(winner_list.count(1)))
 print('P2 wins = ' + str(winner_list.count(2)))
