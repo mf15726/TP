@@ -373,6 +373,13 @@ class Learned_Player(object):
 		else:
 			return valid_moves[temp]
 	
+	def random_remove_piece(self, piece_list):
+		piece_to_remove = None
+		while piece_to_remove is None:
+			temp = random.randint(0, len(piece_list) - 1)
+			piece_to_remove = piece_list[temp]
+		return piece_to_remove
+	
 	def remove_piece(self, state, piece_list, game_type, player, pieces_removed):
 		opponent = (player % 2) + 1
 		rand = random.randint(1,100)
@@ -383,7 +390,7 @@ class Learned_Player(object):
 		predictions_remove = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_remove})
 		if rand <= 100*self.epsilon:
-			piece = self.random_remove_piece(piece_list, piece_list)
+			piece = self.random_remove_piece(piece_list)
 			self.remove_index[pieces_removed] = (deepcopy(input_state),piece,player)
 			self.remove_qval_index[pieces_removed] = predictions_remove[0][0]
 			return piece
