@@ -329,6 +329,7 @@ class Learned_Player(object):
 						continue
 					val = predictions_to[0][0][index]
 #				for index, val in enumerate(predictions_to[0][0]):
+					print('OptVal = ' + str(opt_val))
 					print('Index, Val ' +str(index) + ' ' + str(val))
 					if val > opt_val:
 						adj_piece = self.piece_adj(state, game_type, item, pieces, player)
