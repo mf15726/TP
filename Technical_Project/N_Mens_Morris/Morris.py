@@ -122,10 +122,8 @@ def end_game(state):
 
 def det_mill(state, move, game_type):
 	if game_type == 3:
-		for item in mill_dict_3[move]:
-#			for item in mill:		
+		for item in mill_dict_3[move]:		
 			if state[move] == state[item[0]] == state[item[1]]:
-				print('success' + str(item))
 				return True
 			else:
 				return False
@@ -139,23 +137,20 @@ def det_mill(state, move, game_type):
 
 
 	if game_type == 9:
-		for mill in mill_dict_9[move]:
-			for item in mill:		
-				if state[move] == state[item[0]] == state[item[1]]:
-					print('success' + str(item))
-					return True
-				else:
-					return False
+		for item in mill_dict_9[move]:	
+			if state[move] == state[item[0]] == state[item[1]]:
+				return True
+			else:
+				return False
 
 
 	if game_type == 12:
-		for mill in mill_dict_12[move]:
-			for item in mill:		
-				if state[move] == state[item[0]] == state[item[1]]:
-					print('success' + str(item))
-					return True
-				else:
-					return False
+		for item in mill_dict_12[move]:	
+			if state[move] == state[item[0]] == state[item[1]]:
+				print('success' + str(item))
+				return True
+			else:
+				return False
 
 def free_space_finder(state):
 	free_space = []
@@ -316,7 +311,7 @@ for i in range(1000):
 	if i%2 == 0:
 		print('Game Number = ' +str(i+1))
 #	winner = game_play(random_player, random_player, game_type, see_board, enable_flying, total_move_no)
-	winner = game_play(random_player, random_player, game_type, see_board, enable_flying, total_move_no)
+	winner = game_play(learned_player, learned_player, game_type, see_board, enable_flying, total_move_no)
 	print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
 	winner_list.append(winner)
 #	learned_player.learn(game_type, winner)
