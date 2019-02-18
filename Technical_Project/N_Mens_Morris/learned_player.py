@@ -442,13 +442,15 @@ class Learned_Player(object):
 		return piece
 	
 	def reward_function(self,game_type, winner, player, qval_index, decision):
+#		print('QVAL ' + str(qval_index))
+
 		if winner == player:
 			reward = [1] * self.n_classes
 		elif winner != 0:
 			reward =  [-1] * self.n_classes
 		else:
 			reward = [0] * self.n_classes
-		reward = list(map(sum, zip(list(qval_index),reward)))
+		reward = list(map(sum, zip((qval_index),reward)))
 		
 		for item in reward:
 			for i in range(self.future_steps):
@@ -460,6 +462,8 @@ class Learned_Player(object):
 		game_type_input = [0] * 4
 		game_type_input[int((game_type/3)-1)] = 1
 		counter = 0
+		print(len(self.to_index))
+		print(len(self_to_qval_index))
 		for item in self.to_index:
 			reward_to = self.reward_function(game_type,winner,item[2],self.to_qval_index[counter], decision_type_to)
 			self.sess.run([self.optimiser], feed_dict={self.reward: reward_to, self.input: item[0], self.game_type: game_type_input,
