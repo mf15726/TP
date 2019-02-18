@@ -466,7 +466,7 @@ class Learned_Player(object):
 		for item in self.to_index:
 			print('ITEM = ' + str(item))
 			if None in item:
-				continue
+				break
 			reward_to = self.reward_function(game_type,winner,item[2],self.to_qval_index[counter], decision_type_to)
 			self.sess.run([self.optimiser], feed_dict={self.reward: reward_to, self.input: item[0], self.game_type: game_type_input,
 								   self.decision_type: decision_type_to})
@@ -475,7 +475,7 @@ class Learned_Player(object):
 		counter = 0
 		for item in self.from_index:
 			if None in item:
-				continue
+				break
 			reward_from = self.reward_function(game_type,winner,item[2],self.from_qval_index[counter], decision_type_from) 
 			self.sess.run([self.optimiser], feed_dict={self.reward: reward_from, self.input: item[0], self.game_type: game_type_input,
 								   self.decision_type: decision_type_from})
@@ -485,7 +485,7 @@ class Learned_Player(object):
 		counter = 0
 		for item in self.remove_index:
 			if None in item:
-				continue
+				break
 			reward_remove = self.reward_function(game_type,winner,item[2],self.remove_qval_index[counter], decision_type_remove)
 			self.sess.run([self.optimiser], feed_dict={self.reward: reward_remove, self.input: item[0], self.game_type: game_type_input,
 								   self.decision_type: decision_type_remove})
