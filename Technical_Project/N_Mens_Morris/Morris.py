@@ -122,13 +122,13 @@ def end_game(state):
 
 def det_mill(state, move, game_type):
 	if game_type == 3:
-		for mill in mill_dict_3[move]:
-			for item in mill:		
-				if state[move] == state[item[0]] == state[item[1]]:
-					print('success' + str(item))
-					return True
-				else:
-					return False
+		for item in mill_dict_3[move]:
+#			for item in mill:		
+			if state[move] == state[item[0]] == state[item[1]]:
+				print('success' + str(item))
+				return True
+			else:
+				return False
 
 	if game_type == 6:
 		for item in mill_dict_6[move]:
