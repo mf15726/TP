@@ -491,12 +491,12 @@ class Learned_Player(object):
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.place_remove_index})
 			
 			
-		self.to_index = []
-		self.from_index = []
-		self.remove_index = []
+		self.to_index = [(None, None, None)] * self.limit
+		self.from_index = [(None, None, None)] * (self.limit - 6)
+		self.remove_index = [(None, None, None)] * 19
 		
-		self.to_qval_index = []
-		self.from_qval_index = []
-		self.remove_qval_index = []
+		self.to_qval_index = [None] * self.limit
+		self.from_qval_index = [None] * (self.limit - 6)
+		self.remove_qval_index = [None] * 19
 		
 		return 0
