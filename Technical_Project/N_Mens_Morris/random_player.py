@@ -68,7 +68,7 @@ class Random_Player(object):
 	def remove_piece(self, state, piece_list, game_type, player, removed_pieces):
 		piece_to_remove = None
 		while piece_to_remove is None:
-			temp = random.randint(0, len(piece_list) - 1)
+			temp = random.randint(0, len(piece_list))
 			piece_to_remove = piece_list[temp]
 		return piece_to_remove
 
@@ -77,9 +77,9 @@ class Random_Player(object):
 		valid_moves = self.valid_move(state, game_type, pieces)
 		if len(valid_moves) == 0:
 			return (25, 25)
-		temp = random.randint(0, len(valid_moves) - 1)
+		temp = random.randint(0, len(valid_moves))
 		if enable_flying:			
-			temp2 = random.randint(0, len(valid_moves) - 1)
+			temp2 = random.randint(0, len(valid_moves))
 			if valid_moves[temp][0] == valid_moves[temp2][1]:
 				temp2 -= 1
 			return (valid_moves[temp][0],valid_moves[temp2][1])
