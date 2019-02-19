@@ -269,7 +269,7 @@ class Learned_Player(object):
 	def random_place(self, state):
 		space_val = 1
 		while space_val != 0:
-			space = random.randint(0, len(state) - 1)
+			space = random.randint(0, len(state))
 			space_val = state[space]
 		return space
 	
@@ -331,7 +331,7 @@ class Learned_Player(object):
 			return move
 	
 	def random_move(self, valid_moves):
-		temp = random.randint(0, len(valid_moves) - 1)
+		temp = random.randint(0, len(valid_moves))
 		return valid_moves[temp]
 	
 	
@@ -417,10 +417,10 @@ class Learned_Player(object):
 		return predicted_move
 	
 	def random_move(self, valid_moves, enable_flying):
-		temp = random.randint(0, len(valid_moves) - 1)
+		temp = random.randint(0, len(valid_moves))
 		print('Valid Moves = ' + str(valid_moves))
 		if enable_flying:			
-			temp2 = random.randint(0, len(valid_moves) - 1)
+			temp2 = random.randint(0, len(valid_moves))
 			if valid_moves[temp][0] == valid_moves[temp2][1]:
 				temp2 -= 1
 			return (valid_moves[temp][0],valid_moves[temp2][1])
@@ -430,7 +430,7 @@ class Learned_Player(object):
 	def random_remove_piece(self, piece_list):
 		piece_to_remove = None
 		while piece_to_remove is None:
-			temp = random.randint(0, len(piece_list) - 1)
+			temp = random.randint(0, len(piece_list))
 			piece_to_remove = piece_list[temp]
 		return piece_to_remove
 	
