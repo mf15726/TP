@@ -298,10 +298,7 @@ class Learned_Player(object):
 										   self.decision_type: decision_type_to})
 		val = np.argmax(predictions[0][0])
 		return val
-		
-		
-	
-	
+
 	def place(self, state, game_type, player, move_no):
 		rand = random.randint(1,100)
 		move = None
@@ -351,6 +348,7 @@ class Learned_Player(object):
 			self.from_index[int(move_no - (game_type * 2))] = (deepcopy(input_state),random_move[1],player)
 			self.to_qval_index[move_no] = predictions_to[0][0]
 			self.from_qval_index[int(move_no - (game_type * 2))] = predictions_from[0][0]
+			print('Random move = ' + str(random_move))
 			return random_move
 		else:
 			opt_val = -float('Inf')
@@ -469,6 +467,9 @@ class Learned_Player(object):
 				reward[item] += self.gamma**(i+1) * self.max_next_Q(state, game_type, player, decision)
 			
 		return reward
+	
+	def symmetry(self, state):
+		
 	
 	def learn(self, game_type, winner):
 		game_type_input = [0] * 4
