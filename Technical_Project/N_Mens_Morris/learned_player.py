@@ -82,7 +82,7 @@ class Learned_Player(object):
 		self.gamma = gamma
 		self.limit = limit
 		self.state_index = []
-		
+	
 		self.to_index = [(None, None, None)] * self.limit
 		self.from_index = [(None, None, None)] * (self.limit - 6)
 		self.remove_index = [(None, None, None)] * 19
@@ -98,6 +98,7 @@ class Learned_Player(object):
 		self.n_nodes_3 = self.n_classes * 2
 		self.n_nodes_4 = self.n_classes * 2
 		self.future_steps = 0
+		self.symmetry_index = [None] * self.n_classes
 
 		self.input = tf.placeholder(tf.float32, [24])
 		self.x_p1 = tf.cast(tf.equal(self.input, 1), tf.float32)
@@ -414,7 +415,7 @@ class Learned_Player(object):
 		if enable_flying:
 			temp2 = random.randint(0, len(valid_moves) - 1)
 			while piece_list[temp2] is None:
-				temp2 = random.randint(0, len(valid_moves) - 1)
+				temp2 = random.randint(0, len(piece_list) - 1)
 			return (valid_moves[temp][0],piece_list[temp2])
 		else:
 			return valid_moves[temp]
@@ -468,7 +469,9 @@ class Learned_Player(object):
 			
 		return reward
 	
-#	def symmetry(self, state):
+	def symmetry(self, state, game_type):
+		self.symmetry = [None] * self.n_classes
+		
 		
 	
 	def learn(self, game_type, winner):
