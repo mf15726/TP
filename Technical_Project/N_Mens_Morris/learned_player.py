@@ -477,9 +477,9 @@ class Learned_Player(object):
 	
 	def symmetry(self, state, sym_box):
 		self.symmetry_index = [None] * self.n_classes
-			for index, item in enumerate(state):
-				temp = sym_box[index]
-				self.symmetry[index] = state[temp]
+		for index, item in enumerate(state):
+			temp = sym_box[index]
+			self.symmetry[index] = state[temp]
 			
 				
 		
