@@ -400,6 +400,7 @@ class Learned_Player(object):
 			temp = random.randint(0, len(state) - 1)
 			while state[temp] != 0:
 				temp = random.randint(0, len(state) - 1)
+			temp2 = random.randint(0, len(piece_list) - 1)
 			return (state[temp],piece_list[temp2])
 		else:
 			temp = random.randint(0, len(valid_moves) - 1)
