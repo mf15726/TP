@@ -330,11 +330,6 @@ class Learned_Player(object):
 			self.to_index[move_no] = ((deepcopy(input_state),move,player))
 			return move
 	
-	def random_move(self, valid_moves):
-		temp = random.randint(0, len(valid_moves) - 1)
-		return valid_moves[temp]
-	
-	
 	def move(self, state, game_type, pieces, player, enable_flying, move_no):
 		valid_moves = self.valid_move(state, game_type, pieces)
 		if len(valid_moves) == 0 and not enable_flying:
@@ -349,7 +344,7 @@ class Learned_Player(object):
 		predictions_to = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_to})
 		if rand <= 100*self.epsilon:
-			random_move = self.random_move(valid_moves, enable_flying)
+			random_move = self.random_move(valid_moves, enable_flying, pieces)
 			predictions_from = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_from})
 			self.to_index[move_no] = (deepcopy(input_state),random_move[0], player)
