@@ -35,55 +35,13 @@ adj_dict_6 = [[1, 6],
 	      [7, 11],[12, 14, 10],[8, 11],
 	     [14, 6],[13, 15, 11],[9, 14]]
 
-adj_dict_9 = [[1, 9],
-	      [0, 2, 4],
-	      [1, 14],
-	      [4, 10],
-	      [1, 3, 5, 7],
-	      [4, 13],
-	      [7, 11],
-	      [4, 6, 8],
-	      [12, 7],
-	      [0, 21, 10],
-	      [11, 18, 3, 9],
-	      [6, 15, 10],
-	      [8, 17, 13, 14],
-	      [14, 20, 5],
-	      [2, 23, 13],
-	      [11, 15],
-	      [15, 17, 19],
-	      [12, 16],
-	      [10, 19],
-	      [18, 20, 10, 22],
-	      [19, 13],
-	      [9, 22],
-	      [21, 23, 19],
-	      [22, 14]]
+adj_dict_9 = [[1, 9],[0, 2, 4],[1, 14],[4, 10],[1, 3, 5, 7],[4, 13],[7, 11],[4, 6, 8],[12, 7],[0, 21, 10],[11, 18, 3, 9],[6, 15, 10],
+	      [8, 17, 13, 14],[14, 20, 5],[2, 23, 13],[11, 15],[15, 17, 19],[12, 16],[10, 19],[18, 20, 10, 22],[19, 13],[9, 22],
+	      [21, 23, 19],[22, 14]]
 
-adj_dict_12 = [[1, 9, 3],
-	       [0, 2, 4],
-	       [1, 14, 5],
-	       [4, 10, 0, 6],
-	       [1, 3, 5, 7],
-	       [4, 13, 2, 8],
-	       [7, 11, 3],
-	       [4, 6, 8],
-	       [12, 7, 5],
-	       [0, 21, 10],
-	       [11, 18, 3],
-	       [6, 15],
-	       [8, 17],
-	       [14, 20, 5],
-	       [2, 23, 13],
-	       [11, 15, 18],
-	       [15, 17, 19],
-	       [12, 16, 20],
-	       [10, 18, 15, 21],
-	       [18, 20, 10, 22],
-	       [19, 13, 17, 20],
-	       [9, 22, 18],
-	       [21, 23, 19],
-	       [22, 14, 20]]
+adj_dict_12 = [[1, 9, 3],[0, 2, 4],[1, 14, 5],[4, 10, 0, 6],[1, 3, 5, 7],[4, 13, 2, 8],[7, 11, 3],[4, 6, 8],[12, 7, 5],[0, 21, 10],
+	       [11, 18, 3],[6, 15],[8, 17],[14, 20, 5],[2, 23, 13],[11, 15, 18],[15, 17, 19],[12, 16, 20],[10, 18, 15, 21],
+	       [18, 20, 10, 22],[19, 13, 17, 20],[9, 22, 18],[21, 23, 19],[22, 14, 20]]
 
 decision_type_to = [1,0,0]
 decision_type_from = [0,1,0]
@@ -226,31 +184,28 @@ class Learned_Player(object):
 		
 		
 	def piece_adj(self, state, game_type, space, pieces, player):
-		piece_to_move = [None] * 4
-		counter = 0 
+		piece_to_move = []
+		
+		
 		if game_type == 3:
 			for item in adj_dict_3[space]:
 				if state[item] == player:
-					piece_to_move[counter] = item
-					counter += 1
+					piece_to_move.append(item)
 					
 		if game_type == 6:
 			for item in adj_dict_6[space]:
 				if state[item] == player:
-					piece_to_move[counter] = item
-					counter += 1
+					piece_to_move.append(item)
 		
 		if game_type == 9:
 			for item in adj_dict_9[space]:
 				if state[item] == player:
-					piece_to_move[counter] = item
-					counter += 1
+					piece_to_move.append(item)
 					
 		if game_type == 12:
 			for item in adj_dict_12[space]:
 				if state[item] == player:
-					piece_to_move[counter] = item
-					counter += 1
+					piece_to_move.append(item)
 					
 		return piece_to_move
 		
@@ -405,7 +360,7 @@ class Learned_Player(object):
 					if val > opt_val:
 						adj_piece = self.piece_adj(state, game_type, index, pieces, player)
 #						print('WE HAVE SUCCESS' + str(adj_piece))
-						if adj_piece[0] is None:
+						if adj_piece:
 							adj_piece_list = deepcopy(adj_piece)
 							opt_val = val
 							move = index					
