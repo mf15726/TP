@@ -71,6 +71,7 @@ sym9_5 = [0,9,21,3,10,18,6,11,15,1,4,7,16,19,22,8,12,17,5,13,20,2,14,23]
 sym9_6 = [2,1,0,5,4,3,8,7,6,14,13,12,11,10,9,17,16,15,20,19,18,23,22,21]
 sym9_7 = [23,14,2,20,13,5,17,12,8,22,19,16,7,4,1,15,11,6,18,10,3,21,9,0]
 
+
 class Learned_Player(object):
 	
 	def __init__(self, epsilon, alpha, gamma, limit):
@@ -348,7 +349,7 @@ class Learned_Player(object):
 		predictions_to = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_to})
 		if rand <= 100*self.epsilon:
-			random_move = self.random_move(state, valid_moves, enable_flying, pieces)
+			random_move = self.random_move(valid_moves, enable_flying)
 			predictions_from = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_from})
 			self.to_index[move_no] = (deepcopy(input_state),random_move[0], player)
@@ -393,6 +394,7 @@ class Learned_Player(object):
 			
 			opt_val = -float('Inf')
 #			print('Adj Pieces ' +str(adj_piece_list))
+			print('ADJ PIECES = ' + str(adj_piece_list))
 			for item in adj_piece_list:
 				if item == None:
 					continue
@@ -415,15 +417,15 @@ class Learned_Player(object):
 		self.from_qval_index[int(move_no - (game_type * 2))] = predictions_from[0][0]
 		return predicted_move
 	
-	def random_move(self, state, valid_moves, enable_flying, piece_list):
-		if enable_flying:
-			temp = random.randint(0, len(state) - 1)
-			while state[temp] != 0:
-				temp = random.randint(0, len(state) - 1)
-			temp2 = random.randint(0, len(piece_list) - 1)
-			return (state[temp],piece_list[temp2])
+	def random_move(self, valid_moves, enable_flying):
+		temp = random.randint(0, len(valid_moves) - 1)
+		print('Valid Moves = ' + str(valid_moves))
+		if enable_flying:			
+			temp2 = random.randint(0, len(valid_moves) - 1)
+			if valid_moves[temp][0] == valid_moves[temp2][1]:
+				temp2 -= 1
+			return (valid_moves[temp][0],valid_moves[temp2][1])
 		else:
-			temp = random.randint(0, len(valid_moves) - 1)
 			return valid_moves[temp]
 	
 	def random_remove_piece(self, piece_list):
@@ -458,8 +460,6 @@ class Learned_Player(object):
 					piece = index
 			self.remove_index[pieces_removed] = (deepcopy(input_state),piece,player)
 			self.remove_qval_index[pieces_removed] = predictions_remove[0][0]
-			print('Piece ' +str(piece))
-			print('Piecelist ' + str(piece_list))
 		return piece
 	
 	def reward_function(self,game_type, winner, player, qval_index, decision):
@@ -481,6 +481,8 @@ class Learned_Player(object):
 		game_type_input = [0] * 4
 		game_type_input[int((game_type/3)-1)] = 1
 		counter = 0
+		print(len(self.to_index))
+		print(len(self.to_qval_index))
 		for item in self.to_index:
 			if None in item:
 				break
