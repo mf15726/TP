@@ -468,7 +468,7 @@ class Learned_Player(object):
 			
 		return reward
 	
-	def symmetry(self, state):
+#	def symmetry(self, state):
 		
 	
 	def learn(self, game_type, winner):
