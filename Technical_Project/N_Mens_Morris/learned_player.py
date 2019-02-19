@@ -420,7 +420,6 @@ class Learned_Player(object):
 		while piece_to_remove is None:
 			temp = random.randint(0, len(piece_list) - 1)
 			piece_to_remove = piece_list[temp]
-			print('REMOVE ' + str(piece_to_remove))
 		return piece_to_remove
 	
 	def remove_piece(self, state, piece_list, game_type, player, pieces_removed):
@@ -433,7 +432,6 @@ class Learned_Player(object):
 		predictions_remove = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_remove})
 		if rand <= 100*self.epsilon:
-			print('AAA')
 			piece = self.random_remove_piece(piece_list)
 			self.remove_index[pieces_removed] = (deepcopy(input_state),piece,player)
 			self.remove_qval_index[pieces_removed] = predictions_remove[0][0]
@@ -449,6 +447,8 @@ class Learned_Player(object):
 					piece = index
 			self.remove_index[pieces_removed] = (deepcopy(input_state),piece,player)
 			self.remove_qval_index[pieces_removed] = predictions_remove[0][0]
+			print('Piece ' +str(piece))
+			print('Piecelist ' + str(piece_list))
 		return piece
 	
 	def reward_function(self,game_type, winner, player, qval_index, decision):
