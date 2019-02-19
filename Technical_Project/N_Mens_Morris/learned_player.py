@@ -416,7 +416,10 @@ class Learned_Player(object):
 		else:
 			temp = random.randint(0, len(valid_moves) - 1)
 		if enable_flying:
-			temp2 = random.randint(0, len(valid_moves) - 1)
+			if len(valid_moves) == 0:
+				temp2 = 0
+			else:
+				temp2 = random.randint(0, len(valid_moves) - 1)
 			while piece_list[temp2] is None:
 				temp2 = random.randint(0, len(piece_list) - 1)
 			return (valid_moves[temp][0],piece_list[temp2])
