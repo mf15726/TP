@@ -349,7 +349,7 @@ class Learned_Player(object):
 			self.from_index[int(move_no - (game_type * 2))] = (deepcopy(input_state),random_move[1],player)
 			self.to_qval_index[move_no] = predictions_to[0][0]
 			self.from_qval_index[int(move_no - (game_type * 2))] = predictions_from[0][0]
-			print('Random move = ' + str(random_move))
+#			print('Random move = ' + str(random_move))
 			return random_move
 		else:
 			opt_val = -float('Inf')
@@ -411,7 +411,10 @@ class Learned_Player(object):
 		return predicted_move
 	
 	def random_move(self, valid_moves, enable_flying, piece_list):
-		temp = random.randint(0, len(valid_moves) - 1)
+		if len(valid_moves) == 0:
+			temp = 0
+		else:
+			temp = random.randint(0, len(valid_moves) - 1)
 		if enable_flying:
 			temp2 = random.randint(0, len(valid_moves) - 1)
 			while piece_list[temp2] is None:
@@ -471,6 +474,14 @@ class Learned_Player(object):
 	
 	def symmetry(self, state, game_type):
 		self.symmetry = [None] * self.n_classes
+		if game_type == 3:
+			for index, item in enumerate(state):
+				temp = sym3_1[index]
+				self.symmetry[index] = state[temp]
+		
+#		if game_type == 6:
+			
+				
 		
 		
 	
