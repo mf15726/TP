@@ -98,7 +98,7 @@ class Learned_Player(object):
 		self.n_nodes_3 = self.n_classes * 2
 		self.n_nodes_4 = self.n_classes * 2
 		self.future_steps = 0
-		self.symmetry_index = [None] * self.n_classes
+		self.symmetry_index = [None] * self.n_input
 
 		self.input = tf.placeholder(tf.float32, [24])
 		self.x_p1 = tf.cast(tf.equal(self.input, 1), tf.float32)
@@ -472,19 +472,14 @@ class Learned_Player(object):
 			
 		return reward
 	
-	def symmetry(self, state, game_type):
-		self.symmetry = [None] * self.n_classes
-		if game_type == 3:
+	def symmetry(self, state, sym_box):
+		self.symmetry_index = [None] * self.n_classes
 			for index, item in enumerate(state):
-				temp = sym3_1[index]
+				temp = sym_box[index]
 				self.symmetry[index] = state[temp]
-		
-#		if game_type == 6:
 			
 				
 		
-		
-	
 	def learn(self, game_type, winner):
 		game_type_input = [0] * 4
 		game_type_input[int((game_type/3)-1)] = 1
