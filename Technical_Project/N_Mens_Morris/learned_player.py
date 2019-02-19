@@ -394,7 +394,6 @@ class Learned_Player(object):
 			
 			opt_val = -float('Inf')
 #			print('Adj Pieces ' +str(adj_piece_list))
-			print('ADJ PIECES = ' + str(adj_piece_list))
 			for item in adj_piece_list:
 				if item == None:
 					continue
@@ -481,8 +480,6 @@ class Learned_Player(object):
 		game_type_input = [0] * 4
 		game_type_input[int((game_type/3)-1)] = 1
 		counter = 0
-		print(len(self.to_index))
-		print(len(self.to_qval_index))
 		for item in self.to_index:
 			if None in item:
 				break
