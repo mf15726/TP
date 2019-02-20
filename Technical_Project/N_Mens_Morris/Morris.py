@@ -7,7 +7,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import tensorflow as tf
 from math import log
-import cProfile, pstats, cStringIO
+import cProfile, pstats
 #Classes
 from learned_player import Learned_Player
 from random_player import Random_Player
@@ -359,15 +359,17 @@ learned_player = Learned_Player(epsilon=0.01, alpha=0.3, gamma=0.9, limit=total_
 learned_player.sess.run(tf.global_variables_initializer())
 pr = cProfile.Profile()
 pr.enable()
-for i in range(100):
-	game_states = [None] * total_move_no
-	if i%2 == 0:
-		print('Game Number = ' +str(i+1))
-#	winner = game_play(random_player, random_player, game_type, see_board, enable_flying, total_move_no)
-	winner = game_play(learned_player, learned_player, game_type, see_board, enable_flying, total_move_no)
-	print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
-	winner_list.append(winner)
-	learned_player.learn(game_type, winner)
+def play_and_learn(total_game_no):
+	for i in range(total_game_no):
+		game_states = [None] * total_move_no
+	#	winner = game_play(random_player, random_player, game_type, see_board, enable_flying, total_move_no)
+		winner = game_play(learned_player, learned_player, game_type, see_board, enable_flying, total_move_no)
+		print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
+		winner_list.append(winner)
+		learned_player.learn(game_type, winner)
+	return winner_list
+		
+winner_list = play_and_learn(100)
 print('P1 wins = ' + str(winner_list.count(1)))
 print('P2 wins = ' + str(winner_list.count(2)))
 pr.disable()
