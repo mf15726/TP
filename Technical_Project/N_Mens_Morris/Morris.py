@@ -366,10 +366,11 @@ def play_and_learn(total_game_no):
 		winner = game_play(learned_player, learned_player, game_type, see_board, enable_flying, total_move_no)
 		print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
 		winner_list.append(winner)
-		learned_player.learn(game_type, winner)
+		if winner != 0:
+			learned_player.learn(game_type, winner)
 	return winner_list
 		
-winner_list = play_and_learn(100)
+winner_list = play_and_learn(100000)
 print('P1 wins = ' + str(winner_list.count(1)))
 print('P2 wins = ' + str(winner_list.count(2)))
 #cProfile.run('play_and_learn(100)')
