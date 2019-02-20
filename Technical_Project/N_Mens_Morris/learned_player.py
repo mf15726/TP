@@ -523,8 +523,8 @@ class Learned_Player(object):
 		for index, item in enumerate(state):
 			temp = sym_box[index]
 			print(temp)
-			self.symmetry[index] = state[temp]
-			
+#			self.symmetry[index] = state[temp]
+			self.symmetry[index] = 1
 				
 		
 	def learn(self, game_type, winner):
