@@ -32,8 +32,12 @@ adj_dict_6 = [[1, 6],
 	      [10, 3, 6],
 	      [12, 5, 9],
 	      [2, 8, 15],
-	      [7, 11],[12, 14, 10],[8, 11],
-	     [14, 6],[13, 15, 11],[9, 14]]
+	      [7, 11],
+	      [12, 14, 10],
+	      [8, 11],
+	      [14, 6],
+	      [13, 15, 11],
+	      [9, 14]]
 
 adj_dict_9 = [[1, 9],
 	      [0, 2, 4],
@@ -179,6 +183,7 @@ class Learned_Player(object):
 		self.n_nodes_4 = self.n_classes * 2
 		self.future_steps = 0
 		self.symmetry_index = [None] * self.n_classes
+		self.piece_adj_list = [None] * 4
 
 		self.input = tf.placeholder(tf.float32, [24])
 		self.x_p1 = tf.cast(tf.equal(self.input, 1), tf.float32)
@@ -286,30 +291,32 @@ class Learned_Player(object):
 		
 		
 	def piece_adj(self, state, game_type, space, pieces, player):
-		piece_to_move = []
+		self.piece_adj_list = [None] * 4
 		
-		
+		counter = 0
 		if game_type == 3:
 			for item in adj_dict_3[space]:
 				if state[item] == player:
-					piece_to_move.append(item)
+					counter += 1
+					piece_adj_list[counter] = item
 					
 		if game_type == 6:
 			for item in adj_dict_6[space]:
 				if state[item] == player:
-					piece_to_move.append(item)
+					counter += 1
+					piece_adj_list[counter] = item
 		
 		if game_type == 9:
 			for item in adj_dict_9[space]:
 				if state[item] == player:
-					piece_to_move.append(item)
+					counter += 1
+					piece_adj_list[counter] = item
 					
 		if game_type == 12:
 			for item in adj_dict_12[space]:
 				if state[item] == player:
-					piece_to_move.append(item)
-					
-		return piece_to_move
+					counter += 1
+					piece_adj_list[counter] = item
 		
 	def valid_move(self, state, game_type, pieces):
 		valid_moves = []
@@ -453,9 +460,11 @@ class Learned_Player(object):
 #					print('OptVal = ' + str(opt_val))
 #					print('Index, Val ' +str(index) + ' ' + str(val))
 					if val > opt_val:
-						adj_piece = self.piece_adj(state, game_type, index, pieces, player)
+						self.piece_adj(state, game_type, index, pieces, player)
 #						print('WE HAVE SUCCESS' + str(adj_piece))
-						if adj_piece:
+						if self.adj_piece_list[0] is None:
+							continue
+						else:
 							adj_piece_list = deepcopy(adj_piece)
 							opt_val = val
 							move = index					
