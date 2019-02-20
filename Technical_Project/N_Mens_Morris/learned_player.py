@@ -489,6 +489,7 @@ class Learned_Player(object):
 					piece = item
 #					print('Piece is ' +str(piece))
 			if piece is None:
+				print(adj_piece_list)
 				print('No piece')
 				return(25,25)
 					
