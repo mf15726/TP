@@ -350,7 +350,7 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 winner_list = []
 enable_flying = True
 game_type = 9
-see_board = True
+see_board = False
 total_move_no = 100000
 game_states = [None] * total_move_no
 
