@@ -7,7 +7,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import tensorflow as tf
 from math import log
-import cProfile, pstats, StringIO
+import cProfile, pstats, cStringIO
 #Classes
 from learned_player import Learned_Player
 from random_player import Random_Player
