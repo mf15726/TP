@@ -518,12 +518,11 @@ class Learned_Player(object):
 		return reward
 	
 	def symmetry(self, state, sym_box):
-		self.symmetry_index = [0] * self.n_classes
 		print(sym_box)
 		for index, item in enumerate(state):
 			temp = sym_box[index]
 			print(temp)
-			self.symmetry[index] = state[temp]
+			self.symmetry_index[index] = state[temp]
 				
 		
 	def learn(self, game_type, winner):
