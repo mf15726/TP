@@ -9,7 +9,7 @@ import tensorflow as tf
 from math import log
 import networkx as nx
 import operator
-import cProfile, pstats, StringIO
+import cProfile, pstats
 
 
 adj_dict_3 = [[1, 3, 4],
