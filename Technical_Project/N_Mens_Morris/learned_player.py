@@ -297,27 +297,27 @@ class Learned_Player(object):
 		if game_type == 3:
 			for item in adj_dict_3[space]:
 				if state[item] == player:
-					counter += 1
 					self.piece_adj_list[counter] = item
+					counter += 1
 					
 		if game_type == 6:
 			for item in adj_dict_6[space]:
 				if state[item] == player:
-					counter += 1
 					self.piece_adj_list[counter] = item
+					counter += 1
 		
 		if game_type == 9:
 			for item in adj_dict_9[space]:
 				if state[item] == player:
-					counter += 1
 					self.piece_adj_list[counter] = item
+					counter += 1
 					
 		if game_type == 12:
 			for item in adj_dict_12[space]:
 				if state[item] == player:
-					counter += 1
 					self.piece_adj_list[counter] = item
-		print(self.piece_adj_list)
+					counter += 1
+
 		
 	def valid_move(self, state, game_type, pieces):
 		valid_moves = []
