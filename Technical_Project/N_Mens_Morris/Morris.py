@@ -215,6 +215,7 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 	move_no = 0
 	player1_piece_list = [None] * game_type
 	player2_piece_list = [None] * game_type
+	game_states = [None] * total_move_no
 	p1_pieces_removed = 0
 	p2_pieces_removed = 0
 	if game_type == 3:
@@ -361,7 +362,6 @@ learned_player.sess.run(tf.global_variables_initializer())
 #pr.enable()
 def play_and_learn(total_game_no):
 	for i in range(total_game_no):
-		game_states = [None] * total_move_no
 	#	winner = game_play(random_player, random_player, game_type, see_board, enable_flying, total_move_no)
 		winner = game_play(learned_player, learned_player, game_type, see_board, enable_flying, total_move_no)
 		print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
