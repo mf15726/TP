@@ -357,7 +357,9 @@ human_player = Human_Player()
 random_player = Random_Player()
 learned_player = Learned_Player(epsilon=0.01, alpha=0.3, gamma=0.9, limit=total_move_no)
 learned_player.sess.run(tf.global_variables_initializer())
-for i in range(1000):
+pr = cProfile.Profile()
+pr.enable()
+for i in range(100):
 	game_states = [None] * total_move_no
 	if i%2 == 0:
 		print('Game Number = ' +str(i+1))
@@ -368,3 +370,9 @@ for i in range(1000):
 	learned_player.learn(game_type, winner)
 print('P1 wins = ' + str(winner_list.count(1)))
 print('P2 wins = ' + str(winner_list.count(2)))
+pr.disable()
+s = StringIO.StringIO()
+sortby = 'cumulative'
+ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
+ps.print_stats()
+print s.getvalue()
