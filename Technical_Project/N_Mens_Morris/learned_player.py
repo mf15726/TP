@@ -466,7 +466,7 @@ class Learned_Player(object):
 						if self.piece_adj_list[0] is None:
 							continue
 						else:
-							adj_piece_list = deepcopy(adj_piece)
+							adj_piece_list = deepcopy(self.piece_adj_list)
 							opt_val = val
 							move = index					
 			if move is None:
