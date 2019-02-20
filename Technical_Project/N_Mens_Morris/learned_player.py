@@ -183,7 +183,7 @@ class Learned_Player(object):
 		self.n_nodes_4 = self.n_classes * 2
 		self.future_steps = 0
 		self.symmetry_index = [None] * self.n_classes
-		self.piece_adj_list = [None] * 4
+		self.piece_adj_list = [None] * 12
 
 		self.input = tf.placeholder(tf.float32, [24])
 		self.x_p1 = tf.cast(tf.equal(self.input, 1), tf.float32)
@@ -291,7 +291,7 @@ class Learned_Player(object):
 		
 		
 	def piece_adj(self, state, game_type, space, pieces, player):
-		self.piece_adj_list = [None] * 4
+		self.piece_adj_list = [None] * 12
 		
 		counter = 0
 		if game_type == 3:
@@ -462,7 +462,7 @@ class Learned_Player(object):
 					if val > opt_val:
 						self.piece_adj(state, game_type, index, pieces, player)
 #						print('WE HAVE SUCCESS' + str(adj_piece))
-						if self.adj_piece_list[0] is None:
+						if self.piece_adj_list[0] is None:
 							continue
 						else:
 							adj_piece_list = deepcopy(adj_piece)
@@ -479,7 +479,7 @@ class Learned_Player(object):
 #			print('Adj Pieces ' +str(adj_piece_list))
 			for item in adj_piece_list:
 				if item == None:
-					continue
+					break
 #				print('Alright here we go ' + str(item))
 				val = predictions_from[0][0][item]
 #				print('VAl = ' +str(val) + ' Opt_Val = ' +str(opt_val))
