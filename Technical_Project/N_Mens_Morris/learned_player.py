@@ -578,6 +578,7 @@ class Learned_Player(object):
 			sym_list = sym6
 		else:
 			sym_list = sym9
+		
 		for index, item in enumerate(self.to_index):
 			if None in item:
 				break
