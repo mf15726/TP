@@ -1,6 +1,5 @@
 #Packages
 import numpy as np
-import pandas as pd
 import random
 from copy import deepcopy
 import csv
@@ -8,7 +7,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import tensorflow as tf
 from math import log
-import networkx as nx
+import cProfile, pstats, StringIO
 #Classes
 from learned_player import Learned_Player
 from random_player import Random_Player
