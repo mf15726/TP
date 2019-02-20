@@ -442,7 +442,7 @@ class Learned_Player(object):
 		else:
 			opt_val = -float('Inf')
 			if enable_flying:
-				adj_piece_list = deepcopy(pieces)
+				adj_piece_list = pieces
 				for index, item in enumerate(state):
 					if item != 0:
 						continue
@@ -466,7 +466,7 @@ class Learned_Player(object):
 						if self.piece_adj_list[0] is None:
 							continue
 						else:
-							adj_piece_list = deepcopy(self.piece_adj_list)
+							adj_piece_list = self.piece_adj_list
 							opt_val = val
 							move = index					
 			if move is None:
@@ -480,7 +480,7 @@ class Learned_Player(object):
 #			print('Adj Pieces ' +str(adj_piece_list))
 			for item in adj_piece_list:
 				if item == None:
-					break
+					continue
 #				print('Alright here we go ' + str(item))
 				val = predictions_from[0][0][item]
 #				print('VAl = ' +str(val) + ' Opt_Val = ' +str(opt_val))
@@ -489,7 +489,6 @@ class Learned_Player(object):
 					piece = item
 #					print('Piece is ' +str(piece))
 			if piece is None:
-				print(adj_piece_list)
 				print('No piece')
 				return(25,25)
 					
