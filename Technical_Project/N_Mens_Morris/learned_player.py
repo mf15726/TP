@@ -178,7 +178,7 @@ class Learned_Player(object):
 		self.n_nodes_3 = self.n_classes * 2
 		self.n_nodes_4 = self.n_classes * 2
 		self.future_steps = 0
-		self.symmetry_index = [None] * self.n_input
+		self.symmetry_index = [None] * self.n_classes
 
 		self.input = tf.placeholder(tf.float32, [24])
 		self.x_p1 = tf.cast(tf.equal(self.input, 1), tf.float32)
