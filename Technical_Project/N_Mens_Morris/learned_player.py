@@ -317,6 +317,7 @@ class Learned_Player(object):
 				if state[item] == player:
 					counter += 1
 					self.piece_adj_list[counter] = item
+		print(self.piece_adj_list)
 		
 	def valid_move(self, state, game_type, pieces):
 		valid_moves = []
