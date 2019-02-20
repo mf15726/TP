@@ -205,7 +205,11 @@ def flying_check(state, player, game_type):
 		return True
 	else:
 		return False
-		
+
+def repeated_board(state,game_states):
+	if state in game_states:
+		return True
+	return False
 	
 def game_play(player1,player2,game_type,print_board,flying,limit):
 	winner = 0
@@ -332,6 +336,9 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 					printboard(game_type,state)
 				winner = end_game(state)
 		move_no += 1
+		game_states[move_no] = deepcopy(state)
+		if repeated_board(state,game_states):
+			return 0
 		if move_no == limit:
 			return 0
 
@@ -344,13 +351,15 @@ winner_list = []
 enable_flying = True
 game_type = 9
 see_board = True
-total_move_no = 100000
+total_move_no = 1000
+game_states = [None] * total_move_no
 
 human_player = Human_Player()
 random_player = Random_Player()
 learned_player = Learned_Player(epsilon=0.01, alpha=0.3, gamma=0.9, limit=total_move_no)
 learned_player.sess.run(tf.global_variables_initializer())
 for i in range(1000):
+	game_states = [None] * total_move_no
 	if i%2 == 0:
 		print('Game Number = ' +str(i+1))
 #	winner = game_play(random_player, random_player, game_type, see_board, enable_flying, total_move_no)
