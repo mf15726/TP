@@ -71,6 +71,9 @@ sym9_5 = [0,9,21,3,10,18,6,11,15,1,4,7,16,19,22,8,12,17,5,13,20,2,14,23]
 sym9_6 = [2,1,0,5,4,3,8,7,6,14,13,12,11,10,9,17,16,15,20,19,18,23,22,21]
 sym9_7 = [23,14,2,20,13,5,17,12,8,22,19,16,7,4,1,15,11,6,18,10,3,21,9,0]
 
+sym3 = [sym3_1,sym3_2,sym3_3,sym3_4,sym3_5,sym3_6,sym3_7]
+sym6 = [sym6_1,sym6_2,sym6_3,sym6_4,sym6_5,sym6_6,sym6_7]
+sym9 = [sym9_1,sym9_2,sym9_3,sym9_4,sym9_5,sym9_6,sym9_7]
 
 class Learned_Player(object):
 	
@@ -487,32 +490,33 @@ class Learned_Player(object):
 		game_type_input = [0] * 4
 		game_type_input[int((game_type/3)-1)] = 1
 		counter = 0
-		for item in self.to_index:
+		if game_type == 3:
+			sym_list = sym3
+		elif game_type == 6:
+			sym_list = sym6
+		else:
+			sym_list = sym9
+		for index, item in enumerate(self.to_index):
 			if None in item:
 				break
-			reward_to = self.reward_function(game_type,winner,item[2],self.to_qval_index[counter], decision_type_to)
+			reward_to = self.reward_function(game_type,winner,item[2],self.to_qval_index[index], decision_type_to)
 			self.sess.run([self.optimiser], feed_dict={self.reward: reward_to, self.input: item[0], self.game_type: game_type_input,
 								   self.decision_type: decision_type_to})
-			counter += 1 
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.place_qval_index})
-		counter = 0
-		for item in self.from_index:
+		for index, item in enumerate(self.from_index):
 			if None in item:
 				break
-			reward_from = self.reward_function(game_type,winner,item[2],self.from_qval_index[counter], decision_type_from) 
+			reward_from = self.reward_function(game_type,winner,item[2],self.from_qval_index[index], decision_type_from) 
 			self.sess.run([self.optimiser], feed_dict={self.reward: reward_from, self.input: item[0], self.game_type: game_type_input,
 								   self.decision_type: decision_type_from})
-			counter += 1
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.choose_qval_index})
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.move_qval_index})
-		counter = 0
-		for item in self.remove_index:
+		for index, item in enumerate(self.remove_index):
 			if None in item:
 				break
-			reward_remove = self.reward_function(game_type,winner,item[2],self.remove_qval_index[counter], decision_type_remove)
+			reward_remove = self.reward_function(game_type,winner,item[2],self.remove_qval_index[index], decision_type_remove)
 			self.sess.run([self.optimiser], feed_dict={self.reward: reward_remove, self.input: item[0], self.game_type: game_type_input,
 								   self.decision_type: decision_type_remove})
-			counter += 1
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.place_remove_index})
 			
 			
