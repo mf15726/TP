@@ -479,7 +479,7 @@ class Learned_Player(object):
 			opt_val = -float('Inf')
 #			print('Adj Pieces ' +str(adj_piece_list))
 			for item in adj_piece_list:
-				if item == None:
+				if item is None:
 					continue
 #				print('Alright here we go ' + str(item))
 				val = predictions_from[0][0][item]
