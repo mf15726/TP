@@ -519,7 +519,7 @@ class Learned_Player(object):
 				temp2 = random.randint(0, len(piece_list) - 1)
 				print('Valid = ' +str(valid_moves))
 				print('Piece List ' + str(piece_list))
-			return (valid_moves[temp][0],piece_list[temp2])
+			return (free_space[temp][0],piece_list[temp2])
 		else:
 			temp = random.randint(0, len(valid_moves) - 1)
 			return valid_moves[temp]
