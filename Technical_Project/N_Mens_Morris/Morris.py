@@ -295,6 +295,9 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 					return 2
 #				print('P1 move to = ' + str(move) + ' from = ' + str(prev_pos))
 				player1_piece_list.append(move)
+				if prev_pos not in player1_piece_list:
+					print('Prev_Pos ' +str(prev_pos))
+					print('Piece_List ' +str(player1_piece_list))
 				player1_piece_list.remove(prev_pos)
 #				print('P1PList = ' + str(player1_piece_list))
 			else:
@@ -303,6 +306,9 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 					return 1
 #				print('P2 move to = ' + str(move) + ' from = ' + str(prev_pos))
 				player2_piece_list.append(move)
+				if prev_pos not in player2_piece_list:
+					print('Prev_Pos ' +str(prev_pos))
+					print('Piece_List ' +str(player2_piece_list))
 				player2_piece_list.remove(prev_pos)
 #				print('P2PList = ' + str(player2_piece_list))
 			state[move] = player
