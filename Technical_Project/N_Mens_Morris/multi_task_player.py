@@ -193,3 +193,36 @@ class Learned_Player(object):
 		
 		self.n_nodes_12_1 = 48
 		self.n_nodes_12_2 = 48
+		
+		self.future_steps = 0
+		self.symmetry_index = [None] * self.n_classes
+		self.piece_adj_list = [None] * 12
+		
+		self.base_input = tf.placeholder(tf.float32, [24])
+		self.x_p1 = tf.cast(tf.equal(self.base_input, 1), tf.float32)
+		self.x_p2 = tf.cast(tf.equal(self.base_input, 2), tf.float32)
+		self.x_empty = tf.cast(tf.equal(self.base_input, 0), tf.float32)
+		
+		#game_type = 1 at 0 if game_type = 3, 1 if 6, 2 if 9, 3 if 12
+		self.game_type = tf.placeholder(tf.float32, [4])
+		#ARE WE GOING TO USE THIS DURING TRANSFER
+		
+		#decision_type = 1 at 0 if place, 1 if choose piece to move, 2 if move piece to, 3 if remove piece
+		self.decision_type = tf.placeholder(tf.float32, shape=[3])
+		
+		self.collect_board = [self.x_empty,self.x_p1,self.x_p2]
+		self.collect_other = tf.concat([self.game_type, self.decision_type], 0)
+		self.final_board = tf.reshape(self.collect_board, shape=[72])
+		self.final_other = tf.reshape(self.collect_other, shape=[7])
+		self.x_bin = tf.concat([self.final_board, self.final_other], 0)
+		self.x = tf.reshape(self.x_bin, shape=[1,self.n_input])
+		self.reward = tf.placeholder(tf.float32,[self.n_classes])
+		self.y = tf.reshape(self.reward, [1, self.n_classes])
+		self.Q_val_base = self.base_network()
+		
+		#cost functions
+		self.cost = tf.reduce_mean(tf.squared_difference(self.y, self.Q_val))
+		
+		#optimisers
+		self.optimiser = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost)
+
