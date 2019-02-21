@@ -506,7 +506,7 @@ class Learned_Player(object):
 			if item == 0:
 				free_space.append(item)
 
-	return free_space
+		return free_space
 	
 	def random_move(self, state, valid_moves, enable_flying, piece_list):
 		if len(valid_moves) == 1:
