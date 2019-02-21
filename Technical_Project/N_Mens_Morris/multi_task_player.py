@@ -221,8 +221,56 @@ class Learned_Player(object):
 		self.Q_val_base = self.base_network()
 		
 		#cost functions
-		self.cost = tf.reduce_mean(tf.squared_difference(self.y, self.Q_val))
+		self.cost = tf.reduce_mean(tf.squared_difference(self.y, self.Q_val_base))
 		
 		#optimisers
 		self.optimiser = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost)
+		
+	def base_network(self):
+
+		l1 = tf.layers.dense(
+			inputs=self.x,
+			units=self.n_input,
+			kernel_initializer = tf.constant_initializer(0,1),
+			bias_initializer=tf.constant_initializer(0, 1),
+			activation=tf.nn.leaky_relu,
+#			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
+			activity_regularizer=tf.nn.softmax
+		)
+
+		l2 = tf.layers.dense(
+			inputs=l1,
+			units=self.n_nodes_1,
+			kernel_initializer = tf.constant_initializer(0,1),
+			bias_initializer=tf.constant_initializer(0, 1),
+			activation=tf.nn.leaky_relu,
+#			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
+			activity_regularizer=tf.nn.softmax
+		)
+
+#		l3 = tf.layers.dense(
+#		inputs=l2,
+#		units=self.n_nodes_2,
+#		bias_initializer=tf.constant_initializer(0, 1),
+#		activation=tf.nn.leaky_relu,
+#		kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
+#		activity_regularizer=tf.nn.softmax
+#		)
+
+
+		l_out = tf.layers.dense(
+			inputs=l2,
+			units=self.n_classes,
+			kernel_initializer = tf.constant_initializer(0,1),
+			bias_initializer=tf.constant_initializer(0, 1),
+			activation=tf.nn.leaky_relu,
+#			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
+			activity_regularizer=tf.nn.softmax
+		)
+
+		l_norm = tf.contrib.layers.softmax(
+			logits=l_out
+		)
+
+		return l_norm
 
