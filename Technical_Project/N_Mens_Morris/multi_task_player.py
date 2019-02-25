@@ -234,7 +234,7 @@ class Multi_Task_Player(object):
 		
 		#Task specific networks
 		self.task_input = tf.placeholder(tf.float32, shape=[self.n_classes_base])
-		self.collect_task = tf.conacat([self.x_task, self.decision_type], 0)
+		self.collect_task = tf.concat([self.x_task, self.decision_type], 0)
 		self.x_task = tf.reshape(self.collect_task, shape=[1, self.n_input_task])
 		self.Q_val_base = self.base_network()
 		self.Q_val_task3 = self.task3_network()
