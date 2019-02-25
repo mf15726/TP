@@ -600,7 +600,7 @@ class Learned_Player(object):
 			sym_list = sym9
 		
 		for index, item in enumerate(self.to_index):
-			if None is item:
+			if None is item[0]:
 				if index != 0:
 					print('LEARN1 ' + str(index))
 					break
@@ -616,7 +616,7 @@ class Learned_Player(object):
 								   self.decision_type: decision_type_to})
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.place_qval_index})
 		for index, item in enumerate(self.from_index):
-			if None is item:
+			if None is item[0]:
 				break
 			reward_from = self.reward_function(game_type,winner,item[2],self.from_qval_index[index], decision_type_from, item[0], game_type_input) 
 			self.sess.run([self.Q_val ,self.optimiser], feed_dict={self.reward: reward_from, self.input: self.symmetry_index, self.game_type: game_type_input,
@@ -629,7 +629,7 @@ class Learned_Player(object):
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.choose_qval_index})
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.move_qval_index})
 		for index, item in enumerate(self.remove_index):
-			if None is item:
+			if None is item[0]:
 				break
 			reward_remove = self.reward_function(game_type,winner,item[2],self.remove_qval_index[index], decision_type_remove, item[0],  game_type_input)
 			self.sess.run([self.optimiser], feed_dict={self.reward: reward_remove, self.input: item[0], self.game_type: game_type_input,
