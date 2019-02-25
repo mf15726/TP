@@ -387,7 +387,7 @@ def play_and_learn(total_game_no,multi_task):
 				learned_player.learn(game_type, winner)
 	return winner_list
 		
-winner_list = play_and_learn(10000)
+winner_list = play_and_learn(10000,multi_task)
 print('P1 wins = ' + str(winner_list.count(1)))
 print('P2 wins = ' + str(winner_list.count(2)))
 #cProfile.run('play_and_learn(100)')
