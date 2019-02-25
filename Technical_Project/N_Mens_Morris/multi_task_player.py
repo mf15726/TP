@@ -221,7 +221,7 @@ class Multi_Task_Player(object):
 		self.final_board = tf.reshape(self.collect_board, shape=[72])
 		self.final_other = tf.reshape(self.collect_other, shape=[7])
 		self.x_bin = tf.concat([self.final_board, self.final_other], 0)
-		self.x = tf.reshape(self.x_bin, shape=[1,self.n_input])
+		self.x = tf.reshape(self.x_bin, shape=[1,self.n_input_base])
 		self.reward_base = tf.placeholder(tf.float32,[self.n_classes_base])
 		self.reward_3 = tf.placeholder(tf.float32, self.n_classes_3)
 		self.reward_6 = tf.placeholder(tf.float32, self.n_classes_6)
