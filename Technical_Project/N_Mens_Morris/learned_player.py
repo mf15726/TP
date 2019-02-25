@@ -413,6 +413,7 @@ class Learned_Player(object):
 					move = index
 			self.to_qval_index[move_no] = predictions_to[0][0]
 			self.to_index[move_no] = ((deepcopy(input_state),move,player))
+			print('INDEX ' + str(self.to_index[move_no]))
 			return move
 	
 	def move(self, state, game_type, pieces, player, enable_flying, move_no):
