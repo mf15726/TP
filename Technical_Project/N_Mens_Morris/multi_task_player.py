@@ -865,7 +865,7 @@ class Learned_Player(object):
 		for index, item in enumerate(self.remove_base_index):
 			if None in item:
 				break
-			reward_base_remove, reward_task_remove = self.reward_function(game_type,winner,item[2],self.remove_qval_base_index[index], decision_type_remove, self.symmetry_index, game_type_input))
+			reward_base_remove, reward_task_remove = self.reward_function(game_type,winner,item[2],self.remove_qval_base_index[index], decision_type_remove, self.symmetry_index, game_type_input)
 			self.sess.run([self.optimiser_base, self.optimiser_task], feed_dict={self.reward_base: reward_remove_base,
 											     self.reward_3: reward_remove_task
 											     self.input: item[0],
