@@ -238,10 +238,18 @@ class Learned_Player(object):
 		self.Q_val_task12 = self.task12_network()
 		
 		#cost functions
-		self.cost = tf.reduce_mean(tf.squared_difference(self.y, self.Q_val_base))
+		self.cost_base = tf.reduce_mean(tf.squared_difference(self.y, self.Q_val_base))
+		self.cost_task3 = tf.reduce_mean(tf.squared_difference(self.y, self.Q_val_task3))
+		self.cost_task6 = tf.reduce_mean(tf.squared_difference(self.y, self.Q_val_task6))
+		self.cost_task9 = tf.reduce_mean(tf.squared_difference(self.y, self.Q_val_task9))
+		self.cost_task12 = tf.reduce_mean(tf.squared_difference(self.y, self.Q_val_task12))
 		
 		#optimisers
-		self.optimiser = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost)
+		self.optimiser = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost_base)
+		self.optimiser = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost_task3)
+		self.optimiser = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost_task6)
+		self.optimiser = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost_task9)
+		self.optimiser = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost_task12)
 		
 	def base_network(self):
 
@@ -598,7 +606,7 @@ class Learned_Player(object):
 		input_state = self.padding(input_state,game_type)
 		predictions_base = self.sess.run([self.Q_val_base], feed_dict={self.input: input_state, self.game_type: gampredictions_task = e_type_input,
 										   self.decision_type: decision_type_to})
-		predicitions_task = self.task_specific(game_type,game_type_input,[1,0,0],predicitons_base)
+		predicitions_task = self.task_specific(game_type,game_type_input,decision_type_to,predicitons_base)
 		
 		if rand <= 100*self.epsilon:
 			move = self.random_place(state)
@@ -633,10 +641,10 @@ class Learned_Player(object):
 		input_state = self.padding(input_state,game_type)
 		predictions_base_to = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_to})
-		predictions_task_to = self.task_specific(game_type,game_type_input,[1,0,0],predicitons_base_to)
+		predictions_task_to = self.task_specific(game_type,game_type_input,decision_type_to,predicitons_base_to)
 		predictions_base_from = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_from})
-		predictions_task_from = self.task_specific(game_type,game_type_input,[0,1,0],predicitons_base_from)
+		predictions_task_from = self.task_specific(game_type,game_type_input,decision_type_from,predicitons_base_from)
 		if rand <= 100*self.epsilon:
 			random_move = self.random_move(state, valid_moves, enable_flying, pieces)
 			self.to_index[move_no] = (deepcopy(input_state),random_move[0], player)
@@ -681,16 +689,13 @@ class Learned_Player(object):
 				print('No move')
 				return (25,25)
 			
-			predictions_from = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
-										   self.decision_type: decision_type_from})
-			
 			opt_val = -float('Inf')
 #			print('Adj Pieces ' +str(adj_piece_list))
 			for item in adj_piece_list:
 				if item is None:
 					continue
 #				print('Alright here we go ' + str(item))
-				val = predictions_from[0][0][item]
+				val = predictions_task_from[0][0][item]
 #				print('VAl = ' +str(val) + ' Opt_Val = ' +str(opt_val))
 				if val > opt_val:
 					opt_val = val
@@ -709,3 +714,105 @@ class Learned_Player(object):
 			self.from_qval_base_index[int(move_no - (game_type * 2))] = predictions_base_from[0][0]
 			self.from_qval_task_index[int(move_no - (game_type * 2))] = predictions_task_from[0][0]
 		return predicted_move
+
+	def random_move(self, state, valid_moves, enable_flying, piece_list):
+		if len(valid_moves) == 1:
+			temp = 0
+		if enable_flying:
+			free_space = self.free_space_finder(state)
+			temp = random.randint(0, len(free_space) - 1)
+			temp2 = random.randint(0, len(piece_list) - 1)
+			while piece_list[temp2] is None:
+				temp2 = random.randint(0, len(piece_list) - 1)
+#				print('Valid = ' +str(valid_moves))
+#				print('Piece List ' + str(piece_list))
+			return (piece_list[temp2],free_space[temp])
+		else:
+			temp = random.randint(0, len(valid_moves) - 1)
+			return valid_moves[temp]
+	
+	def random_remove_piece(self, piece_list):
+		piece_to_remove = None
+		while piece_to_remove is None:
+			temp = random.randint(0, len(piece_list) - 1)
+			piece_to_remove = piece_list[temp]
+		return piece_to_remove
+	
+	def remove_piece(self, state, piece_list, game_type, player, pieces_removed):
+		opponent = (player % 2) + 1
+		rand = random.randint(1,100)
+		game_type_input = [0] * 4
+		game_type_input[int((game_type/3)-1)] = 1
+		input_state = self.convert_board(state,player)
+		input_state = self.padding(input_state,game_type)
+		predictions_base = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
+										   self.decision_type: decision_type_remove})
+		predictions_task = self.task_specific(game_type,game_type_input,decision_type_remove,predicitons_base)
+		if rand <= 100*self.epsilon:
+			piece = self.random_remove_piece(piece_list)
+			self.remove_index[pieces_removed] = (deepcopy(input_state),piece,player)
+			self.remove_qval_index[pieces_removed] = predictions_remove[0][0]
+			return piece
+		else:
+			opt_val = -float('Inf')
+			for index, item in enumerate(state):
+				if item != opponent:
+					continue
+				val = predictions_task[0][0][index]
+				if val > opt_val:
+					opt_val = val
+					piece = index
+			self.remove_index[pieces_removed] = (deepcopy(input_state),piece,player)
+			self.remove_qval_index[pieces_removed] = predictions_remove[0][0]
+		return piece
+	
+	def free_space_finder(self, state):
+		free_space = []
+		for item in state:
+			if item == 0:
+				free_space.append(item)
+
+		return free_space
+	
+	def reward_function(self,game_type, winner, player, qval_index, decision):
+		if winner == player:
+			reward = [1] * self.n_classes
+		elif winner != 0:
+			reward =  [-1] * self.n_classes
+		else:
+			reward = [0] * self.n_classes
+		reward = list(map(sum, zip((qval_index),reward)))
+		
+	def symmetry(self, state, sym_box):
+		for index, item in enumerate(state):
+			if index == len(sym_box):
+				break
+			temp = sym_box[index]
+			self.symmetry_index[index] = state[temp]
+		
+	def learn(self, game_type, winner):
+		game_type_input = [0] * 4
+		game_type_input[int((game_type/3)-1)] = 1
+		counter = 0
+		if game_type == 3:
+			sym_list = sym3
+		elif game_type == 6:
+			sym_list = sym6
+		else:
+			sym_list = sym9
+		for index, item in enumerate(self.to_index):
+			if None in item:
+				break
+			reward_to = self.reward_function(game_type,winner,item[2],self.to_qval_index[index], decision_type_to)
+			self.sess.run([self.optimiser], feed_dict={self.reward: reward_to, self.input: item[0], self.game_type: game_type_input,
+								   self.decision_type: decision_type_to})
+			for sym_state_index in sym_list:
+				self.symmetry(item[0],sym_state_index)
+				self.sess.run([self.optimiser], feed_dict={self.reward: reward_to, self.input: self.symmetry_index, self.game_type: game_type_input,
+								   self.decision_type: decision_type_to})
+#			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.place_qval_index}
+		for item in reward:
+			for i in range(self.future_steps):
+				reward[item] += self.gamma**(i+1) * self.max_next_Q(state, game_type, player, decision)
+			
+	
