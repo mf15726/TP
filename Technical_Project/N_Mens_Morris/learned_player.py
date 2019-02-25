@@ -599,6 +599,7 @@ class Learned_Player(object):
 		
 		for index, item in enumerate(self.to_index):
 			if None in item:
+				print('LEARN1 ' + str(index))
 				break
 			reward_to = self.reward_function(game_type,winner,item[2],self.to_qval_index[index], decision_type_to, item[0], game_type_input)
 			self.sess.run([self.optimiser], feed_dict={self.reward: reward_to, self.input: item[0], self.game_type: game_type_input,
