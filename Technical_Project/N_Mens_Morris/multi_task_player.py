@@ -230,7 +230,7 @@ class Multi_Task_Player(object):
 		self.y_base = tf.reshape(self.reward_base, [1, self.n_classes_base])
 		self.y_3 = tf.reshape(self.reward_3, [1, self.n_classes_3])
 		self.y_6 = tf.reshape(self.reward_6, [1, self.n_classes_6])
-		self.y_9 = tf.reshape(self.reward_9, [1, self.n_classes_9)
+		self.y_9 = tf.reshape(self.reward_9, [1, self.n_classes_9])
 		
 		#Task specific networks
 		self.task_input = tf.placeholder(tf.float32, shape=[self.n_classes_base])
