@@ -7,7 +7,6 @@ import matplotlib
 import matplotlib.pyplot as plt
 import tensorflow as tf
 from math import log
-import networkx as nx
 import operator
 import cProfile, pstats
 
@@ -612,8 +611,8 @@ class Learned_Player(object):
 		game_type_input[int((game_type/3)-1)] = 1
 		input_state = self.convert_board(state,player)
 		input_state = self.padding(input_state,game_type)
-		predictions_base = self.sess.run([self.Q_val_base], feed_dict={self.input: input_state, self.game_type: gampredictions_task = e_type_input,
-										   self.decision_type: decision_type_to})
+		predictions_base = self.sess.run([self.Q_val_base], feed_dict={self.input: input_state, self.game_type: game_type_input,
+									       self.decision_type: decision_type_to}
 		predicitions_task = self.task_specific(game_type,decision_type_to,predicitons_base)
 		
 		if rand <= 100*self.epsilon:
@@ -647,10 +646,10 @@ class Learned_Player(object):
 		game_type_input[int((game_type/3)-1)] = 1
 		input_state = self.convert_board(state,player)
 		input_state = self.padding(input_state,game_type)
-		predictions_base_to = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
+		predictions_base_to = self.sess.run([self.Q_val_base], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_to})
 		predictions_task_to = self.task_specific(game_type,game_type_input,decision_type_to,predicitons_base_to)
-		predictions_base_from = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
+		predictions_base_from = self.sess.run([self.Q_val_base], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_from})
 		predictions_task_from = self.task_specific(game_type,game_type_input,decision_type_from,predicitons_base_from)
 		if rand <= 100*self.epsilon:
