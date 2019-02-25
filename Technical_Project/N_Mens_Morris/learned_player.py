@@ -497,6 +497,8 @@ class Learned_Player(object):
 		self.from_index[int(move_no - (game_type * 2))] = (deepcopy(input_state),move,player)
 		self.to_qval_index[move_no] = predictions_to[0][0]
 		self.from_qval_index[int(move_no - (game_type * 2))] = predictions_from[0][0]
+		if enable_flying:
+			print('PRED MOVE ' + str(predicted_move))
 		return predicted_move
 	
 	def free_space_finder(self, state):
@@ -599,18 +601,16 @@ class Learned_Player(object):
 					print('LEARN1 ' + str(index))
 					break
 			reward_to = self.reward_function(game_type,winner,item[2],self.to_qval_index[index], decision_type_to, item[0], game_type_input)
-			self.sess.run([self.optimiser], feed_dict={self.reward: reward_to, self.input: item[0],
-								   self.game_type: game_type_input,self.decision_type: decision_type_to})
+			self.sess.run([self.optimiser], feed_dict={self.reward: reward_to, self.input: item[0], self.game_type: game_type_input,
+								   self.decision_type: decision_type_to})
 			for sym_state_index in sym_list:
 				self.symmetry(item[0],sym_state_index,reward_to)
 				sym_reward_to = self.reward_function(game_type,winner,item[2],self.to_qval_index[index], decision_type_to, self.symmetry_index, game_type_input)
 #				predictions_sym = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 #										   self.decision_type: decision_type_to})
-
-				self.sess.run([self.optimiser], feed_dict={self.reward: sym_reward_to, self.input: self.symmetry_index,
-									   self.game_type: game_type_input,
-									   self.decision_type: decision_type_to})
-
+				self.sess.run([self.optimiser], feed_dict={self.reward: sym_reward_to, self.input: self.symmetry_index, self.game_type: game_type_input,
+								   self.decision_type: decision_type_to})
+#			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.place_qval_index})
 		for index, item in enumerate(self.from_index):
 			if None in item:
 				break
