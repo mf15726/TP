@@ -517,8 +517,8 @@ class Learned_Player(object):
 			temp2 = random.randint(0, len(piece_list) - 1)
 			while piece_list[temp2] is None:
 				temp2 = random.randint(0, len(piece_list) - 1)
-				print('Valid = ' +str(valid_moves))
-				print('Piece List ' + str(piece_list))
+#				print('Valid = ' +str(valid_moves))
+#				print('Piece List ' + str(piece_list))
 			return (piece_list[temp2],free_space[temp])
 		else:
 			temp = random.randint(0, len(valid_moves) - 1)
