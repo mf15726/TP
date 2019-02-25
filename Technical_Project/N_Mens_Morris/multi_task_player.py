@@ -170,9 +170,13 @@ class Learned_Player(object):
 		self.from_index = [(None, None, None)] * (self.limit - 6)
 		self.remove_index = [(None, None, None)] * 19
 		
-		self.to_qval_index = [None] * self.limit
-		self.from_qval_index = [None] * (self.limit - 6)
-		self.remove_qval_index = [None] * 19
+		self.to_qval_base_index = [None] * self.limit
+		self.from_qval_base_index = [None] * (self.limit - 6)
+		self.remove_qval_base_index = [None] * 19
+		
+		self.to_qval_task_index = [None] * self.limit
+		self.from_qval_task_index = [None] * (self.limit - 6)
+		self.remove_qval_task_index = [None] * 19
 		
 		self.n_classes_base = 256
 		self.n_classes_3 = 9
@@ -194,6 +198,8 @@ class Learned_Player(object):
 		self.n_nodes_12_1 = 48
 		self.n_nodes_12_2 = 48
 		
+		self.n_input_task = self.n_classes_base + 4
+		
 		self.future_steps = 0
 		self.symmetry_index = [None] * self.n_classes
 		self.piece_adj_list = [None] * 12
@@ -203,12 +209,14 @@ class Learned_Player(object):
 		self.x_p2 = tf.cast(tf.equal(self.base_input, 2), tf.float32)
 		self.x_empty = tf.cast(tf.equal(self.base_input, 0), tf.float32)
 		
+		
 		#game_type = 1 at 0 if game_type = 3, 1 if 6, 2 if 9, 3 if 12
 		self.game_type = tf.placeholder(tf.float32, [4])
 		#ARE WE GOING TO USE THIS DURING TRANSFER
 		
 		#decision_type = 1 at 0 if place, 1 if choose piece to move, 2 if move piece to, 3 if remove piece
 		self.decision_type = tf.placeholder(tf.float32, shape=[3])
+		
 		
 		self.collect_board = [self.x_empty,self.x_p1,self.x_p2]
 		self.collect_other = tf.concat([self.game_type, self.decision_type], 0)
@@ -219,6 +227,15 @@ class Learned_Player(object):
 		self.reward = tf.placeholder(tf.float32,[self.n_classes])
 		self.y = tf.reshape(self.reward, [1, self.n_classes])
 		self.Q_val_base = self.base_network()
+		
+		#Task specific networks
+		self.task_input = tf.placeholder(tf.float32, shape=[self.n_classes_base])
+		self.collect_task = tf.conacat([self.x_task, self.decision_type], 0)
+		self.x_task = tf.reshape(self.collect_task, shape=[1, self.n_input_task])
+		self.Q_val_task3 = self.task3_network()
+		self.Q_val_task6 = self.task6_network()
+		self.Q_val_task9 = self.task9_network()
+		self.Q_val_task12 = self.task12_network()
 		
 		#cost functions
 		self.cost = tf.reduce_mean(tf.squared_difference(self.y, self.Q_val_base))
@@ -231,6 +248,54 @@ class Learned_Player(object):
 		l1 = tf.layers.dense(
 			inputs=self.x,
 			units=self.n_input,
+			kernel_initializer = tf.constant_initializer(0,1),
+			bias_initializer=tf.constant_initializer(0, 1),
+			activation=tf.nn.leaky_relu,
+#			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
+			activity_regularizer=tf.nn.softmax
+		)
+
+		l2 = tf.layers.dense(
+			inputs=l1,
+			units=self.n_nodes_base_1,
+			kernel_initializer = tf.constant_initializer(0,1),
+			bias_initializer=tf.constant_initializer(0, 1),
+			activation=tf.nn.leaky_relu,
+#			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
+			activity_regularizer=tf.nn.softmax
+		)
+
+#		l3 = tf.layers.dense(
+#		inputs=l2,
+#		units=self.n_nodes_2,
+#		bias_initializer=tf.constant_initializer(0, 1),
+#		activation=tf.nn.leaky_relu,
+#		kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
+#		activity_regularizer=tf.nn.softmax
+#		)
+
+
+		l_out = tf.layers.dense(
+			inputs=l2,
+			units=self.n_classes_base,
+			kernel_initializer = tf.constant_initializer(0,1),
+			bias_initializer=tf.constant_initializer(0, 1),
+			activation=tf.nn.leaky_relu,
+#			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
+			activity_regularizer=tf.nn.softmax
+		)
+
+		l_norm = tf.contrib.layers.softmax(
+			logits=l_out
+		)
+
+		return l_norm
+	
+	def task3_network(self):
+
+		l1 = tf.layers.dense(
+			inputs=self.x_task,
+			units=self.n_input_task,
 			kernel_initializer = tf.constant_initializer(0,1),
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu,
@@ -274,3 +339,373 @@ class Learned_Player(object):
 
 		return l_norm
 
+		
+	def task6_network(self):
+
+		l1 = tf.layers.dense(
+			inputs=self.x_task,
+			units=self.n_input_task,
+			kernel_initializer = tf.constant_initializer(0,1),
+			bias_initializer=tf.constant_initializer(0, 1),
+			activation=tf.nn.leaky_relu,
+#			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
+			activity_regularizer=tf.nn.softmax
+		)
+
+		l2 = tf.layers.dense(
+			inputs=l1,
+			units=self.n_nodes_1,
+			kernel_initializer = tf.constant_initializer(0,1),
+			bias_initializer=tf.constant_initializer(0, 1),
+			activation=tf.nn.leaky_relu,
+#			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
+			activity_regularizer=tf.nn.softmax
+		)
+
+#		l3 = tf.layers.dense(
+#		inputs=l2,
+#		units=self.n_nodes_2,
+#		bias_initializer=tf.constant_initializer(0, 1),
+#		activation=tf.nn.leaky_relu,
+#		kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
+#		activity_regularizer=tf.nn.softmax
+#		)
+
+
+		l_out = tf.layers.dense(
+			inputs=l2,
+			units=self.n_classes,
+			kernel_initializer = tf.constant_initializer(0,1),
+			bias_initializer=tf.constant_initializer(0, 1),
+			activation=tf.nn.leaky_relu,
+#			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
+			activity_regularizer=tf.nn.softmax
+		)
+
+		l_norm = tf.contrib.layers.softmax(
+			logits=l_out
+		)
+
+		return l_norm
+	
+	def task9_network(self):
+
+		l1 = tf.layers.dense(
+			inputs=self.x_task,
+			units=self.n_input_task,
+			kernel_initializer = tf.constant_initializer(0,1),
+			bias_initializer=tf.constant_initializer(0, 1),
+			activation=tf.nn.leaky_relu,
+#			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
+			activity_regularizer=tf.nn.softmax
+		)
+
+		l2 = tf.layers.dense(
+			inputs=l1,
+			units=self.n_nodes_1,
+			kernel_initializer = tf.constant_initializer(0,1),
+			bias_initializer=tf.constant_initializer(0, 1),
+			activation=tf.nn.leaky_relu,
+#			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
+			activity_regularizer=tf.nn.softmax
+		)
+
+#		l3 = tf.layers.dense(
+#		inputs=l2,
+#		units=self.n_nodes_2,
+#		bias_initializer=tf.constant_initializer(0, 1),
+#		activation=tf.nn.leaky_relu,
+#		kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
+#		activity_regularizer=tf.nn.softmax
+#		)
+
+
+		l_out = tf.layers.dense(
+			inputs=l2,
+			units=self.n_classes,
+			kernel_initializer = tf.constant_initializer(0,1),
+			bias_initializer=tf.constant_initializer(0, 1),
+			activation=tf.nn.leaky_relu,
+#			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
+			activity_regularizer=tf.nn.softmax
+		)
+
+		l_norm = tf.contrib.layers.softmax(
+			logits=l_out
+		)
+
+		return l_norm
+	
+	def task12_network(self):
+
+		l1 = tf.layers.dense(
+			inputs=self.x_task,
+			units=self.n_input_task,
+			kernel_initializer = tf.constant_initializer(0,1),
+			bias_initializer=tf.constant_initializer(0, 1),
+			activation=tf.nn.leaky_relu,
+#			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
+			activity_regularizer=tf.nn.softmax
+		)
+
+		l2 = tf.layers.dense(
+			inputs=l1,
+			units=self.n_nodes_1,
+			kernel_initializer = tf.constant_initializer(0,1),
+			bias_initializer=tf.constant_initializer(0, 1),
+			activation=tf.nn.leaky_relu,
+#			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
+			activity_regularizer=tf.nn.softmax
+		)
+
+#		l3 = tf.layers.dense(
+#		inputs=l2,
+#		units=self.n_nodes_2,
+#		bias_initializer=tf.constant_initializer(0, 1),
+#		activation=tf.nn.leaky_relu,
+#		kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
+#		activity_regularizer=tf.nn.softmax
+#		)
+
+
+		l_out = tf.layers.dense(
+			inputs=l2,
+			units=self.n_classes,
+			kernel_initializer = tf.constant_initializer(0,1),
+			bias_initializer=tf.constant_initializer(0, 1),
+			activation=tf.nn.leaky_relu,
+#			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
+			activity_regularizer=tf.nn.softmax
+		)
+
+		l_norm = tf.contrib.layers.softmax(
+			logits=l_out
+		)
+
+		return l_norm
+	
+	def piece_adj(self, state, game_type, space, pieces, player):
+		self.piece_adj_list = [None] * 12
+		
+		counter = 0
+		if game_type == 3:
+			for item in adj_dict_3[space]:
+				if state[item] == player:
+					self.piece_adj_list[counter] = item
+					counter += 1
+					
+		if game_type == 6:
+			for item in adj_dict_6[space]:
+				if state[item] == player:
+					self.piece_adj_list[counter] = item
+					counter += 1
+		
+		if game_type == 9:
+			for item in adj_dict_9[space]:
+				if state[item] == player:
+					self.piece_adj_list[counter] = item
+					counter += 1
+					
+		if game_type == 12:
+			for item in adj_dict_12[space]:
+				if state[item] == player:
+					self.piece_adj_list[counter] = item
+					counter += 1
+					
+	def valid_move(self, state, game_type, pieces):
+		valid_moves = []
+		if game_type == 3:
+			for piece in pieces:
+				if piece is None:
+					continue
+				for space in adj_dict_3[piece]:
+					if state[space] == 0:
+						valid_moves.append((piece,space))
+
+		if game_type == 6:
+			for piece in pieces:
+				if piece is None:
+					continue
+				for space in adj_dict_6[piece]:
+					if state[space] == 0:
+						valid_moves.append((piece,space))
+
+		if game_type == 9:
+			for piece in pieces:
+				if piece is None:
+					continue
+				for space in adj_dict_9[piece]:
+					if state[space] == 0:
+						valid_moves.append((piece,space))
+
+		if game_type == 12:
+			for piece in pieces:
+				if piece is None:
+					continue
+				for space in adj_dict_12[piece]:
+					if state[space] == 0:
+						valid_moves.append((piece,space))
+
+		return valid_moves
+	
+	def padding(self,state,game_type):
+		temp = deepcopy(state)
+		if game_type > 6:
+			return temp
+		if game_type == 3:
+			temp.extend([0]*15)
+		else:
+			temp.extend([0]*8)
+		return temp
+	
+	def convert_board(self, state, player):
+		if player == 1:
+			return state
+		else:
+			new_state = deepcopy(state)
+			for item in new_state:
+				item = (item % 2) + 1
+			return new_state
+		
+	def max_next_Q(self, state, game_type, player, decision):
+		predictions = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
+										   self.decision_type: decision_type_to})
+		val = np.argmax(predictions[0][0])
+		return val
+	
+	def task_specific(self, game_type, game_type_input, decision_type, predicitions_base):
+		if game_type == 3:
+			predicitions_task = self.sess.run([self.Q_val_task3] feed_dict={self.x_task: predictions_base[0][0], self.game_type: game_type_input,
+										   self.decision_type: decision_type_to})
+		elif game_type == 6:
+			predicitions_task = self.sess.run([self.Q_val_task6] feed_dict={self.x_task: predictions_base[0][0], self.game_type: game_type_input,
+										   self.decision_type: decision_type_to})
+		elif game_type == 9:
+			predicitions_task = self.sess.run([self.Q_val_task9] feed_dict={self.x_task: predictions_base[0][0], self.game_type: game_type_input,
+										   self.decision_type: decision_type_to})
+		else:
+			predictions_task = self.sess.run([self.Q_val_task12] feed_dict={self.x_task: predictions_base[0][0], self.game_type: game_type_input,
+										   self.decision_type: decision_type_to})
+		return predictions_task
+			
+	
+	def place(self, state, game_type, player, move_no):
+		rand = random.randint(1,100)
+		move = None
+		game_type_input = [0] * 4
+		game_type_input[int((game_type/3)-1)] = 1
+		input_state = self.convert_board(state,player)
+		input_state = self.padding(input_state,game_type)
+		predictions_base = self.sess.run([self.Q_val_base], feed_dict={self.input: input_state, self.game_type: gampredictions_task = e_type_input,
+										   self.decision_type: decision_type_to})
+		predicitions_task = self.task_specific(game_type,game_type_input,[1,0,0],predicitons_base)
+		
+		if rand <= 100*self.epsilon:
+			move = self.random_place(state)
+			self.to_qval_base_index.append(predictions_base[0][0])
+			self.to_qval_task_index.append(predictions_task[0][0])
+			self.to_index.append((deepcopy(input_state),move,player))
+			return move
+		else:
+			opt_val = -float('Inf')
+			for index, item in enumerate(state):
+				if item != 0:
+					continue
+				val = predictions_task[0][0][index]
+				if val > opt_val:
+					opt_val = val
+					move = index
+			self.to_qval_base_index.append(predictions_base[0][0])
+			self.to_qval_index[move_no] = predictions_task[0][0]
+			self.to_index[move_no] = ((deepcopy(input_state),move,player))
+			return move
+		
+	def move(self, state, game_type, pieces, player, enable_flying, move_no):
+		valid_moves = self.valid_move(state, game_type, pieces)
+		if len(valid_moves) == 0 and not enable_flying:
+			return (25, 25)
+		move = None
+		piece = None
+		rand = random.randint(1,100)
+		game_type_input = [0] * 4
+		game_type_input[int((game_type/3)-1)] = 1
+		input_state = self.convert_board(state,player)
+		input_state = self.padding(input_state,game_type)
+		predictions_base_to = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
+										   self.decision_type: decision_type_to})
+		predictions_task_to = self.task_specific(game_type,game_type_input,[1,0,0],predicitons_base_to)
+		predictions_base_from = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
+										   self.decision_type: decision_type_from})
+		predictions_task_from = self.task_specific(game_type,game_type_input,[0,1,0],predicitons_base_from)
+		if rand <= 100*self.epsilon:
+			random_move = self.random_move(state, valid_moves, enable_flying, pieces)
+			self.to_index[move_no] = (deepcopy(input_state),random_move[0], player)
+			self.from_index[int(move_no - (game_type * 2))] = (deepcopy(input_state),random_move[1],player)
+			self.to_qval_base_index[move_no] = predictions_base_to[0][0]
+			self.to_qval_task_index[move_no] = predictions_task_to[0][0]
+			self.from_qval_base_index[int(move_no - (game_type * 2))] = predictions_base_from[0][0]
+			self.from_qval_task_index[int(move_no - (game_type * 2))] = predictions_task_from[0][0]
+#			print('Random move = ' + str(random_move))
+			return random_move
+		else:
+			opt_val = -float('Inf')
+			if enable_flying:
+				adj_piece_list = pieces
+				for index, item in enumerate(state):
+					if item != 0:
+						continue
+					val = predictions_to_task[0][0][index]
+#					print('Index, Val ' +str(index) + ' ' + str(val))
+					if val > opt_val:
+						opt_val = val
+						move = index
+			else:
+				for index, item in enumerate(state):
+					if item != 0:
+#						print('We skip' + str(index))
+						continue
+					
+					val = predictions_to_task[0][0][index]
+#					print('OptVal = ' + str(opt_val))
+#					print('Index, Val ' +str(index) + ' ' + str(val))
+					if val > opt_val:
+						self.piece_adj(state, game_type, index, pieces, player)
+#						print('WE HAVE SUCCESS' + str(adj_piece))
+						if self.piece_adj_list[0] is None:
+							continue
+						else:
+							adj_piece_list = self.piece_adj_list
+							opt_val = val
+							move = index					
+			if move is None:
+				print('No move')
+				return (25,25)
+			
+			predictions_from = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
+										   self.decision_type: decision_type_from})
+			
+			opt_val = -float('Inf')
+#			print('Adj Pieces ' +str(adj_piece_list))
+			for item in adj_piece_list:
+				if item is None:
+					continue
+#				print('Alright here we go ' + str(item))
+				val = predictions_from[0][0][item]
+#				print('VAl = ' +str(val) + ' Opt_Val = ' +str(opt_val))
+				if val > opt_val:
+					opt_val = val
+					piece = item
+#					print('Piece is ' +str(piece))
+			if piece is None:
+				print('No piece')
+				return(25,25)
+					
+			predicted_move = (piece, move)
+#			print('We predict ' +str(predicted_move))
+			self.to_index[move_no] = (deepcopy(input_state),random_move[0], player)
+			self.from_index[int(move_no - (game_type * 2))] = (deepcopy(input_state),random_move[1],player)
+			self.to_qval_base_index[move_no] = predictions_base_to[0][0]
+			self.to_qval_task_index[move_no] = predictions_task_to[0][0]
+			self.from_qval_base_index[int(move_no - (game_type * 2))] = predictions_base_from[0][0]
+			self.from_qval_task_index[int(move_no - (game_type * 2))] = predictions_task_from[0][0]
+		return predicted_move
