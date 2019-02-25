@@ -224,25 +224,31 @@ class Learned_Player(object):
 		self.final_other = tf.reshape(self.collect_other, shape=[7])
 		self.x_bin = tf.concat([self.final_board, self.final_other], 0)
 		self.x = tf.reshape(self.x_bin, shape=[1,self.n_input])
-		self.reward = tf.placeholder(tf.float32,[self.n_classes])
-		self.y = tf.reshape(self.reward, [1, self.n_classes])
-		self.Q_val_base = self.base_network()
+		self.reward_base = tf.placeholder(tf.float32,[self.n_classes_base])
+		self.reward_3 = tf.placeholder(tf.float32, self.n_classes_3)
+		self.reward_6 = tf.placeholder(tf.float32, self.n_classes_6)
+		self.reward_9 = tf.placeholder(tf.float32, self.n_classes_9)
+		self.y_base = tf.reshape(self.reward_base, [1, self.n_classes_base])
+		self.y_3 = tf.reshape(self.reward_3, [1, self.n_classes_3])
+		self.y_6 = tf.reshape(self.reward_6, [1, self.n_classes_6])
+		self.y_9 = tf.reshape(self.reward_9, [1, self.n_classes_6])
 		
 		#Task specific networks
 		self.task_input = tf.placeholder(tf.float32, shape=[self.n_classes_base])
 		self.collect_task = tf.conacat([self.x_task, self.decision_type], 0)
 		self.x_task = tf.reshape(self.collect_task, shape=[1, self.n_input_task])
+		self.Q_val_base = self.base_network()
 		self.Q_val_task3 = self.task3_network()
 		self.Q_val_task6 = self.task6_network()
 		self.Q_val_task9 = self.task9_network()
 		self.Q_val_task12 = self.task12_network()
 		
 		#cost functions
-		self.cost_base = tf.reduce_mean(tf.squared_difference(self.y, self.Q_val_base))
-		self.cost_task3 = tf.reduce_mean(tf.squared_difference(self.y, self.Q_val_task3))
-		self.cost_task6 = tf.reduce_mean(tf.squared_difference(self.y, self.Q_val_task6))
-		self.cost_task9 = tf.reduce_mean(tf.squared_difference(self.y, self.Q_val_task9))
-		self.cost_task12 = tf.reduce_mean(tf.squared_difference(self.y, self.Q_val_task12))
+		self.cost_base = tf.reduce_mean(tf.squared_difference(self.y_base, self.Q_val_base))
+		self.cost_task3 = tf.reduce_mean(tf.squared_difference(self.y_3, self.Q_val_task3))
+		self.cost_task6 = tf.reduce_mean(tf.squared_difference(self.y_6, self.Q_val_task6))
+		self.cost_task9 = tf.reduce_mean(tf.squared_difference(self.y_9, self.Q_val_task9))
+		self.cost_task12 = tf.reduce_mean(tf.squared_difference(self.y_9, self.Q_val_task12))
 		
 		#optimisers
 		self.optimiser = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost_base)
@@ -783,36 +789,55 @@ class Learned_Player(object):
 			reward = [0] * self.n_classes
 		reward = list(map(sum, zip((qval_index),reward)))
 		
-	def symmetry(self, state, sym_box):
+		for item in reward:
+			for i in range(self.future_steps):
+				reward[item] += self.gamma**(i+1) * self.max_next_Q(state, game_type, player, decision)
+		
+	def symmetry(self, state, sym_box, reward):
+		new_reward = [None] * len(reward)
 		for index, item in enumerate(state):
 			if index == len(sym_box):
 				break
 			temp = sym_box[index]
 			self.symmetry_index[index] = state[temp]
+			new_reward[index] = reward[temp]
+		return new_reward
 		
-	def learn(self, game_type, winner):
-		game_type_input = [0] * 4
-		game_type_input[int((game_type/3)-1)] = 1
+	def learn3(self, winner):
+		game_type_input = [1,0,0,0]
 		counter = 0
-		if game_type == 3:
-			sym_list = sym3
-		elif game_type == 6:
-			sym_list = sym6
-		else:
-			sym_list = sym9
-		for index, item in enumerate(self.to_index):
+		for index, item in enumerate(self.to_base_index):
 			if None in item:
 				break
-			reward_to = self.reward_function(game_type,winner,item[2],self.to_qval_index[index], decision_type_to)
-			self.sess.run([self.optimiser], feed_dict={self.reward: reward_to, self.input: item[0], self.game_type: game_type_input,
-								   self.decision_type: decision_type_to})
+			reward_to_base = self.reward_function(game_type,winner,item[2],self.to_qval_base_index[index], decision_type_to)
+			reward_to_task = self.reward_function(game_type,winner,item[2],self.to_qval_task_index[index], decision_type_to)
+			self.sess.run([self.optimiser_base, self.optimiser_task], feed_dict={self.reward_base: reward_to_base, self.input_base: item[0],
+											     self.reward_3: reward_to_task, 
+											     self.game_type: game_type_input,
+											     self.decision_type: decision_type_to,
+											     self.task_input: self.to_qval_base_index[index]})
+			for sym_state_index in sym3:
+				sym_reward_to_base = self.symmetry(item[0],sym_state_index,reward_base)
+				sym_reward_to_task = self.symmetry(item[0],sym_state_index,reward_base)
+				self.sess.run([self.optimiser, self.optimiser_task], feed_dict={self.reward_base: sym_reward_to_base,
+												self.input: self.symmetry_index,
+												self.game_type: game_type_input,
+								   				self.decision_type: decision_type_to,
+												self.task_input: self.to_qval_base_index[index]})
+		for index, item in enumerate(self.from_base_index):
+			if None in item:
+				break
+			reward_from_base = self.reward_function(game_type,winner,item[2],self.from_qval_base_index[index], decision_type_from)
+			reward_from_task = self.reward_function(game_type,winner,item[2],self.from_qval_task_index[index], decision_type_from)
+			self.sess.run([self.optimiser_base, self.optimiser_task], feed_dict={self.reward: reward_from, self.input: item[0],
+											     self.game_type: game_type_input,
+											     self.decision_type: decision_type_to,
+											     self.task_input: self.to_qval_base_index[index]})
 			for sym_state_index in sym_list:
-				self.symmetry(item[0],sym_state_index)
-				self.sess.run([self.optimiser], feed_dict={self.reward: reward_to, self.input: self.symmetry_index, self.game_type: game_type_input,
-								   self.decision_type: decision_type_to})
-#			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.place_qval_index}
-		for item in reward:
-			for i in range(self.future_steps):
-				reward[item] += self.gamma**(i+1) * self.max_next_Q(state, game_type, player, decision)
-			
+				sym_reward_to = self.symmetry(item[0],sym_state_index)
+				self.sess.run([self.optimiser, self.optimiser_task], feed_dict={self.reward: sym_ reward_to,
+												self.input: self.symmetry_index,
+												self.game_type: game_type_input,
+								   				self.decision_type: decision_type_to,
+												self.task_input: self.to_qval_base_index[index]})
 	
