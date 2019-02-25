@@ -413,7 +413,6 @@ class Learned_Player(object):
 					move = index
 			self.to_qval_index[move_no] = predictions_to[0][0]
 			self.to_index[move_no] = ((deepcopy(input_state),move,player))
-			print('INDEX ' + str(self.to_index[move_no]))
 			return move
 	
 	def move(self, state, game_type, pieces, player, enable_flying, move_no):
@@ -599,9 +598,7 @@ class Learned_Player(object):
 		else:
 			sym_list = sym9
 		
-		print('For even more death ' + str(self.to_index))
 		for index, item in enumerate(self.to_index):
-			print('I want death this is the item ' +str(item))
 			if None in item:
 				if index != 0:
 					print('LEARN1 ' + str(index))
