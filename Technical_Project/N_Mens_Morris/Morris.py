@@ -12,7 +12,7 @@ import cProfile, pstats
 from learned_player import Learned_Player
 from random_player import Random_Player
 from human_player import Human_Player
-#from multi_task_player import Multi_Task_Player
+from multi_task_player import Multi_Task_Player
 
 #game_type = 3, 6, 9, 12 (Men's Morris)
 
@@ -355,7 +355,7 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 
 winner_list = []
 enable_flying = True
-game_type = 9
+game_type = 3
 see_board = True
 total_move_no = 1000
 multi_task = True
@@ -364,17 +364,19 @@ game_states = [None] * total_move_no
 human_player = Human_Player()
 random_player = Random_Player()
 learned_player = Learned_Player(epsilon=0.01, alpha=0.3, gamma=0.9, limit=total_move_no)
+multi_task_player = Multi_Task_Player(epsilon=0.01, alpha=0.3, gamma=0.9, limit=total_move_no)
 learned_player.sess.run(tf.global_variables_initializer())
+multi_task_player.sess.run(tf.gloabal_variables_initializer())
 #pr = cProfile.Profile()
 #pr.enable()
 def play_and_learn(total_game_no,multi_task):
 	for i in range(total_game_no):
 	#	winner = game_play(random_player, random_player, game_type, see_board, enable_flying, total_move_no)
-		winner = game_play(learned_player, learned_player, game_type, see_board, enable_flying, total_move_no)
+#		winner = game_play(learned_player, learned_player, game_type, see_board, enable_flying, total_move_no)
 		print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
 		winner_list.append(winner)
 		if winner != 0:
-			if not multi_task:
+			if multi_task:
 				if game_type == 3:
 					multi_task_player.learn3(winner)
 				elif game_type == 6:
