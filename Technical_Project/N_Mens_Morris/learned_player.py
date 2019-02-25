@@ -558,12 +558,12 @@ class Learned_Player(object):
 			self.remove_qval_index[pieces_removed] = predictions_remove[0][0]
 		return piece
 	
-	def reward_function(self, game_type, winner, player, qval_index, decision, input_state, game_type_input):
+	def reward_function(self, game_type, winner, player, qval_index, decision_type, input_state, game_type_input):
 		print('Input State' + str(input_state))
 		print('')
 		
 		predictions = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
-										   self.decision_type: decision})
+										   self.decision_type: decision_type})
 		if winner == player:
 			reward = [1] * self.n_classes
 		elif winner != 0:
