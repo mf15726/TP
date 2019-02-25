@@ -582,23 +582,25 @@ class Learned_Player(object):
 			return new_state
 		
 	def max_next_Q(self, state, game_type, player, decision):
-		predictions = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
-										   self.decision_type: decision_type_to})
+		predictions_base, predictions_task = self.sess.run([self.Q_val_base, self.Q_val_task], feed_dict={self.input_base: input_state,
+												 		  self.game_type: game_type_input,
+												 		  self.decision_type: decision_type,
+														  self.input_task})
 		val = np.argmax(predictions[0][0])
 		return val
 	
 	def task_specific(self, game_type, game_type_input, decision_type, predicitions_base):
 		if game_type == 3:
-			predicitions_task = self.sess.run([self.Q_val_task3] feed_dict={self.x_task: predictions_base[0][0], self.game_type: game_type_input,
+			predicitions_task = self.sess.run([self.Q_val_task3] feed_dict={self.input_base: predictions_base[0][0], self.game_type: game_type_input,
 										   self.decision_type: decision_type_to})
 		elif game_type == 6:
-			predicitions_task = self.sess.run([self.Q_val_task6] feed_dict={self.x_task: predictions_base[0][0], self.game_type: game_type_input,
+			predicitions_task = self.sess.run([self.Q_val_task6] feed_dict={self.input_base: predictions_base[0][0], self.game_type: game_type_input,
 										   self.decision_type: decision_type_to})
 		elif game_type == 9:
-			predicitions_task = self.sess.run([self.Q_val_task9] feed_dict={self.x_task: predictions_base[0][0], self.game_type: game_type_input,
+			predicitions_task = self.sess.run([self.Q_val_task9] feed_dict={self.input_base: predictions_base[0][0], self.game_type: game_type_input,
 										   self.decision_type: decision_type_to})
 		else:
-			predictions_task = self.sess.run([self.Q_val_task12] feed_dict={self.x_task: predictions_base[0][0], self.game_type: game_type_input,
+			predictions_task = self.sess.run([self.Q_val_task12] feed_dict={self.inpit_base: predictions_base[0][0], self.game_type: game_type_input,
 										   self.decision_type: decision_type_to})
 		return predictions_task
 			
@@ -751,7 +753,7 @@ class Learned_Player(object):
 		game_type_input[int((game_type/3)-1)] = 1
 		input_state = self.convert_board(state,player)
 		input_state = self.padding(input_state,game_type)
-		predictions_base = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
+		predictions_base = self.sess.run([self.Q_val_base], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_remove})
 		predictions_task = self.task_specific(game_type,game_type_input,decision_type_remove,predicitons_base)
 		if rand <= 100*self.epsilon:
@@ -780,45 +782,60 @@ class Learned_Player(object):
 
 		return free_space
 	
-	def reward_function(self,game_type, winner, player, qval_index, decision):
+	def reward_function(self, game_type, winner, player, qval_index, decision_type, input_state, game_type_input):
+		predictions_base, predictions_task = self.sess.run([self.Q_val_base], feed_dict={self.input: input_state, self.game_type: game_type_input,
+										   self.decision_type: decision_type})
+#		predictions_task = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
+#										   self.decision_type: decision_type})
 		if winner == player:
-			reward = [1] * self.n_classes
+			reward_base = [1] * self.n_classes
 		elif winner != 0:
-			reward =  [-1] * self.n_classes
+			reward_base =  [-1] * self.n_classes
 		else:
-			reward = [0] * self.n_classes
-		reward = list(map(sum, zip((qval_index),reward)))
+			reward_base = [0] * self.n_classes
+		reward_task = deepcopy(reward_base)
+		
+		reward_base = list(map(sum, zip((predictions_base[0][0]),reward)))
+		reward_task = list(map(sum, zip((predictions_task[0][0]),reward)))
 		
 		for item in reward:
 			for i in range(self.future_steps):
-				reward[item] += self.gamma**(i+1) * self.max_next_Q(state, game_type, player, decision)
+				reward[item] += self.gamma**(i+1) * self.max_next_Q(input_state, game_type, player, decision)
+				
+		return reward_base, reward_task
 		
 	def symmetry(self, state, sym_box, reward):
-		new_reward = [None] * len(reward)
 		for index, item in enumerate(state):
 			if index == len(sym_box):
 				break
 			temp = sym_box[index]
 			self.symmetry_index[index] = state[temp]
-			new_reward[index] = reward[temp]
-		return new_reward
 		
 	def learn3(self, winner):
 		game_type_input = [1,0,0,0]
-		counter = 0
+		counter = 0'
+		if game_type == 3:
+			sym_list = sym3
+		elif game_type == 6:
+			sym_list = sym6
+		else:
+			sym_list = sym9
+			
 		for index, item in enumerate(self.to_base_index):
 			if None in item:
 				break
-			reward_to_base = self.reward_function(game_type,winner,item[2],self.to_qval_base_index[index], decision_type_to)
-			reward_to_task = self.reward_function(game_type,winner,item[2],self.to_qval_task_index[index], decision_type_to)
+			reward_to_base = self.reward_function(game_type,winner,item[2],self.to_qval_base_index[index],decision_type_to,item[0],game_type_input)
+			reward_to_task = self.reward_function(game_type,winner,item[2],self.to_qval_task_index[index],decision_type_to)
 			self.sess.run([self.optimiser_base, self.optimiser_task], feed_dict={self.reward_base: reward_to_base, self.input_base: item[0],
 											     self.reward_3: reward_to_task, 
 											     self.game_type: game_type_input,
 											     self.decision_type: decision_type_to,
 											     self.task_input: self.to_qval_base_index[index]})
 			for sym_state_index in sym3:
-				sym_reward_to_base = self.symmetry(item[0],sym_state_index,reward_base)
-				sym_reward_to_task = self.symmetry(item[0],sym_state_index,reward_base)
+				self.symmetry(item[0],sym_state_index,reward_to_base)
+				self.symmetry(item[0],sym_state_index,reward_to_task)
+				sym_reward_to_base = self.reward_function(game_type,winner,item[2],self.to_qval_index[index], decision_type_to, self.symmetry_index, game_type_input)
+				sym_reward_to_task
 				self.sess.run([self.optimiser, self.optimiser_task], feed_dict={self.reward_base: sym_reward_to_base,
 												self.input: self.symmetry_index,
 												self.game_type: game_type_input,
@@ -831,13 +848,30 @@ class Learned_Player(object):
 			reward_from_task = self.reward_function(game_type,winner,item[2],self.from_qval_task_index[index], decision_type_from)
 			self.sess.run([self.optimiser_base, self.optimiser_task], feed_dict={self.reward: reward_from, self.input: item[0],
 											     self.game_type: game_type_input,
-											     self.decision_type: decision_type_to,
+											     self.decision_type: decision_type_from,
 											     self.task_input: self.to_qval_base_index[index]})
+			for sym_state_index in sym_list:
+				self.symmetry(item[0],sym_state_index)
+				self.sess.run([self.optimiser, self.optimiser_task], feed_dict={self.reward: sym_ reward_to,
+												self.input: self.symmetry_index,
+												self.game_type: game_type_input,
+								   				self.decision_type: decision_type_from,
+												self.task_input: self.to_qval_base_index[index]})
+				
+		for index, item in enumerate(self.remove_base_index):
+			if None in item:
+				break
+			reward_remove_base = self.reward_function(game_type,winner,item[2],self.from_qval_base_index[index], decision_type_remove)
+			reward_remove_task = self.reward_function(game_type,winner,item[2],self.from_qval_task_index[index], decision_type_remove)
+			self.sess.run([self.optimiser_base, self.optimiser_task], feed_dict={self.reward: reward_from, self.input: item[0],
+											     self.game_type: game_type_input,
+											     self.decision_type: decision_type_remove,
+											     self.task_input: self.remove_qval_base_index[index]})
 			for sym_state_index in sym_list:
 				sym_reward_to = self.symmetry(item[0],sym_state_index)
 				self.sess.run([self.optimiser, self.optimiser_task], feed_dict={self.reward: sym_ reward_to,
 												self.input: self.symmetry_index,
 												self.game_type: game_type_input,
-								   				self.decision_type: decision_type_to,
-												self.task_input: self.to_qval_base_index[index]})
+								   				self.decision_type: decision_type_remove,
+												self.task_input: self.remove_qval_base_index[index]})
 	
