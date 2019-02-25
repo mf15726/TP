@@ -867,7 +867,7 @@ class Learned_Player(object):
 				break
 			reward_base_remove, reward_task_remove = self.reward_function(game_type,winner,item[2],self.remove_qval_base_index[index], decision_type_remove, self.symmetry_index, game_type_input)
 			self.sess.run([self.optimiser_base, self.optimiser_task], feed_dict={self.reward_base: reward_remove_base,
-											     self.reward_3: reward_remove_task
+											     self.reward_3: reward_remove_task,
 											     self.input: item[0],
 											     self.game_type: game_type_input,
 											     self.decision_type: decision_type_remove,
