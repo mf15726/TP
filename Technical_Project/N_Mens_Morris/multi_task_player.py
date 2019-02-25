@@ -591,16 +591,16 @@ class Learned_Player(object):
 	
 	def task_specific(self, game_type, decision_type, predicitions_base):
 		if game_type == 3:
-			predicitions_task = self.sess.run([self.Q_val_task3] feed_dict={self.input_base: predictions_base[0][0], self.game_type: [1,0,0,0],
+			predicitions_task = self.sess.run([self.Q_val_task3], feed_dict={self.input_base: predictions_base[0][0], self.game_type: [1,0,0,0],
 										   self.decision_type: decision_type_to})
 		elif game_type == 6:
-			predicitions_task = self.sess.run([self.Q_val_task6] feed_dict={self.input_base: predictions_base[0][0], self.game_type: [0,1,0,0],
+			predicitions_task = self.sess.run([self.Q_val_task6], feed_dict={self.input_base: predictions_base[0][0], self.game_type: [0,1,0,0],
 										   self.decision_type: decision_type_to})
 		elif game_type == 9:
-			predicitions_task = self.sess.run([self.Q_val_task9] feed_dict={self.input_base: predictions_base[0][0], self.game_type: [0,0,1,0],
+			predicitions_task = self.sess.run([self.Q_val_task9], feed_dict={self.input_base: predictions_base[0][0], self.game_type: [0,0,1,0],
 										   self.decision_type: decision_type_to})
 		else:
-			predictions_task = self.sess.run([self.Q_val_task12] feed_dict={self.inpit_base: predictions_base[0][0], self.game_type: [0,0,0,1],
+			predictions_task = self.sess.run([self.Q_val_task12], feed_dict={self.inpit_base: predictions_base[0][0], self.game_type: [0,0,0,1],
 										   self.decision_type: decision_type_to})
 		return predictions_task
 			
