@@ -558,7 +558,6 @@ class Learned_Player(object):
 		return piece
 	
 	def reward_function(self, game_type, winner, player, qval_index, decision_type, input_state, game_type_input):
-		print('Input State' + str(input_state))
 		predictions = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type})
 		if winner == player:
@@ -576,15 +575,11 @@ class Learned_Player(object):
 		return reward
 	
 	def symmetry(self, state, sym_box, reward):
-#		new_reward = [None] * len(reward)
 		for index, item in enumerate(state):
 			if index == len(sym_box):
 				break
 			temp = sym_box[index]
 			self.symmetry_index[index] = state[temp]
-			
-#			new_reward[index] = reward[temp]
-#		return new_reward
 				
 		
 	def learn(self, game_type, winner):
@@ -618,7 +613,7 @@ class Learned_Player(object):
 			if None in item:
 				break
 			reward_from = self.reward_function(game_type,winner,item[2],self.from_qval_index[index], decision_type_from, item[0], game_type_input) 
-			self.sess.run([self.Q_val ,self.optimiser], feed_dict={self.reward: reward_from, self.input: self.symmetry_index, self.game_type: game_type_input,
+			self.sess.run([self.optimiser], feed_dict={self.reward: reward_from, self.input: self.symmetry_index, self.game_type: game_type_input,
 								   self.decision_type: decision_type_from})
 			for sym_state_index in sym_list:
 				self.symmetry(item[0],sym_state_index, reward_from)
