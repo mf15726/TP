@@ -358,7 +358,7 @@ enable_flying = True
 game_type = 9
 see_board = True
 total_move_no = 100000
-multi-task = True
+multi_task = True
 game_states = [None] * total_move_no
 
 human_player = Human_Player()
@@ -367,14 +367,14 @@ learned_player = Learned_Player(epsilon=1, alpha=0.3, gamma=0.9, limit=total_mov
 learned_player.sess.run(tf.global_variables_initializer())
 #pr = cProfile.Profile()
 #pr.enable()
-def play_and_learn(total_game_no,multi-task):
+def play_and_learn(total_game_no,multi_task):
 	for i in range(total_game_no):
 	#	winner = game_play(random_player, random_player, game_type, see_board, enable_flying, total_move_no)
 		winner = game_play(learned_player, learned_player, game_type, see_board, enable_flying, total_move_no)
 		print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
 		winner_list.append(winner)
 		if winner != 0:
-			if not multi-task:
+			if not multi_task:
 				if game_type == 3:
 					multi_task_player.learn3(winner)
 				elif game_type == 6:
