@@ -155,7 +155,7 @@ sym3 = [sym3_1,sym3_2,sym3_3,sym3_4,sym3_5,sym3_6,sym3_7]
 sym6 = [sym6_1,sym6_2,sym6_3,sym6_4,sym6_5,sym6_6,sym6_7]
 sym9 = [sym9_1,sym9_2,sym9_3,sym9_4,sym9_5,sym9_6,sym9_7]
 
-class Learned_Player(object):
+class Multi_Task_Player(object):
 	
 	def __init__(self, epsilon, alpha, gamma, limit):
 
