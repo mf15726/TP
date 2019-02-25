@@ -874,7 +874,7 @@ class Learned_Player(object):
 											     self.task_input: self.remove_qval_base_index[index]})
 			for sym_state_index in sym_list:
 				self.symmetry(item[0],sym_state_index)
-				sym_reward_base_remove, sym_reward_task_remove = self.reward_function(game_type,winner,item[2],self.from_qval_base_index[index], decision_type_remove self.symmetry_index, game_type_input)
+				sym_reward_base_remove, sym_reward_task_remove = self.reward_function(game_type,winner,item[2],self.from_qval_base_index[index], decision_type_remove, self.symmetry_index, game_type_input)
 				self.sess.run([self.optimiser, self.optimiser_task], feed_dict={self.reward_base: sym_reward_base_remove,
 												self.input: self.symmetry_index,
 												self.game_type: game_type_input,
