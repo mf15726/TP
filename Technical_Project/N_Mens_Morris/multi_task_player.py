@@ -813,7 +813,7 @@ class Learned_Player(object):
 		
 	def learn3(self, winner):
 		game_type_input = [1,0,0,0]
-		counter = 0'
+		counter = 0
 		if game_type == 3:
 			sym_list = sym3
 		elif game_type == 6:
