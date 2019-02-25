@@ -355,13 +355,6 @@ class Learned_Player(object):
 
 		return valid_moves
 		
-	def random_place(self, state):
-		space_val = 1
-		while space_val != 0:
-			space = random.randint(0, len(state) - 1)
-			space_val = state[space]
-		return space
-	
 	def padding(self,state,game_type):
 		temp = deepcopy(state)
 		if game_type > 6:
@@ -381,12 +374,18 @@ class Learned_Player(object):
 				item = (item % 2) + 1
 			return new_state
 		
-	
 	def max_next_Q(self, state, game_type, player, decision):
 		predictions = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_to})
 		val = np.argmax(predictions[0][0])
 		return val
+	
+	def random_place(self, state):
+		space_val = 1
+		while space_val != 0:
+			space = random.randint(0, len(state) - 1)
+			space_val = state[space]
+		return space
 
 	def place(self, state, game_type, player, move_no):
 		rand = random.randint(1,100)
