@@ -560,8 +560,6 @@ class Learned_Player(object):
 	
 	def reward_function(self, game_type, winner, player, qval_index, decision_type, input_state, game_type_input):
 		print('Input State' + str(input_state))
-		print('')
-		
 		predictions = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type})
 		if winner == player:
