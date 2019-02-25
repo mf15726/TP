@@ -613,7 +613,7 @@ class Learned_Player(object):
 		input_state = self.padding(input_state,game_type)
 		predictions_base = self.sess.run([self.Q_val_base], feed_dict={self.input: input_state, self.game_type: game_type_input,
 									       self.decision_type: decision_type_to}
-		predicitions_task = self.task_specific(game_type,decision_type_to,predicitons_base)
+		predictions_task = self.task_specific(game_type,decision_type_to,predicitons_base)
 		
 		if rand <= 100*self.epsilon:
 			move = self.random_place(state)
