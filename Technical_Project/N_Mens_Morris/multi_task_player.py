@@ -222,7 +222,7 @@ class Multi_Task_Player(object):
 		self.final_board = tf.reshape(self.collect_board, shape=[72])
 		self.final_other = tf.reshape(self.collect_other, shape=[7])
 		self.x_bin = tf.concat([self.final_board, self.final_other], 0)
-		self.x = tf.reshape(self.x_bin, shape=[1,self.n_input_base])
+		self.x = tf.reshape(self.x_bin, shape=[1,self.n_input_base])q
 		self.reward_base = tf.placeholder(tf.float32,[self.n_classes_base])
 		self.reward_3 = tf.placeholder(tf.float32, self.n_classes_3)
 		self.reward_6 = tf.placeholder(tf.float32, self.n_classes_6)
@@ -230,7 +230,7 @@ class Multi_Task_Player(object):
 		self.y_base = tf.reshape(self.reward_base, [1, self.n_classes_base])
 		self.y_3 = tf.reshape(self.reward_3, [1, self.n_classes_3])
 		self.y_6 = tf.reshape(self.reward_6, [1, self.n_classes_6])
-		self.y_9 = tf.reshape(self.reward_9, [1, self.n_classes_6])
+		self.y_9 = tf.reshape(self.reward_9, [1, self.n_classes_9)
 		
 		#Task specific networks
 		self.task_input = tf.placeholder(tf.float32, shape=[self.n_classes_base])
