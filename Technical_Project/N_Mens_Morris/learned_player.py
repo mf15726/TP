@@ -599,9 +599,9 @@ class Learned_Player(object):
 		else:
 			sym_list = sym9
 		
+		print('For even more death ' + str(self.to_index))
 		for index, item in enumerate(self.to_index):
 			print('I want death this is the item ' +str(item))
-			print('For even more death ' + str(self.to_index))
 			if None in item:
 				if index != 0:
 					print('LEARN1 ' + str(index))
