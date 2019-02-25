@@ -558,9 +558,11 @@ class Learned_Player(object):
 		return piece
 	
 	def reward_function(self, game_type, winner, player, qval_index, decision, input_state, game_type_input):
+		print('Input State' + str(input_state))
+		print('')
 		
 		predictions = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
-										   self.decision_type: decision_type_remove})
+										   self.decision_type: decision})
 		if winner == player:
 			reward = [1] * self.n_classes
 		elif winner != 0:
@@ -571,7 +573,7 @@ class Learned_Player(object):
 		
 		for item in reward:
 			for i in range(self.future_steps):
-				reward[item] += self.gamma**(i+1) * self.max_next_Q(state, game_type, player, decision)
+				reward[item] += self.gamma**(i+1) * self.max_next_Q(input_state, game_type, player, decision)
 			
 		return reward
 	
