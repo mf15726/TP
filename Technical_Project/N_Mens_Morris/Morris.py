@@ -363,7 +363,7 @@ game_states = [None] * total_move_no
 
 human_player = Human_Player()
 random_player = Random_Player()
-learned_player = Learned_Player(epsilon=1, alpha=0.3, gamma=0.9, limit=total_move_no)
+learned_player = Learned_Player(epsilon=0.01, alpha=0.3, gamma=0.9, limit=total_move_no)
 learned_player.sess.run(tf.global_variables_initializer())
 #pr = cProfile.Profile()
 #pr.enable()
