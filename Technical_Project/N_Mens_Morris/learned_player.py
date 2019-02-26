@@ -492,12 +492,12 @@ class Learned_Player(object):
 					
 			predicted_move = (piece, move)
 #			print('We predict ' +str(predicted_move))
-		self.to_index[move_no] = (deepcopy(input_state),piece,player)
-		self.from_index[int(move_no - (game_type * 2))] = (deepcopy(input_state),move,player)
+		self.to_index[move_no] = (deepcopy(input_state),move,player)
+		self.from_index[int(move_no - (game_type * 2))] = (deepcopy(input_state),piece,player)
 		self.to_qval_index[move_no] = predictions_to[0][0]
 		self.from_qval_index[int(move_no - (game_type * 2))] = predictions_from[0][0]
-		if enable_flying:
-			print('PRED MOVE ' + str(predicted_move))
+#		if enable_flying:
+#			print('PRED MOVE ' + str(predicted_move))
 		return predicted_move
 	
 	def free_space_finder(self, state):
