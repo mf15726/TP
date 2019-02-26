@@ -482,7 +482,7 @@ class Multi_Task_Player(object):
 
 		l_out = tf.layers.dense(
 			inputs=l2,
-			units=self.n_classes_12,
+			units=self.n_classes_task,
 			kernel_initializer = tf.constant_initializer(0,1),
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu,
