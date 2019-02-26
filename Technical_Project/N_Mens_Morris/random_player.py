@@ -63,7 +63,6 @@ class Random_Player(object):
 						valid_moves.append((piece,space))
 
 		return valid_moves
-
 	
 	def remove_piece(self, state, piece_list, game_type, player, removed_pieces):
 		piece_to_remove = None
@@ -82,6 +81,7 @@ class Random_Player(object):
 		return free_space
 	
 	def move(self, state, game_type, pieces, player, enable_flying, move_no):
+		valid_moves = self.valid_move(state, game_type, pieces)
 		if len(valid_moves) == 1:
 			temp = 0
 		if enable_flying:
