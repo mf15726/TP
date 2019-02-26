@@ -648,16 +648,14 @@ class Multi_Task_Player(object):
 		move = None
 		piece = None
 		rand = random.randint(1,100)
-		game_type_input = [0] * 4
-		game_type_input[int((game_type/3)-1)] = 1
 		input_state = self.convert_board(state,player)
 		input_state = self.padding(input_state,game_type)
 		predictions_base_to = self.sess.run([self.Q_val_base], feed_dict={self.base_input: input_state,
 										  self.decision_type: decision_type_to})
-		predictions_task_to = self.task_specific(game_type,game_type_input,decision_type_to,predicitons_base_to)
+		predictions_task_to = self.task_specific(game_type,decision_type_to,predictions_base_to)
 		predictions_base_from = self.sess.run([self.Q_val_base], feed_dict={self.input: input_state,
 										   self.decision_type: decision_type_from})
-		predictions_task_from = self.task_specific(game_type,game_type_input,decision_type_from,predicitons_base_from)
+		predictions_task_from = self.task_specific(game_type,decision_type_from,predicitons_base_from)
 		if rand <= 100*self.epsilon:
 			random_move = self.random_move(state, valid_moves, enable_flying, pieces)
 			self.to_index[move_no] = (deepcopy(input_state),random_move[0], player)
