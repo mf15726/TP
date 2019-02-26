@@ -366,7 +366,7 @@ random_player = Random_Player()
 learned_player = Learned_Player(epsilon=0.01, alpha=0.3, gamma=0.9, limit=total_move_no)
 multi_task_player = Multi_Task_Player(epsilon=0.01, alpha=0.3, gamma=0.9, limit=total_move_no)
 learned_player.sess.run(tf.global_variables_initializer())
-multi_task_player.sess.run(tf.gloabal_variables_initializer())
+multi_task_player.sess.run(tf.global_variables_initializer())
 #pr = cProfile.Profile()
 #pr.enable()
 def play_and_learn(total_game_no,multi_task):
