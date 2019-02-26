@@ -206,7 +206,7 @@ def flying_check(state, player, game_type):
 		return False
 
 def repeated_board(state,game_states):
-	if game_states.count(state) > 1:
+	if game_states.count(state) > 2:
 		return True
 	return False
 	
@@ -361,9 +361,8 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 winner_list = []
 enable_flying = True
 game_type = 9
-see_board = True
+see_board = False
 total_move_no = 1000
-multi_task = True
 game_states = [None] * (total_move_no + 1)
 
 human_player = Human_Player()
@@ -375,13 +374,22 @@ multi_task_player.sess.run(tf.global_variables_initializer())
 #pr = cProfile.Profile()
 #pr.enable()
 def play_and_learn(total_game_no,player1,player2):
+	winner_list = [None] * total_game_no
 	for i in range(total_game_no):
+		if i % 100 == 0:
+			print('At epoch ' + str(i))
+			test_winner_list1 = play_dont_learn(100,player1,random_player)
+			test_winner_list2 = play_dont_learn(100,random_player,player2)
+			print('Agent wins as player 1 ' + str(test_winner_list1.count(1)))
+			print('Agent loses as player 1 ' + str(test_winner_list1.count(2)))
+			print('Agent wins as player 2 ' + str(test_winner_list2.count(2)))
+			print('Agent loses as player 2 ' + str(test_winner_list2.count(1)))
 	#	winner = game_play(random_player, random_player, game_type, see_board, enable_flying, total_move_no)
 #		winner = game_play(learned_player, learned_player, game_type, see_board, enable_flying, total_move_no)
 #		winner = game_play(multi_task_player, multi_task_player, game_type, see_board, enable_flying, total_move_no)
-		winner = game_play(multi_task_player, multi_task_player, game_type, see_board, enable_flying, total_move_no)
+		winner = game_play(player1, player2, game_type, see_board, enable_flying, total_move_no)
 		print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
-		winner_list.append(winner)
+		winner_list[i] = winner
 		if winner != 0:
 			if isinstance(player1, Multi_Task_Player) or isinstance(player2, Multi_Task_Player):
 				if game_type == 3:
@@ -397,17 +405,18 @@ def play_and_learn(total_game_no,player1,player2):
 	return winner_list
 
 def play_dont_learn(total_game_no,player1,player2):
+	winner_list = [None] * total_game_no
 	for i in range(total_game_no):
 	#	winner = game_play(random_player, random_player, game_type, see_board, enable_flying, total_move_no)
 #		winner = game_play(learned_player, learned_player, game_type, see_board, enable_flying, total_move_no)
 #		winner = game_play(multi_task_player, multi_task_player, game_type, see_board, enable_flying, total_move_no)
 		winner = game_play(multi_task_player, multi_task_player, game_type, see_board, enable_flying, total_move_no)
 		print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
-		winner_list.append(winner)
+		winner_list[i] = winner
 	return winner_list
 
 #winner_list = play_and_learn(1000,multi_task_player,multi_task_player)
-winner_list = play_and_learn(1000,random_player,random_player)
+winner_list = play_and_learn(1000000,random_player,random_player)
 print('P1 wins = ' + str(winner_list.count(1)))
 print('P2 wins = ' + str(winner_list.count(2)))
 #cProfile.run('play_and_learn(100)')
