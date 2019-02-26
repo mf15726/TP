@@ -655,7 +655,7 @@ class Multi_Task_Player(object):
 		predictions_task_to = self.task_specific(game_type,decision_type_to,predictions_base_to)
 		predictions_base_from = self.sess.run([self.Q_val_base], feed_dict={self.base_input: input_state,
 										   self.decision_type: decision_type_from})
-		predictions_task_from = self.task_specific(game_type,decision_type_from,predicitons_base_from)
+		predictions_task_from = self.task_specific(game_type,decision_type_from,predictions_base_from)
 		if rand <= 100*self.epsilon:
 			random_move = self.random_move(state, valid_moves, enable_flying, pieces)
 			self.to_index[move_no] = (deepcopy(input_state),random_move[0], player)
