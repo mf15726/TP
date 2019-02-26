@@ -249,11 +249,11 @@ class Multi_Task_Player(object):
 		self.cost_task12 = tf.reduce_mean(tf.squared_difference(self.y_9, self.Q_val_task12))
 		
 		#optimisers
-		self.optimiser = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost_base)
-		self.optimiser = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost_task3)
-		self.optimiser = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost_task6)
-		self.optimiser = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost_task9)
-		self.optimiser = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost_task12)
+		self.optimiser_base = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost_base)
+		self.optimiser_3 = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost_task3)
+		self.optimiser_6 = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost_task6)
+		self.optimiser_9 = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost_task9)
+		self.optimiser_12 = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost_task12)
 		
 	def base_network(self):
 
