@@ -812,7 +812,7 @@ class Multi_Task_Player(object):
 			temp = sym_box[index]
 			self.symmetry_index[index] = state[temp]
 		
-	def learn3(self, winner):
+	def learn3(self, game_type, winner):
 		counter = 0
 		if game_type == 3:
 			sym_list = sym3
