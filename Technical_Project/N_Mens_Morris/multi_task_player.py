@@ -881,8 +881,8 @@ class Multi_Task_Player(object):
 			if None in item:
 				break
 			reward_base_remove, reward_task_remove = self.reward_function(game_type,winner,item[2],self.remove_qval_base_index[index], decision_type_remove, self.symmetry_index, task_classes)
-			self.sess.run([self.optimiser_base, self.optimiser_3], feed_dict={self.reward_base: reward_remove_base,
-											     self.reward_3: reward_remove_task,
+			self.sess.run([self.optimiser_base, self.optimiser_3], feed_dict={self.reward_base: reward_base_remove,
+											     self.reward_3: reward_task_remove,
 											     self.base_input: item[0],
 											     self.decision_type: decision_type_remove,
 											     self.task_input: self.remove_qval_base_index[index]})
