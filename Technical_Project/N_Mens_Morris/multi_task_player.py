@@ -673,7 +673,7 @@ class Multi_Task_Player(object):
 				for index, item in enumerate(state):
 					if item != 0:
 						continue
-					val = predictions_to_task[0][0][index]
+					val = predictions_task_to[0][0][index]
 #					print('Index, Val ' +str(index) + ' ' + str(val))
 					if val > opt_val:
 						opt_val = val
@@ -684,7 +684,7 @@ class Multi_Task_Player(object):
 #						print('We skip' + str(index))
 						continue
 					
-					val = predictions_to_task[0][0][index]
+					val = predictions_task_to[0][0][index]
 #					print('OptVal = ' + str(opt_val))
 #					print('Index, Val ' +str(index) + ' ' + str(val))
 					if val > opt_val:
