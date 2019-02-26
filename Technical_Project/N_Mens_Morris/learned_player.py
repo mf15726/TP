@@ -644,7 +644,7 @@ class Learned_Player(object):
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.choose_qval_index})
 #			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.move_qval_index})
 		for index, item in enumerate(self.remove_index):
-		print('Future Index ' +str(self.remove_future_index))
+			print('Future Index ' +str(self.remove_future_index))
 			if None in item:
 				break
 			reward_remove = self.reward_function(game_type,winner,item[2],self.remove_qval_index[index], decision_type_remove, item[0],  game_type_input, self.remove_future_index[index])
