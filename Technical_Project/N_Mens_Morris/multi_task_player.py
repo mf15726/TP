@@ -821,7 +821,7 @@ class Multi_Task_Player(object):
 		else:
 			sym_list = sym9
 			
-		for index, item in enumerate(self.to_base_index):
+		for index, item in enumerate(self.to_index):
 			if None in item:
 				break
 			reward_base_to, reward_task_to = self.reward_function(game_type,winner,item[2],self.to_qval_index[index],decision_type_to,item[0])
@@ -842,7 +842,7 @@ class Multi_Task_Player(object):
 												self.game_type: game_type_input,
 								   				self.decision_type: decision_type_to,
 												self.task_input: self.to_qval_index[index]})
-		for index, item in enumerate(self.from_base_index):
+		for index, item in enumerate(self.from_index):
 			if None in item:
 				break
 			reward_base_from, reward_task_from = self.reward_function(game_type,winner,item[2],self.from_qval_index[index], decision_type_from, self.symmetry_index)
@@ -862,7 +862,7 @@ class Multi_Task_Player(object):
 								   				self.decision_type: decision_type_from,
 												self.task_input: self.from_qval_index[index]})
 				
-		for index, item in enumerate(self.remove_base_index):
+		for index, item in enumerate(self.remove_index):
 			if None in item:
 				break
 			reward_base_remove, reward_task_remove = self.reward_function(game_type,winner,item[2],self.remove_qval_index[index], decision_type_remove, self.symmetry_index)
@@ -882,17 +882,17 @@ class Multi_Task_Player(object):
 												self.task_input: self.remove_qval_index[index]})
 	
 	
-		self.to_base_index = [(None, None, None)] * self.limit
-		self.from_base_index = [(None, None, None)] * (self.limit - 6)
-		self.remove_base_index = [(None, None, None)] * 19
+		self.to_index = [(None, None, None)] * self.limit
+		self.from_index = [(None, None, None)] * (self.limit - 6)
+		self.remove_index = [(None, None, None)] * 19
 		
 		self.to_qval_base_index = [None] * self.limit
 		self.from_qval_base_index = [None] * (self.limit - 6)
 		self.remove_qval_base_index = [None] * 19
 		
-		self.to_task_index = [(None, None, None)] * self.limit
-		self.from_task_index = [(None, None, None)] * (self.limit - 6)
-		self.remove_task_index = [(None, None, None)] * 19
+#		self.to_task_index = [(None, None, None)] * self.limit
+#		self.from_task_index = [(None, None, None)] * (self.limit - 6)
+#		self.remove_task_index = [(None, None, None)] * 19
 		
 		self.to_qval_task_index = [None] * self.limit
 		self.from_qval_task_index = [None] * (self.limit - 6)
