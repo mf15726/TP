@@ -766,7 +766,8 @@ class Multi_Task_Player(object):
 		if rand <= 100*self.epsilon:
 			piece = self.random_remove_piece(piece_list)
 			self.remove_index[pieces_removed] = (deepcopy(input_state),piece,player)
-			self.remove_qval_index[pieces_removed] = predictions_remove[0][0]
+			self.remove_qval_base_index[pieces_removed] = predictions_base[0][0]
+			self.remove_qval_task_index[pieces_removed] = predictions_task[0][0]
 			return piece
 		else:
 			opt_val = -float('Inf')
