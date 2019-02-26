@@ -321,7 +321,7 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 					if flying:
 						p2_fly = flying_check(state,2,game_type)
 				else:
-					removed_piece = player2.remove_piece(state,player1_piece_list,game_type,player,p1_pieces_removed)
+					removed_piece = player2.remove_piece(state,player1_piece_list,game_type,player,pieces_removed)
 #					print('P1 Plist = ' + str(player1_piece_list))
 #					print('Removed piece = ' + str(removed_piece))
 					state[removed_piece] = 0
