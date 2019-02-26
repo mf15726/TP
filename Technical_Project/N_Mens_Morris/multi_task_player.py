@@ -798,8 +798,8 @@ class Multi_Task_Player(object):
 			reward_base = [0] * self.n_classes_base
 			reward_task = [0] * task_classes
 		
-		reward_base = list(map(sum, zip((predictions_base[0][0]),reward)))
-		reward_task = list(map(sum, zip((predictions_task[0][0]),reward)))
+		reward_base = list(map(sum, zip((predictions_base[0][0]),reward_base)))
+		reward_task = list(map(sum, zip((predictions_task[0][0]),reward_task)))
 		
 		for item in reward:
 			for i in range(self.future_steps):
