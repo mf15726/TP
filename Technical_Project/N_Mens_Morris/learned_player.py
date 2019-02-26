@@ -591,6 +591,7 @@ class Learned_Player(object):
 		elif decision_type == [0,1,0]:
 			self.symmetry_future_index[index] = future_state[temp]
 		else:
+			print(self.symmetry_future_index[index])
 			self.symmetry_future_index[index] = future_state[temp]
 				
 		
@@ -616,10 +617,8 @@ class Learned_Player(object):
 		
 		for index, item in enumerate(self.to_index):
 			if None in item:
-				if index != 0:
-					print('LEARN1 ' + str(index))
-#					print(self.to_index)
-					break
+				print('LEARN1 ' + str(index))
+				break
 			reward_to = self.reward_function(game_type,winner,item[2],self.to_qval_index[index], decision_type_to, item[0], game_type_input, self.to_future_index[index])
 			self.sess.run([self.optimiser], feed_dict={self.reward: reward_to, self.input: item[0], self.game_type: game_type_input,
 								   self.decision_type: decision_type_to})
