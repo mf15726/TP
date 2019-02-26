@@ -924,7 +924,6 @@ class Multi_Task_Player(object):
 			self.sess.run([self.optimiser_base, self.optimiser_6], feed_dict={self.reward_base: reward_base_to,
 											     self.reward_6: reward_task_to, 
 											     self.base_input: item[0],
-											     self.game_type: game_type_input,
 											     self.decision_type: decision_type_to,
 											     self.task_input: self.to_qval_base_index[index]})
 			for sym_state_index in sym6:
@@ -933,8 +932,7 @@ class Multi_Task_Player(object):
 				
 				self.sess.run([self.optimiser_base, self.optimiser_6], feed_dict={self.reward_base: sym_reward_base_to,
 												self.reward_6: sym_reward_task_to,
-												self.base_input: self.symmetry_index,
-												self.game_type: game_type_input,
+												self.base_input: item[0]
 								   				self.decision_type: decision_type_to,
 												self.task_input: self.to_qval_base_index[index]})
 		for index, item in enumerate(self.from_index):
@@ -944,7 +942,6 @@ class Multi_Task_Player(object):
 			self.sess.run([self.optimiser_base, self.optimiser_6], feed_dict={self.reward_base: reward_base_from,
 											     self.reward_6: reward_task_from, 
 											     self.base_input: item[0],
-											     self.game_type: game_type_input,
 											     self.decision_type: decision_type_from,
 											     self.task_input: self.from_qval_base_index[index]})
 			for sym_state_index in sym6:
@@ -953,7 +950,6 @@ class Multi_Task_Player(object):
 				self.sess.run([self.optimiser_base, self.optimiser_6], feed_dict={self.reward_base: sym_reward_base_from,
 												self.reward_6: sym_reward_task_from,
 												self.base_input: self.symmetry_index,
-												self.game_type: game_type_input,
 								   				self.decision_type: decision_type_from,
 												self.task_input: self.from_qval_base_index[index]})
 				
@@ -964,7 +960,6 @@ class Multi_Task_Player(object):
 			self.sess.run([self.optimiser_base, self.optimiser_6], feed_dict={self.reward_base: reward_base_remove,
 											     self.reward_6: reward_task_remove,
 											     self.base_input: item[0],
-											     self.game_type: game_type_input,
 											     self.decision_type: decision_type_remove,
 											     self.task_input: self.remove_qval_base_index[index]})
 			for sym_state_index in sym6:
@@ -973,7 +968,6 @@ class Multi_Task_Player(object):
 				self.sess.run([self.optimiser_base, self.optimiser_6], feed_dict={self.reward_base: sym_reward_base_remove,
 											     	self.reward_6: sym_reward_task_remove,
 												self.base_input: self.symmetry_index,
-												self.game_type: game_type_input,
 								   				self.decision_type: decision_type_remove,
 												self.task_input: self.remove_qval_base_index[index]})
 	
