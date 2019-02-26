@@ -201,7 +201,9 @@ class Multi_Task_Player(object):
 		self.n_input_task = self.n_classes_base + 3
 		
 		self.future_steps = 0
-		self.symmetry_index = [None] * self.n_classes_9
+		self.symmetry_index = [None] * self.n_classes
+		self.symmetry_future_index = [None] * self.n_classes
+		self.piece_adj_list = [None] * 12
 		
 		self.base_input = tf.placeholder(tf.float32, [24])
 		self.x_p1 = tf.cast(tf.equal(self.base_input, 1), tf.float32)
@@ -817,6 +819,15 @@ class Multi_Task_Player(object):
 				break
 			temp = sym_box[index]
 			self.symmetry_index[index] = state[temp]
+			
+	def edit_to_index(self,state,move_no):
+		self.to_future_index[move_no] = deepcopy(state)
+		
+	def edit_from_index(self,state,move_no,game_type):
+		self.from_future_index[move_no-(game_type*2)] = deepcopy(state)
+		
+	def edit_remove_index(self,state,pieces_removed):
+		self.remove_future_index[pieces_removed] = deepcopy(state)
 		
 	def learn3(self, game_type, winner):
 		counter = 0
