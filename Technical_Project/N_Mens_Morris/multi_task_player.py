@@ -867,7 +867,7 @@ class Multi_Task_Player(object):
 											     self.base_input: item[0],
 											     self.decision_type: decision_type_from,
 											     self.task_input: self.from_qval_base_index[index]})
-			for sym_state_index in sym_3:
+			for sym_state_index in sym3:
 				print('We goin')
 				self.symmetry(item[0],sym_state_index)
 				sym_reward_base_from, sym_reward_task_from = self.reward_function(game_type,winner,item[2],self.from_qval_base_index[index], decision_type_from, self.symmetry_index, task_classes)
