@@ -601,7 +601,13 @@ class Multi_Task_Player(object):
 			predictions_task = self.sess.run([self.Q_val_task12], feed_dict={self.task_input: predictions_base[0][0],
 										   self.decision_type: decision_type})
 		return predictions_task
-			
+	
+	def random_place(self, state):
+		space_val = 1
+		while space_val != 0:
+			space = random.randint(0, len(state) - 1)
+			space_val = state[space]
+		return space
 	
 	def place(self, state, game_type, player, move_no):
 		rand = random.randint(1,100)
