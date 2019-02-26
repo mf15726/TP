@@ -590,7 +590,7 @@ class Multi_Task_Player(object):
 	def task_specific(self, game_type, decision_type, predicitions_base):
 		if game_type == 3:
 			predicitions_task = self.sess.run([self.Q_val_task3], feed_dict={self.input_task: predictions_base[0][0],
-										   self.decision_type: decision_type)
+										   self.decision_type: decision_type})
 		elif game_type == 6:
 			predicitions_task = self.sess.run([self.Q_val_task6], feed_dict={self.input_task: predictions_base[0][0],
 										   self.decision_type: decision_type})
