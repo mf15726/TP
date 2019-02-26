@@ -374,15 +374,16 @@ learned_player.sess.run(tf.global_variables_initializer())
 multi_task_player.sess.run(tf.global_variables_initializer())
 #pr = cProfile.Profile()
 #pr.enable()
-def play_and_learn(total_game_no,multi_task):
+def play_and_learn(total_game_no,player1,player2):
 	for i in range(total_game_no):
 	#	winner = game_play(random_player, random_player, game_type, see_board, enable_flying, total_move_no)
 #		winner = game_play(learned_player, learned_player, game_type, see_board, enable_flying, total_move_no)
+#		winner = game_play(multi_task_player, multi_task_player, game_type, see_board, enable_flying, total_move_no)
 		winner = game_play(multi_task_player, multi_task_player, game_type, see_board, enable_flying, total_move_no)
 		print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
 		winner_list.append(winner)
 		if winner != 0:
-			if multi_task:
+			if isinstance(player1, Multi_Task_Player) or isinstance(player2, Multi_Task_Player):
 				if game_type == 3:
 					multi_task_player.learn3(game_type, winner)
 				elif game_type == 6:
@@ -391,7 +392,7 @@ def play_and_learn(total_game_no,multi_task):
 					multi_task_player.learn9(game_type, winner)
 				else:
 					multi_task_player.learn12(game_type, winner)
-			else:
+			if isinstance(player1, Learned_Player) or isinstance(player2, Learned_Player):
 				learned_player.learn(game_type, winner)
 	return winner_list
 		
