@@ -73,15 +73,26 @@ class Random_Player(object):
 		return piece_to_remove
 
 	
+	def free_space_finder(self, state):
+		free_space = []
+		for item in state:
+			if item == 0:
+				free_space.append(item)
+
+		return free_space
+	
 	def move(self, state, game_type, pieces, player, enable_flying, move_no):
-		valid_moves = self.valid_move(state, game_type, pieces)
-		if len(valid_moves) == 0:
-			return (25, 25)
-		temp = random.randint(0, len(valid_moves) - 1)
-		if enable_flying:			
-			temp2 = random.randint(0, len(valid_moves))
-			if valid_moves[temp][0] == valid_moves[temp2][1]:
-				temp2 -= 1
-			return (valid_moves[temp][0],valid_moves[temp2][1])
+		if len(valid_moves) == 1:
+			temp = 0
+		if enable_flying:
+			free_space = self.free_space_finder(state)
+			temp = random.randint(0, len(free_space) - 1)
+			temp2 = random.randint(0, len(piece_list) - 1)
+			while piece_list[temp2] is None:
+				temp2 = random.randint(0, len(piece_list) - 1)
+#				print('Valid = ' +str(valid_moves))
+#				print('Piece List ' + str(piece_list))
+			return (piece_list[temp2],free_space[temp])
 		else:
+			temp = random.randint(0, len(valid_moves) - 1)
 			return valid_moves[temp]
