@@ -7,7 +7,6 @@ import matplotlib
 import matplotlib.pyplot as plt
 import tensorflow as tf
 from math import log
-import networkx as nx
 import operator
 import cProfile, pstats
 
