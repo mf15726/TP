@@ -932,7 +932,7 @@ class Multi_Task_Player(object):
 				
 				self.sess.run([self.optimiser_base, self.optimiser_6], feed_dict={self.reward_base: sym_reward_base_to,
 												self.reward_6: sym_reward_task_to,
-												self.base_input: item[0]
+												self.base_input: item[0],
 								   				self.decision_type: decision_type_to,
 												self.task_input: self.to_qval_base_index[index]})
 		for index, item in enumerate(self.from_index):
