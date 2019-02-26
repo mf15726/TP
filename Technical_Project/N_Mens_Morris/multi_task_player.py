@@ -787,7 +787,7 @@ class Multi_Task_Player(object):
 	def reward_function(self, game_type, winner, player, qval_index, decision_type, input_state):
 		predictions_base = self.sess.run([self.Q_val_base], feed_dict={self.base_input: input_state, self.decision_type: decision_type})
 		
-		predictions_task = self.task_specific(game_type, decision_type, predicitions_base)
+		predictions_task = self.task_specific(game_type, decision_type, predictions_base)
 		if winner == player:
 			reward_base = [1] * self.n_classes
 		elif winner != 0:
