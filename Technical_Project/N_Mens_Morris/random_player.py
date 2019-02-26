@@ -82,6 +82,8 @@ class Random_Player(object):
 	
 	def move(self, state, game_type, piece_list, player, enable_flying, move_no):
 		valid_moves = self.valid_move(state, game_type, piece_list)
+		if len(valid_moves) == 0 and not enable_flying:
+			return (25,25)
 		if len(valid_moves) == 1:
 			temp = 0
 		if enable_flying:
