@@ -613,7 +613,7 @@ class Multi_Task_Player(object):
 		predictions_base = self.sess.run([self.Q_val_base], feed_dict={self.base_input: input_state,
 									       self.decision_type: decision_type_to})
 						 
-		predictions_task = self.task_specific(game_type,decision_type_to,predicitons_base)
+		predictions_task = self.task_specific(game_type,decision_type_to,predictions_base)
 		
 		if rand <= 100*self.epsilon:
 			move = self.random_place(state)
