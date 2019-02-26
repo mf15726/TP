@@ -600,8 +600,8 @@ class Learned_Player(object):
 	def edit_from_index(self,state,move_no,game_type):
 		self.from_future_index[move_no-(game_type*2)] = deepcopy(state)
 		
-	def edit_remove_index(self,state,move_no):
-		self.remove_future_index[move_no] = deepcopy(state)
+	def edit_remove_index(self,state,pieces_removed):
+		self.remove_future_index[pieces_removed] = deepcopy(state)
 	
 	def learn(self, game_type, winner):
 		game_type_input = [0] * 4
@@ -618,6 +618,7 @@ class Learned_Player(object):
 			if None in item:
 				if index != 0:
 					print('LEARN1 ' + str(index))
+					print(self.to_index)
 					break
 			reward_to = self.reward_function(game_type,winner,item[2],self.to_qval_index[index], decision_type_to, item[0], game_type_input, self.to_future_index[index])
 			self.sess.run([self.optimiser], feed_dict={self.reward: reward_to, self.input: item[0], self.game_type: game_type_input,
