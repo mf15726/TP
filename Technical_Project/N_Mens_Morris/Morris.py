@@ -331,7 +331,7 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 					player1_piece_list[_] = None
 					player2.edit_to_index(state,move_no)
 					player2.edit_from_index(state,move_no,game_type)
-					player2.edit_remove_index(state,p1_pieces_remove)
+					player2.edit_remove_index(state,p1_pieces_removed)
 					if flying:
 						p1_fly = flying_check(state,1,game_type)
 				if print_board:
