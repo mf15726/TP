@@ -630,8 +630,8 @@ class Multi_Task_Player(object):
 				if val > opt_val:
 					opt_val = val
 					move = index
-			self.to_qval_base_index.append(predictions_base[0][0])
-			self.to_qval_index[move_no] = predictions_task[0][0]
+			self.to_qval_base_index[move_no] = predictions_base[0][0]
+			self.to_qval_task_index[move_no] = predictions_task[0][0]
 			self.to_index[move_no] = ((deepcopy(input_state),move,player))
 			return move
 		
