@@ -801,9 +801,13 @@ class Multi_Task_Player(object):
 		reward_base = list(map(sum, zip((predictions_base[0][0]),reward_base)))
 		reward_task = list(map(sum, zip((predictions_task[0][0]),reward_task)))
 		
-		for item in reward:
+		for item in reward_base:
 			for i in range(self.future_steps):
-				reward_base[item] += self.gamma**(i+1) * self.max_next_Q(input_state, game_type, player, decision)
+				reward_base[item] += self.gamma**(i+1) * self.max_next_Q(input_state, game_type, player, decision_type)
+				
+		for item in reward_task:
+			for i in range(self.future_steps):
+				reward_base[item] += self.gamma**(i+1) * self.max_next_Q(qval_index, game_type, player, decision_type)
 				
 		return reward_base, reward_task
 		
