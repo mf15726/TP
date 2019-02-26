@@ -96,3 +96,12 @@ class Random_Player(object):
 		else:
 			temp = random.randint(0, len(valid_moves) - 1)
 			return valid_moves[temp]
+		
+	def edit_to_index(self,state,move_no):
+		return 0
+		
+	def edit_from_index(self,state,move_no,game_type):
+		return 0
+		
+	def edit_remove_index(self,state,pieces_removed):
+		return 0
