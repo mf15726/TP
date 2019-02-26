@@ -718,8 +718,8 @@ class Multi_Task_Player(object):
 					
 			predicted_move = (piece, move)
 #			print('We predict ' +str(predicted_move))
-			self.to_index[move_no] = (deepcopy(input_state),random_move[0], player)
-			self.from_index[int(move_no - (game_type * 2))] = (deepcopy(input_state),random_move[1],player)
+			self.to_index[move_no] = (deepcopy(input_state), move, player)
+			self.from_index[int(move_no - (game_type * 2))] = (deepcopy(input_state),piece,player)
 			self.to_qval_base_index[move_no] = predictions_base_to[0][0]
 			self.to_qval_task_index[move_no] = predictions_task_to[0][0]
 			self.from_qval_base_index[int(move_no - (game_type * 2))] = predictions_base_from[0][0]
