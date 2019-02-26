@@ -589,17 +589,17 @@ class Multi_Task_Player(object):
 	
 	def task_specific(self, game_type, decision_type, predicitions_base):
 		if game_type == 3:
-			predicitions_task = self.sess.run([self.Q_val_task3], feed_dict={self.input_base: predictions_base[0][0],
-										   self.decision_type: decision_type_to})
+			predicitions_task = self.sess.run([self.Q_val_task3], feed_dict={self.input_task: predictions_base[0][0],
+										   self.decision_type: decision_type)
 		elif game_type == 6:
-			predicitions_task = self.sess.run([self.Q_val_task6], feed_dict={self.input_base: predictions_base[0][0],
-										   self.decision_type: decision_type_to})
+			predicitions_task = self.sess.run([self.Q_val_task6], feed_dict={self.input_task: predictions_base[0][0],
+										   self.decision_type: decision_type})
 		elif game_type == 9:
-			predicitions_task = self.sess.run([self.Q_val_task9], feed_dict={self.input_base: predictions_base[0][0],
-										   self.decision_type: decision_type_to})
+			predicitions_task = self.sess.run([self.Q_val_task9], feed_dict={self.input_task: predictions_base[0][0],
+										   self.decision_type: decision_type})
 		else:
-			predictions_task = self.sess.run([self.Q_val_task12], feed_dict={self.inpit_base: predictions_base[0][0],
-										   self.decision_type: decision_type_to})
+			predictions_task = self.sess.run([self.Q_val_task12], feed_dict={self.inpit_task: predictions_base[0][0],
+										   self.decision_type: decision_type})
 		return predictions_task
 			
 	
@@ -610,7 +610,7 @@ class Multi_Task_Player(object):
 		game_type_input[int((game_type/3)-1)] = 1
 		input_state = self.convert_board(state,player)
 		input_state = self.padding(input_state,game_type)
-		predictions_base = self.sess.run([self.Q_val_base], feed_dict={self.input: input_state,
+		predictions_base = self.sess.run([self.Q_val_base], feed_dict={self.base_input: input_state,
 									       self.decision_type: decision_type_to})
 						 
 		predictions_task = self.task_specific(game_type,decision_type_to,predicitons_base)
@@ -646,7 +646,7 @@ class Multi_Task_Player(object):
 		game_type_input[int((game_type/3)-1)] = 1
 		input_state = self.convert_board(state,player)
 		input_state = self.padding(input_state,game_type)
-		predictions_base_to = self.sess.run([self.Q_val_base], feed_dict={self.input: input_state,
+		predictions_base_to = self.sess.run([self.Q_val_base], feed_dict={self.base_input: input_state,
 										  self.decision_type: decision_type_to})
 		predictions_task_to = self.task_specific(game_type,game_type_input,decision_type_to,predicitons_base_to)
 		predictions_base_from = self.sess.run([self.Q_val_base], feed_dict={self.input: input_state,
@@ -748,11 +748,9 @@ class Multi_Task_Player(object):
 	def remove_piece(self, state, piece_list, game_type, player, pieces_removed):
 		opponent = (player % 2) + 1
 		rand = random.randint(1,100)
-		game_type_input = [0] * 4
-		game_type_input[int((game_type/3)-1)] = 1
 		input_state = self.convert_board(state,player)
 		input_state = self.padding(input_state,game_type)
-		predictions_base = self.sess.run([self.Q_val_base], feed_dict={self.input: input_state,
+		predictions_base = self.sess.run([self.Q_val_base], feed_dict={self.base_input: input_state,
 									       self.decision_type: decision_type_remove})
 		predictions_task = self.task_specific(game_type,decision_type_remove,predicitons_base)
 		if rand <= 100*self.epsilon:
