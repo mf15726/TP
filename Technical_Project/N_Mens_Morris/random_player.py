@@ -80,7 +80,7 @@ class Random_Player(object):
 
 		return free_space
 	
-	def move(self, state, game_type, pieces, player, enable_flying, move_no):
+	def move(self, state, game_type, piece_list, player, enable_flying, move_no):
 		valid_moves = self.valid_move(state, game_type, pieces)
 		if len(valid_moves) == 1:
 			temp = 0
