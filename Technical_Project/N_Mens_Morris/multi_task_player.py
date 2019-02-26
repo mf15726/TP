@@ -198,7 +198,7 @@ class Multi_Task_Player(object):
 		self.n_nodes_12_2 = 48
 		
 		self.n_input_base = 75
-		self.n_input_task = self.n_classes_base + 4
+		self.n_input_task = self.n_classes_base + 3
 		
 		self.future_steps = 0
 		self.symmetry_index = [None] * self.n_classes_9
