@@ -853,7 +853,7 @@ class Multi_Task_Player(object):
 				self.symmetry(item[0],sym_state_index)
 				sym_reward_base_to, sym_reward_task_to = self.reward_function(game_type,winner,item[2],self.to_qval_base_index[index], decision_type_to, self.symmetry_index, task_classes)
 				
-				self.sess.run([self.optimiser, self.optimiser_task3], feed_dict={self.reward_base: sym_reward_to_base,
+				self.sess.run([self.optimiser_base, self.optimiser_task3], feed_dict={self.reward_base: sym_reward_to_base,
 												self.reward_3: sym_reward_to_task,
 												self.base_input: self.symmetry_index,
 								   				self.decision_type: decision_type_to,
@@ -871,7 +871,7 @@ class Multi_Task_Player(object):
 				print('We goin')
 				self.symmetry(item[0],sym_state_index)
 				sym_reward_base_from, sym_reward_task_from = self.reward_function(game_type,winner,item[2],self.from_qval_base_index[index], decision_type_from, self.symmetry_index, task_classes)
-				self.sess.run([self.optimiser, self.optimiser_3], feed_dict={self.reward_base: sym_reward_base_from,
+				self.sess.run([self.optimiser_base, self.optimiser_3], feed_dict={self.reward_base: sym_reward_base_from,
 												self.reward_3: sym_reward_task_from,
 												self.base_input: self.symmetry_index,
 								   				self.decision_type: decision_type_from,
@@ -934,7 +934,7 @@ class Multi_Task_Player(object):
 				self.symmetry(item[0],sym_state_index)
 				sym_reward_base_to, sym_reward_task_to = self.reward_function(game_type,winner,item[2],self.to_qval_base_index[index], decision_type_to, self.symmetry_index, task_classes)
 				
-				self.sess.run([self.optimiser, self.optimiser_6], feed_dict={self.reward_base: sym_reward_to_base,
+				self.sess.run([self.optimiser_base, self.optimiser_6], feed_dict={self.reward_base: sym_reward_to_base,
 												self.reward_6: sym_reward_to_task,
 												self.base_input: self.symmetry_index,
 												self.game_type: game_type_input,
@@ -953,7 +953,7 @@ class Multi_Task_Player(object):
 			for sym_state_index in sym6:
 				self.symmetry(item[0],sym_state_index)
 				sym_reward_base_from, sym_reward_task_from = self.reward_function(game_type,winner,item[2],self.from_qval_base_index[index], decision_type_from, self.symmetry_index, task_classes)
-				self.sess.run([self.optimiser, self.optimiser_6], feed_dict={self.reward_base: sym_reward_base_from,
+				self.sess.run([self.optimiser_base, self.optimiser_6], feed_dict={self.reward_base: sym_reward_base_from,
 												self.reward_6: sym_reward_task_from,
 												self.base_input: self.symmetry_index,
 												self.game_type: game_type_input,
