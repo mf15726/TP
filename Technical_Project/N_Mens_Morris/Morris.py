@@ -216,8 +216,7 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 	player1_piece_list = [None] * game_type
 	player2_piece_list = [None] * game_type
 	game_states = [None] * total_move_no
-	p1_pieces_removed = 0
-	p2_pieces_removed = 0
+	pieces_removed = 0
 	if game_type == 3:
 		state = [0,0,0,0,0,0,0,0,0]
 	elif game_type == 6:
@@ -247,25 +246,25 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 				if game_type == 3:
 					return player
 				if player == 1:
-					removed_piece = player1.remove_piece(state,player2_piece_list,game_type,player,p2_pieces_removed)
+					removed_piece = player1.remove_piece(state,player2_piece_list,game_type,player,pieces_removed)
 #					print('P2 Plist = ' + str(player2_piece_list))
 #					print('Removed piece = ' + str(removed_piece))
 					state[removed_piece] = 0
-					p2_pieces_removed += 1
+					pieces_removed += 1
 					_ = player2_piece_list.index(removed_piece)
 					player2_piece_list[_] = None
 					player1.edit_to_index(state,move_no)
-					player1.edit_remove_index(state,move_no)
+					player1.edit_remove_index(state,pieces_removed)
 				else:
-					removed_piece = player2.remove_piece(state,player1_piece_list,game_type,player,p1_pieces_removed)
+					removed_piece = player2.remove_piece(state,player1_piece_list,game_type,player,pieces_removed)
 #					print('P1 Plist = ' + str(player1_piece_list))
 #					print('Removed piece = ' + str(removed_piece))
 					state[removed_piece] = 0
-					p1_pieces_removed += 1
+					pieces_removed += 1
 					_ = player1_piece_list.index(removed_piece)
 					player1_piece_list[_] = None
 					player2.edit_to_index(state,move_no)
-					player2.edit_remove_index(state,move_no)
+					player2.edit_remove_index(state,pieces_removed)
 			else:
 				if player == 1:
 					player1.edit_to_index(state,move_no)
@@ -309,16 +308,16 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 				if print_board:
 					print('Mill Created by Player ' + str(player))
 				if player == 1:
-					removed_piece = player1.remove_piece(state,player2_piece_list,game_type,player,p2_pieces_removed)
+					removed_piece = player1.remove_piece(state,player2_piece_list,game_type,player,pieces_removed)
 #					print('P2 Plist = ' + str(player2_piece_list))
 #					print('Removed piece = ' + str(removed_piece))
 					state[removed_piece] = 0
-					p2_pieces_removed += 1
+					pieces_removed += 1
 					_ = player2_piece_list.index(removed_piece)
 					player2_piece_list[_] = None
 					player1.edit_to_index(state,move_no)
 					player1.edit_from_index(state,move_no,game_type)
-					player1.edit_remove_index(state,p2_pieces_removed)
+					player1.edit_remove_index(state,pieces_removed)
 					if flying:
 						p2_fly = flying_check(state,2,game_type)
 				else:
@@ -326,12 +325,12 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 #					print('P1 Plist = ' + str(player1_piece_list))
 #					print('Removed piece = ' + str(removed_piece))
 					state[removed_piece] = 0
-					p1_pieces_removed += 1
+					pieces_removed += 1
 					_ = player1_piece_list.index(removed_piece)
 					player1_piece_list[_] = None
 					player2.edit_to_index(state,move_no)
 					player2.edit_from_index(state,move_no,game_type)
-					player2.edit_remove_index(state,p1_pieces_removed)
+					player2.edit_remove_index(state,pieces_removed)
 					if flying:
 						p1_fly = flying_check(state,1,game_type)
 				if print_board:
