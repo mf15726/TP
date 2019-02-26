@@ -587,15 +587,15 @@ class Multi_Task_Player(object):
 		val_task = np.argmax(predicitions_task[0][0])
 		return val
 	
-	def task_specific(self, game_type, decision_type, predicitions_base):
+	def task_specific(self, game_type, decision_type, predictions_base):
 		if game_type == 3:
-			predicitions_task = self.sess.run([self.Q_val_task3], feed_dict={self.task_input: predictions_base[0][0],
+			predictions_task = self.sess.run([self.Q_val_task3], feed_dict={self.task_input: predictions_base[0][0],
 										   self.decision_type: decision_type})
 		elif game_type == 6:
-			predicitions_task = self.sess.run([self.Q_val_task6], feed_dict={self.task_input: predictions_base[0][0],
+			predictions_task = self.sess.run([self.Q_val_task6], feed_dict={self.task_input: predictions_base[0][0],
 										   self.decision_type: decision_type})
 		elif game_type == 9:
-			predicitions_task = self.sess.run([self.Q_val_task9], feed_dict={self.task_input: predictions_base[0][0],
+			predictions_task = self.sess.run([self.Q_val_task9], feed_dict={self.task_input: predictions_base[0][0],
 										   self.decision_type: decision_type})
 		else:
 			predictions_task = self.sess.run([self.Q_val_task12], feed_dict={self.task_input: predictions_base[0][0],
