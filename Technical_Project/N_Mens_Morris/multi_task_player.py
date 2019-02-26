@@ -202,7 +202,7 @@ class Multi_Task_Player(object):
 		
 		self.future_steps = 0
 		self.symmetry_index = [None] * self.n_classes_9
-		self.symmetry_future_index = [None] * self.n_classes
+		self.symmetry_future_index = [None] * self.n_classes_9
 		self.piece_adj_list = [None] * 12
 		
 		self.base_input = tf.placeholder(tf.float32, [24])
