@@ -173,6 +173,10 @@ class Multi_Task_Player(object):
 		self.from_qval_base_index = [None] * (self.limit - 6)
 		self.remove_qval_base_index = [None] * 19
 		
+		self.to_future_index = [None] * self.limit
+		self.from_future_index = [None] * (self.limit - 6)
+		self.remove_future_index = [None] * 19
+		
 		self.to_qval_task_index = [None] * self.limit
 		self.from_qval_task_index = [None] * (self.limit - 6)
 		self.remove_qval_task_index = [None] * 19
