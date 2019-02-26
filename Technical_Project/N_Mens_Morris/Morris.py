@@ -375,8 +375,8 @@ multi_task_player.sess.run(tf.global_variables_initializer())
 def play_and_learn(total_game_no,multi_task):
 	for i in range(total_game_no):
 	#	winner = game_play(random_player, random_player, game_type, see_board, enable_flying, total_move_no)
-#		winner = game_play(learned_player, learned_player, game_type, see_board, enable_flying, total_move_no)
-		winner = game_play(multi_task_player, multi_task_player, game_type, see_board, enable_flying, total_move_no)
+		winner = game_play(learned_player, learned_player, game_type, see_board, enable_flying, total_move_no)
+#		winner = game_play(multi_task_player, multi_task_player, game_type, see_board, enable_flying, total_move_no)
 		print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
 		winner_list.append(winner)
 		if winner != 0:
