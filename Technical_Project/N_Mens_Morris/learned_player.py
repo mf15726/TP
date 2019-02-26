@@ -588,7 +588,7 @@ class Learned_Player(object):
 			self.symmetry_index[index] = state[temp]
 		if decision_type == [1,0,0]:
 			self.symmetry_future_index[index] = self.to_future_index[temp]
-		elif decision_type = [0,1,0]:
+		elif decision_type == [0,1,0]:
 			self.symmetry_future_index[index] = self.from_future_index[temp]
 		else:
 			self.symmetry_future_index[index] = self.remove_future_index[temp]
