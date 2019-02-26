@@ -849,7 +849,6 @@ class Multi_Task_Player(object):
 											     self.decision_type: decision_type_to,
 											     self.task_input: self.to_qval_base_index[index]})
 			for sym_state_index in sym3:
-				print('We go')
 				self.symmetry(item[0],sym_state_index)
 				sym_reward_base_to, sym_reward_task_to = self.reward_function(game_type,winner,item[2],self.to_qval_base_index[index], decision_type_to, self.symmetry_index, task_classes)
 				
@@ -868,7 +867,6 @@ class Multi_Task_Player(object):
 											     self.decision_type: decision_type_from,
 											     self.task_input: self.from_qval_base_index[index]})
 			for sym_state_index in sym3:
-				print('We goin')
 				self.symmetry(item[0],sym_state_index)
 				sym_reward_base_from, sym_reward_task_from = self.reward_function(game_type,winner,item[2],self.from_qval_base_index[index], decision_type_from, self.symmetry_index, task_classes)
 				self.sess.run([self.optimiser_base, self.optimiser_3], feed_dict={self.reward_base: sym_reward_base_from,
@@ -887,7 +885,6 @@ class Multi_Task_Player(object):
 											     self.decision_type: decision_type_remove,
 											     self.task_input: self.remove_qval_base_index[index]})
 			for sym_state_index in sym3:
-				print('We gonna go again')
 				self.symmetry(item[0],sym_state_index)
 				sym_reward_base_remove, sym_reward_task_remove = self.reward_function(game_type,winner,item[2],self.from_qval_base_index[index], decision_type_remove, self.symmetry_index, task_classes)
 				self.sess.run([self.optimiser_base, self.optimiser_3], feed_dict={self.reward_base: sym_reward_base_remove,
