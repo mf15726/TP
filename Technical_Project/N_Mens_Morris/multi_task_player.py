@@ -772,7 +772,8 @@ class Multi_Task_Player(object):
 					opt_val = val
 					piece = index
 			self.remove_index[pieces_removed] = (deepcopy(input_state),piece,player)
-			self.remove_qval_index[pieces_removed] = predictions_remove[0][0]
+			self.remove_qval_base_index[pieces_removed] = predictions_base[0][0]
+			self.remove_qval_task_index[pieces_removed] = predictions_task[0][0]
 		return piece
 	
 	def free_space_finder(self, state):
