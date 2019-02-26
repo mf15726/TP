@@ -416,7 +416,7 @@ class Learned_Player(object):
 					opt_val = val
 					move = index
 			self.to_qval_index[move_no] = predictions_to[0][0]
-			self.to_index[move_no] = (deepcopy(input_state),move,player,None)
+			self.to_index[move_no] = (deepcopy(input_state),move,player)
 			return move
 	
 	def move(self, state, game_type, pieces, player, enable_flying, move_no):
@@ -436,8 +436,8 @@ class Learned_Player(object):
 			random_move = self.random_move(state, valid_moves, enable_flying, pieces)
 			predictions_from = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_from})
-			self.to_index[move_no] = (deepcopy(input_state),random_move[0], player, None)
-			self.from_index[int(move_no - (game_type * 2))] = (deepcopy(input_state),random_move[1],player,None)
+			self.to_index[move_no] = (deepcopy(input_state),random_move[0], player)
+			self.from_index[int(move_no - (game_type * 2))] = (deepcopy(input_state),random_move[1],player)
 			self.to_qval_index[move_no] = predictions_to[0][0]
 			self.from_qval_index[int(move_no - (game_type * 2))] = predictions_from[0][0]
 #			print('Random move = ' + str(random_move))
@@ -497,8 +497,8 @@ class Learned_Player(object):
 					
 			predicted_move = (piece, move)
 #			print('We predict ' +str(predicted_move))
-		self.to_index[move_no] = (deepcopy(input_state),move,player,None)
-		self.from_index[int(move_no - (game_type * 2))] = (deepcopy(input_state),piece,player,None)
+		self.to_index[move_no] = (deepcopy(input_state),move,player)
+		self.from_index[int(move_no - (game_type * 2))] = (deepcopy(input_state),piece,player)
 		self.to_qval_index[move_no] = predictions_to[0][0]
 		self.from_qval_index[int(move_no - (game_type * 2))] = predictions_from[0][0]
 #		if enable_flying:
@@ -547,7 +547,7 @@ class Learned_Player(object):
 										   self.decision_type: decision_type_remove})
 		if rand <= 100*self.epsilon:
 			piece = self.random_remove_piece(piece_list)
-			self.remove_index[pieces_removed] = (deepcopy(input_state),piece,player,None)
+			self.remove_index[pieces_removed] = (deepcopy(input_state),piece,player)
 			self.remove_qval_index[pieces_removed] = predictions_remove[0][0]
 			return piece
 		else:
@@ -559,7 +559,7 @@ class Learned_Player(object):
 				if val > opt_val:
 					opt_val = val
 					piece = index
-			self.remove_index[pieces_removed] = (deepcopy(input_state),piece,player,None)
+			self.remove_index[pieces_removed] = (deepcopy(input_state),piece,player)
 			self.remove_qval_index[pieces_removed] = predictions_remove[0][0]
 		return piece
 	
