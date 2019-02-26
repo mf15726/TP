@@ -343,7 +343,6 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 				else:
 					player2.edit_to_index(state,move_no)
 					player2.edit_from_index(state,move_no,game_type)
-		print(game_states, move_no)
 		game_states[move_no] = deepcopy(state)
 		move_no += 1
 		if repeated_board(state,game_states):
