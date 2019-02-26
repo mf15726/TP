@@ -259,7 +259,7 @@ class Multi_Task_Player(object):
 
 		l1 = tf.layers.dense(
 			inputs=self.x,
-			units=self.n_input,
+			units=self.n_input_base,
 			kernel_initializer = tf.constant_initializer(0,1),
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu,
@@ -269,7 +269,7 @@ class Multi_Task_Player(object):
 
 		l2 = tf.layers.dense(
 			inputs=l1,
-			units=self.n_nodes_base_1,
+			units=self.n_nodes_base_base_1,
 			kernel_initializer = tf.constant_initializer(0,1),
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu,
@@ -279,7 +279,7 @@ class Multi_Task_Player(object):
 
 #		l3 = tf.layers.dense(
 #		inputs=l2,
-#		units=self.n_nodes_2,
+#		units=self.n_nodes_base_2,
 #		bias_initializer=tf.constant_initializer(0, 1),
 #		activation=tf.nn.leaky_relu,
 #		kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
@@ -307,7 +307,7 @@ class Multi_Task_Player(object):
 
 		l1 = tf.layers.dense(
 			inputs=self.x_task,
-			units=self.n_input_task,
+			units=self.n_input_3
 			kernel_initializer = tf.constant_initializer(0,1),
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu,
@@ -317,7 +317,7 @@ class Multi_Task_Player(object):
 
 		l2 = tf.layers.dense(
 			inputs=l1,
-			units=self.n_nodes_1,
+			units=self.n_nodes_3_1
 			kernel_initializer = tf.constant_initializer(0,1),
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu,
@@ -327,7 +327,7 @@ class Multi_Task_Player(object):
 
 #		l3 = tf.layers.dense(
 #		inputs=l2,
-#		units=self.n_nodes_2,
+#		units=self.n_nodes_3_2,
 #		bias_initializer=tf.constant_initializer(0, 1),
 #		activation=tf.nn.leaky_relu,
 #		kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
@@ -337,7 +337,7 @@ class Multi_Task_Player(object):
 
 		l_out = tf.layers.dense(
 			inputs=l2,
-			units=self.n_classes,
+			units=self.n_classes_3,
 			kernel_initializer = tf.constant_initializer(0,1),
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu,
@@ -356,7 +356,7 @@ class Multi_Task_Player(object):
 
 		l1 = tf.layers.dense(
 			inputs=self.x_task,
-			units=self.n_input_task,
+			units=self.n_input_6,
 			kernel_initializer = tf.constant_initializer(0,1),
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu,
@@ -366,7 +366,7 @@ class Multi_Task_Player(object):
 
 		l2 = tf.layers.dense(
 			inputs=l1,
-			units=self.n_nodes_1,
+			units=self.n_nodes_6_1,
 			kernel_initializer = tf.constant_initializer(0,1),
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu,
@@ -376,7 +376,7 @@ class Multi_Task_Player(object):
 
 #		l3 = tf.layers.dense(
 #		inputs=l2,
-#		units=self.n_nodes_2,
+#		units=self.n_nodes_6_2,
 #		bias_initializer=tf.constant_initializer(0, 1),
 #		activation=tf.nn.leaky_relu,
 #		kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
@@ -386,7 +386,7 @@ class Multi_Task_Player(object):
 
 		l_out = tf.layers.dense(
 			inputs=l2,
-			units=self.n_classes,
+			units=self.n_classes_6,
 			kernel_initializer = tf.constant_initializer(0,1),
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu,
@@ -404,7 +404,7 @@ class Multi_Task_Player(object):
 
 		l1 = tf.layers.dense(
 			inputs=self.x_task,
-			units=self.n_input_task,
+			units=self.n_input_9,
 			kernel_initializer = tf.constant_initializer(0,1),
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu,
@@ -414,7 +414,7 @@ class Multi_Task_Player(object):
 
 		l2 = tf.layers.dense(
 			inputs=l1,
-			units=self.n_nodes_1,
+			units=self.n_nodes_9_1,
 			kernel_initializer = tf.constant_initializer(0,1),
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu,
@@ -424,7 +424,7 @@ class Multi_Task_Player(object):
 
 #		l3 = tf.layers.dense(
 #		inputs=l2,
-#		units=self.n_nodes_2,
+#		units=self.n_nodes_9_2,
 #		bias_initializer=tf.constant_initializer(0, 1),
 #		activation=tf.nn.leaky_relu,
 #		kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
@@ -434,7 +434,7 @@ class Multi_Task_Player(object):
 
 		l_out = tf.layers.dense(
 			inputs=l2,
-			units=self.n_classes,
+			units=self.n_classes_9,
 			kernel_initializer = tf.constant_initializer(0,1),
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu,
@@ -452,7 +452,7 @@ class Multi_Task_Player(object):
 
 		l1 = tf.layers.dense(
 			inputs=self.x_task,
-			units=self.n_input_task,
+			units=self.n_input_12,
 			kernel_initializer = tf.constant_initializer(0,1),
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu,
@@ -462,7 +462,7 @@ class Multi_Task_Player(object):
 
 		l2 = tf.layers.dense(
 			inputs=l1,
-			units=self.n_nodes_1,
+			units=self.n_nodes_12_1,
 			kernel_initializer = tf.constant_initializer(0,1),
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu,
@@ -472,7 +472,7 @@ class Multi_Task_Player(object):
 
 #		l3 = tf.layers.dense(
 #		inputs=l2,
-#		units=self.n_nodes_2,
+#		units=self.n_nodes_12_2,
 #		bias_initializer=tf.constant_initializer(0, 1),
 #		activation=tf.nn.leaky_relu,
 #		kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
@@ -482,7 +482,7 @@ class Multi_Task_Player(object):
 
 		l_out = tf.layers.dense(
 			inputs=l2,
-			units=self.n_classes,
+			units=self.n_classes_12,
 			kernel_initializer = tf.constant_initializer(0,1),
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu,
