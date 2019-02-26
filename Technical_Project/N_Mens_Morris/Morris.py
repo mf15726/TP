@@ -360,7 +360,7 @@ winner_list = []
 enable_flying = True
 game_type = 3
 see_board = True
-total_move_no = 1000
+total_move_no = 10
 multi_task = False
 game_states = [None] * total_move_no
 
