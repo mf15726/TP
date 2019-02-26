@@ -824,14 +824,14 @@ class Multi_Task_Player(object):
 		for index, item in enumerate(self.to_index):
 			if None in item:
 				break
-			reward_base_to, reward_task_to = self.reward_function(game_type,winner,item[2],self.to_qval_index[index],decision_type_to,item[0])
+			reward_base_to, reward_task_to = self.reward_function(game_type,winner,item[2],self.to_qval_base_index[index],decision_type_to,item[0])
 			
 			self.sess.run([self.optimiser_base, self.optimiser_task3], feed_dict={self.reward_base: reward_base_to,
 											     self.reward_3: reward_task_to, 
 											     self.input_base: item[0],
 											     self.game_type: game_type_input,
 											     self.decision_type: decision_type_to,
-											     self.task_input: self.to_qval_index[index]})
+											     self.task_input: self.to_qval_base_index[index]})
 			for sym_state_index in sym3:
 				self.symmetry(item[0],sym_state_index)
 				sym_reward_base_to, sym_reward_task_to = self.reward_function(game_type,winner,item[2],self.to_qval_index[index], decision_type_to, self.symmetry_index)
@@ -841,7 +841,7 @@ class Multi_Task_Player(object):
 												self.input: self.symmetry_index,
 												self.game_type: game_type_input,
 								   				self.decision_type: decision_type_to,
-												self.task_input: self.to_qval_index[index]})
+												self.task_input: self.to_qval_base_index[index]})
 		for index, item in enumerate(self.from_index):
 			if None in item:
 				break
@@ -851,7 +851,7 @@ class Multi_Task_Player(object):
 											     self.input: item[0],
 											     self.game_type: game_type_input,
 											     self.decision_type: decision_type_from,
-											     self.task_input: self.from_qval_index[index]})
+											     self.task_input: self.from_qval_base_index[index]})
 			for sym_state_index in sym_list:
 				self.symmetry(item[0],sym_state_index)
 				sym_reward_base_from, sym_reward_task_from = self.reward_function(game_type,winner,item[2],self.from_qval_index[index], decision_type_from, self.symmetry_index)
@@ -860,7 +860,7 @@ class Multi_Task_Player(object):
 												self.input: self.symmetry_index,
 												self.game_type: game_type_input,
 								   				self.decision_type: decision_type_from,
-												self.task_input: self.from_qval_index[index]})
+												self.task_input: self.from_qval_base_index[index]})
 				
 		for index, item in enumerate(self.remove_index):
 			if None in item:
@@ -871,7 +871,7 @@ class Multi_Task_Player(object):
 											     self.input: item[0],
 											     self.game_type: game_type_input,
 											     self.decision_type: decision_type_remove,
-											     self.task_input: self.remove_qval_index[index]})
+											     self.task_input: self.remove_qval_base_index[index]})
 			for sym_state_index in sym_list:
 				self.symmetry(item[0],sym_state_index)
 				sym_reward_base_remove, sym_reward_task_remove = self.reward_function(game_type,winner,item[2],self.from_qval_base_index[index], decision_type_remove, self.symmetry_index)
@@ -879,7 +879,7 @@ class Multi_Task_Player(object):
 												self.input: self.symmetry_index,
 												self.game_type: game_type_input,
 								   				self.decision_type: decision_type_remove,
-												self.task_input: self.remove_qval_index[index]})
+												self.task_input: self.remove_qval_base_index[index]})
 	
 	
 		self.to_index = [(None, None, None)] * self.limit
