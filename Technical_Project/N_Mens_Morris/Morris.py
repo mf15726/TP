@@ -379,13 +379,13 @@ def play_and_learn(total_game_no,multi_task):
 		if winner != 0:
 			if multi_task:
 				if game_type == 3:
-					multi_task_player.learn3(winner, game_type)
+					multi_task_player.learn3(game_type, winner)
 				elif game_type == 6:
-					multi_task_player.learn6(winner, game_type)
+					multi_task_player.learn6(game_type, winner)
 				elif game_type == 9:
-					multi_task_player.learn9(winner, game_type)
+					multi_task_player.learn9(game_type, winner)
 				else:
-					multi_task_player.learn12(winner, game_type)
+					multi_task_player.learn12(game_type, winner)
 			else:
 				learned_player.learn(game_type, winner)
 	return winner_list
