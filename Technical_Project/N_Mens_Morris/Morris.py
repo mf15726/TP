@@ -346,6 +346,7 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 		move_no += 1
 		if repeated_board(state,game_states):
 			return 0
+		print(game_states, move_no)
 		game_states[move_no] = deepcopy(state)
 		if move_no == limit:
 			return 0
