@@ -281,7 +281,10 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 			if player == 1:
 				prev_pos, move = player1.move(state,game_type,player1_piece_list,player,p1_fly,move_no)
 				if move == 25:
-					return 2
+					if game_type == 12 and move_no == game_type * 2:
+						return 0
+					else:
+						return 2
 #				print('P1 move to = ' + str(move) + ' from = ' + str(prev_pos))
 				if prev_pos not in player1_piece_list:
 					print('Prev_Pos ' +str(prev_pos))
