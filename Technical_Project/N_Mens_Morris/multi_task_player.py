@@ -793,7 +793,7 @@ class Multi_Task_Player(object):
 			reward_task = [1] * task_classes
 		elif winner != 0:
 			reward_base =  [-1] * self.n_classes_base
-			reward_task [-1] * task_classes
+			reward_task = [-1] * task_classes
 		else:
 			reward_base = [0] * self.n_classes_base
 			reward_task = [0] * task_classes
