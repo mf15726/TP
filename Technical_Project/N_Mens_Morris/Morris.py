@@ -361,7 +361,7 @@ enable_flying = True
 game_type = 6
 see_board = True
 total_move_no = 1000
-multi_task = True
+multi_task = False
 game_states = [None] * total_move_no
 
 human_player = Human_Player()
