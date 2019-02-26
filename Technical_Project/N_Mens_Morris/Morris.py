@@ -388,7 +388,7 @@ def play_and_learn(total_game_no,player1,player2):
 #		winner = game_play(learned_player, learned_player, game_type, see_board, enable_flying, total_move_no)
 #		winner = game_play(multi_task_player, multi_task_player, game_type, see_board, enable_flying, total_move_no)
 		winner = game_play(player1, player2, game_type, see_board, enable_flying, total_move_no)
-		print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
+#		print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
 		winner_list[i] = winner
 		if winner != 0:
 			if isinstance(player1, Multi_Task_Player) or isinstance(player2, Multi_Task_Player):
