@@ -52,6 +52,10 @@ class Shortened_Player(object):
 		self.from_future_index = [None] * (self.limit - 6)
 		self.remove_future_index = [None] * 19
 		
+		self.to_qval_index = [None] * self.limit
+		self.from_qval_index = [None] * (self.limit - 6)
+		self.remove_qval_index = [None] * 19
+		
 		self.n_classes = 9
 		
 		self.input_index = [[None]*9,[None]*9,[None]*9,[None]*9]
@@ -159,6 +163,42 @@ class Shortened_Player(object):
 		
 		return l_norm
 	
+	def valid_move(self, state, game_type, pieces):
+		valid_moves = []
+		if game_type == 3:
+			for piece in pieces:
+				if piece is None:
+					continue
+				for space in adj_dict_3[piece]:
+					if state[space] == 0:
+						valid_moves.append((piece,space))
+
+		if game_type == 6:
+			for piece in pieces:
+				if piece is None:
+					continue
+				for space in adj_dict_6[piece]:
+					if state[space] == 0:
+						valid_moves.append((piece,space))
+
+		if game_type == 9:
+			for piece in pieces:
+				if piece is None:
+					continue
+				for space in adj_dict_9[piece]:
+					if state[space] == 0:
+						valid_moves.append((piece,space))
+
+		if game_type == 12:
+			for piece in pieces:
+				if piece is None:
+					continue
+				for space in adj_dict_12[piece]:
+					if state[space] == 0:
+						valid_moves.append((piece,space))
+
+		return valid_moves
+	
 	def padding(self,state,game_type):
 		if game_type > 6:
 			return state
@@ -187,25 +227,36 @@ class Shortened_Player(object):
 	
 	def board_to_input(self, state, game_type, decision_type):
 		if game_type == 3:
-			for index, item in enumerate(state):
-				if index >= len(input_index_3):
-					self.input_index[index] = 0
-				else:
-					temp = input_index_3[index]
-					self.input_index[index] = state[temp]
+			for ind, input_index i enumerate(input_index_3):
+				for index, item in enumerate(state):
+					if index >= len(input_index_3[ind]):
+						self.input_index[index] = 0
+					else:
+						temp = input_index_3[ind][index]
+						self.input_index[ind][index] = state[temp]
 		elif game_type == 6:
-			for index, item in enumerate(state):
-				if index >= len(input_index_6):
-					self.input_index[index] = 0
-				else:
-					temp = input_index_6[index]
-					self.input_index[index] = state[item]
+			for ind, input_index i enumerate(input_index_6):
+				for index, item in enumerate(state):
+					if index >= len(input_index_6[ind]):
+						self.input_index[index] = 0
+					else:
+						temp = input_index_6[ind][index]
+						self.input_index[ind][index] = state[temp]
 					
 		else:
 			for index, item in enumerate(state):
 				temp = input_index_9[index]
 				self.input_index[index] = state[item]
 			
+			
+	def find_move(self, game_type, input_ind, index):
+		if game_type == 3:
+			move = input_index_3[input_ind][index]
+		elif game_type == 6:
+			move = input_index_3[input_ind][index]
+		else:
+			move = input_index_9[input_ind][index]
+		return move
 			
 			
 	def place(self, state, game_type, player, move_no):
@@ -214,12 +265,109 @@ class Shortened_Player(object):
 		game_type_input = [0] * 4
 		game_type_input[int((game_type/3)-1)] = 1
 		input_state = self.convert_board(state,player)
-		
-		
-#		predictions_to = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
-#										   self.decision_type: decision_type_to})
+		self.board_to_input(input_state, game_type, decision_type)
 		if rand <= 100*self.epsilon:
 			move = self.random_place(state)
-			self.to_qval_index[move_no] = predictions_to[0][0]
-			self.to_index[move_no] = (deepcopy(input_state),move,player,None)
+			self.to_qval_index.append(predictions_to[0][0])
+			self.to_index.append((deepcopy(input_state),move,player))
 			return move
+		for ind, mini_state in enumerate(self.input_index):
+			predictions_to = self.sess.run([self.Q_val], feed_dict={self.input: mini_state, self.game_type: game_type_input,
+										   self.decision_type: decision_type_to})
+			for index, item in enumerate(mini_state):
+				if item != 0:
+					continue
+				val = predictions_to[0][0][index]
+				if val > opt_val:
+					opt_val = val
+					move_index = index
+					input_ind = ind
+			self.to_qval_index[move_no] = predictions_to[0][0]
+			self.to_index[move_no] = ((deepcopy(input_state),move,player))
+		move = self.find_move(game_type, input_ind, move_index)
+		return move
+	
+	def move(self, state, game_type, pieces, player, enable_flying, move_no):
+		valid_moves = self.valid_move(state, game_type, pieces)
+		if len(valid_moves) == 0 and not enable_flying:
+			return (25, 25)
+		move = None
+		piece = None
+		rand = random.randint(1,100)
+		game_type_input = [0] * 4
+		game_type_input[int((game_type/3)-1)] = 1
+		input_state = self.convert_board(state,player)
+		input_state = self.padding(input_state,game_type)
+		if rand <= 100*self.epsilon:
+			random_move = self.random_move(state, valid_moves, enable_flying, pieces)
+			predictions_from = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
+										   self.decision_type: decision_type_from})
+			self.to_index[move_no] = (deepcopy(input_state),random_move[0], player)
+			self.from_index[int(move_no - (game_type * 2))] = (deepcopy(input_state),random_move[1],player)
+			self.to_qval_index[move_no] = predictions_to[0][0]
+			self.from_qval_index[int(move_no - (game_type * 2))] = predictions_from[0][0]
+#			print('Random move = ' + str(random_move))
+			return random_move
+		else:
+			opt_val = -float('Inf')
+			if enable_flying:
+				adj_piece_list = pieces
+				for index, item in enumerate(state):
+					if item != 0:
+						continue
+					val = predictions_to[0][0][index]
+#					print('Index, Val ' +str(index) + ' ' + str(val))
+					if val > opt_val:
+						opt_val = val
+						move = index
+			else:
+				for index, item in enumerate(state):
+					if item != 0:
+#						print('We skip' + str(index))
+						continue
+					
+					val = predictions_to[0][0][index]
+#					print('OptVal = ' + str(opt_val))
+#					print('Index, Val ' +str(index) + ' ' + str(val))
+					if val > opt_val:
+						self.piece_adj(state, game_type, index, pieces, player)
+#						print('WE HAVE SUCCESS' + str(adj_piece))
+						if self.piece_adj_list[0] is None:
+							continue
+						else:
+							adj_piece_list = self.piece_adj_list
+							opt_val = val
+							move = index					
+			if move is None:
+				print('No move')
+				return (25,25)
+			
+			predictions_from = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
+										   self.decision_type: decision_type_from})
+			
+			opt_val = -float('Inf')
+#			print('Adj Pieces ' +str(adj_piece_list))
+			for item in adj_piece_list:
+				if item is None:
+					continue
+#				print('Alright here we go ' + str(item))
+				val = predictions_from[0][0][item]
+#				print('VAl = ' +str(val) + ' Opt_Val = ' +str(opt_val))
+				if val > opt_val:
+					opt_val = val
+					piece = item
+#					print('Piece is ' +str(piece))
+			if piece is None:
+				print('No piece')
+				return(25,25)
+					
+			predicted_move = (piece, move)
+#			print('We predict ' +str(predicted_move))
+		self.to_index[move_no] = (deepcopy(input_state),piece,player)
+		self.from_index[int(move_no - (game_type * 2))] = (deepcopy(input_state),move,player)
+		self.to_qval_index[move_no] = predictions_to[0][0]
+		self.from_qval_index[int(move_no - (game_type * 2))] = predictions_from[0][0]
+		if enable_flying:
+			print('PRED MOVE ' + str(predicted_move))
+		return predicted_move
+			
