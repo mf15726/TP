@@ -189,7 +189,7 @@ class Learned_Player(object):
 		self.symmetry_future_index = [None] * self.n_classes
 		self.piece_adj_list = [None] * 12
 
-		self.input = tf.placeholder(tf.float32, [24])
+		self.input = tf.placeholder(tf.float32, [self.n_classes])
 		self.x_p1 = tf.cast(tf.equal(self.input, 1), tf.float32)
 		self.x_p2 = tf.cast(tf.equal(self.input, 2), tf.float32)
 		self.x_empty = tf.cast(tf.equal(self.input, 0), tf.float32)
@@ -360,9 +360,9 @@ class Learned_Player(object):
 		return valid_moves
 		
 	def padding(self,state,game_type):
-		temp = deepcopy(state)
 		if game_type > 6:
-			return temp
+			return state
+		temp = deepcopy(state)
 		if game_type == 3:
 			temp.extend([0]*15)
 		else:
