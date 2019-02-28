@@ -287,11 +287,11 @@ class Learned_Player(object):
 			activity_regularizer=tf.nn.softmax
 		)
 
-#		l_norm = tf.contrib.layers.softmax(
-#			logits=l_out
-#		)
+		l_norm = tf.contrib.layers.softmax(
+			logits=l_out
+		)
 		
-		return l_out
+		return l_norm
 		
 		
 	def piece_adj(self, state, game_type, space, pieces, player):
