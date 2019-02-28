@@ -448,9 +448,9 @@ class Multi_Task_Player(object):
 			activity_regularizer=tf.nn.softmax
 		)
 
-#		l_norm = tf.contrib.layers.softmax(
-#			logits=l_out
-#		)
+		l_norm = tf.contrib.layers.softmax(
+			logits=l_out
+		)
 
 		return l_norm
 	
