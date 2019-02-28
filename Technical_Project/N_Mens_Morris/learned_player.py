@@ -617,11 +617,11 @@ class Learned_Player(object):
 		
 	def edit_from_index(self,state,move_no,game_type):
 		new_state = self.padding(state,game_type)
-		self.from_future_index[move_no-(game_type*2)] = deepcopy(state)
+		self.from_future_index[move_no-(game_type*2)] = deepcopy(new_state)
 		
 	def edit_remove_index(self,state,game_type,pieces_removed):
 		new_state = self.padding(state,game_type)
-		self.remove_future_index[pieces_removed] = deepcopy(state)
+		self.remove_future_index[pieces_removed] = deepcopy(new_state)
 	
 	def learn(self, game_type, winner):
 		game_type_input = [0] * 4
