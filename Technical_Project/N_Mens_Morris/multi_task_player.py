@@ -791,10 +791,10 @@ class Multi_Task_Player(object):
 
 		return free_space
 	
-	def reward_function(self, game_type, winner, player, qval_index, decision_type, input_state, task_classes):
-		predictions_base = self.sess.run([self.Q_val_base], feed_dict={self.base_input: input_state, self.decision_type: decision_type})
+	def reward_function(self, game_type, winner, player, qval_index, decision_type, input_state, task_classes, move):
+		reward_base = self.sess.run([self.Q_val_base], feed_dict={self.base_input: input_state, self.decision_type: decision_type})
 		
-		predictions_task = self.task_specific(game_type, decision_type, predictions_base)
+		reward_task = self.task_specific(game_type, decision_type, predictions_base)
 		if winner == player:
 			reward_base = [1] * self.n_classes_base
 			reward_task = [1] * task_classes
