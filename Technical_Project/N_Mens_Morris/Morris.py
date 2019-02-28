@@ -389,7 +389,7 @@ def play_and_learn(total_game_no,player1,player2):
 		player1.epsilon = (1 - (i+1/total_game_no))
 		player2.epsilon = (1 - (i+1/total_game_no))
 		winner = game_play(player1, player2, game_type, see_board, enable_flying, total_move_no)
-#		print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
+		print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
 		winner_list[i] = winner
 		if winner != 0:
 			if isinstance(player1, Multi_Task_Player) or isinstance(player2, Multi_Task_Player):
