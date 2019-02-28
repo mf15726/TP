@@ -571,10 +571,10 @@ class Learned_Player(object):
 			reward[0][0][move] +=1
 		if winner == (player % 2) + 1:
 			reward[0][0][move] -=  1
-		for item in reward:
+		for item in reward[0][0]:
 			for i in range(self.future_steps):
 				max_q_val = self.max_next_Q(future_state, game_type_input, player, decision_type)
-				reward[0][0][item] += self.gamma**(i+1) * max_q_val
+				item += self.gamma**(i+1) * max_q_val
 			
 		return reward[0][0]
 	
