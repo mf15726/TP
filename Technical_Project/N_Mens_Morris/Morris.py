@@ -376,7 +376,8 @@ multi_task_player.sess.run(tf.global_variables_initializer())
 def play_and_learn(total_game_no,player1,player2):
 	winner_list = [None] * total_game_no
 	for i in range(total_game_no):
-		player1.epsilon = (1 - (total_game_no/i+1))
+		player1.epsilon = (1 - (i+1/total_game_no))
+		player2.epsilon = (1 - (i+1/total_game_no))
 		if i % 100 == 0:
 			print('At epoch ' + str(i))
 			test_winner_list1 = play_dont_learn(100,player1,random_player)
@@ -415,7 +416,7 @@ def play_dont_learn(total_game_no,player1,player2):
 
 #winner_list = play_and_learn(1000,multi_task_player,multi_task_player)
 #winner_list = play_and_learn(1000000,random_player,random_player)
-winner_list = play_and_learn(1000000,learned_player,learned_player)
+winner_list = play_and_learn(10000,learned_player,learned_player)
 print('P1 wins = ' + str(winner_list.count(1)))
 print('P2 wins = ' + str(winner_list.count(2)))
 #cProfile.run('play_and_learn(100)')
