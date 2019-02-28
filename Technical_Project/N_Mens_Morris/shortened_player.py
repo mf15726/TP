@@ -65,7 +65,7 @@ class Shortened_Player(object):
 		self.n_nodes_2 = self.n_classes * 2
 		self.n_nodes_3 = self.n_classes * 2
 		self.n_nodes_4 = self.n_classes * 2
-		self.future_steps = 0
+		self.future_steps = 1
 		
 		self.symmetry_index = [None] * self.n_classes
 		self.symmetry_future_index = [None] * self.n_classes
