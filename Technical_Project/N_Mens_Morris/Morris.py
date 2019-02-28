@@ -386,8 +386,6 @@ def play_and_learn(total_game_no,player1,player2):
 #			print('Agent loses as player 1 ' + str(test_winner_list1.count(2)))
 #			print('Agent wins as player 2 ' + str(test_winner_list2.count(2)))
 #			print('Agent loses as player 2 ' + str(test_winner_list2.count(1)))
-		player1.epsilon = (1 - (i+1/total_game_no))
-		player2.epsilon = (1 - (i+1/total_game_no))
 		winner = game_play(player1, player2, game_type, see_board, enable_flying, total_move_no)
 		print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
 		winner_list[i] = winner
