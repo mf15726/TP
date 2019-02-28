@@ -450,6 +450,7 @@ class Learned_Player(object):
 		print(predictions_to[0][0])
 		print(move_no)
 		if rand <= 100*self.epsilon:
+			print('reee')
 			random_move = self.random_move(state, valid_moves, enable_flying, pieces)
 			predictions_from = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_from})
