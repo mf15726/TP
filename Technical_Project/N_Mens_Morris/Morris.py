@@ -408,16 +408,14 @@ def play_and_learn(total_game_no,player1,player2):
 def play_dont_learn(total_game_no,player1,player2):
 	winner_list = [None] * total_game_no
 	for i in range(total_game_no):
-	#	winner = game_play(random_player, random_player, game_type, see_board, enable_flying, total_move_no)
-#		winner = game_play(learned_player, learned_player, game_type, see_board, enable_flying, total_move_no)
-#		winner = game_play(multi_task_player, multi_task_player, game_type, see_board, enable_flying, total_move_no)
-		winner = game_play(multi_task_player, multi_task_player, game_type, see_board, enable_flying, total_move_no)
+		winner = game_play(player1, player2, game_type, see_board, enable_flying, total_move_no)
 #		print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
 		winner_list[i] = winner
 	return winner_list
 
 #winner_list = play_and_learn(1000,multi_task_player,multi_task_player)
-winner_list = play_and_learn(1000000,random_player,random_player)
+#winner_list = play_and_learn(1000000,random_player,random_player)
+winner_list = play_and_learn(1000000,learned_player,learned_player)
 print('P1 wins = ' + str(winner_list.count(1)))
 print('P2 wins = ' + str(winner_list.count(2)))
 #cProfile.run('play_and_learn(100)')
