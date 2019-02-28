@@ -449,6 +449,7 @@ class Learned_Player(object):
 										   self.decision_type: decision_type_to})
 		print(predictions_to[0][0])
 		print(move_no)
+		print(self.epsilon)
 		if rand <= 100*self.epsilon:
 			print('reee')
 			random_move = self.random_move(state, valid_moves, enable_flying, pieces)
