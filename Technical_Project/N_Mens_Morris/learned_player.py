@@ -293,6 +293,21 @@ class Learned_Player(object):
 		
 		return l_norm
 		
+	def add_new_state_place(self, state, player, move):
+		new_state = deepcopy(state)
+		new_state[move] = player:
+		return new_state
+	def add_new_state_move(self, state, player, move, piece):
+		new_state = deepcopy(state)
+		new_state[move] = player
+		new_state[piece] = 0
+		return new_state
+	def add_new_state_remove(self, state, player, move):
+		new_state = deepcopy(state)
+		new_state[move] = 0
+		return new_state
+		
+		
 		
 	def piece_adj(self, state, game_type, space, pieces, player):
 		self.piece_adj_list = [None] * 12
@@ -572,10 +587,12 @@ class Learned_Player(object):
 			reward[0][0][move] += 1
 		if winner == (player % 2) + 1:
 			reward[0][0][move] -=  1
-		for item in reward[0][0]:
-			for i in range(self.future_steps):
-				max_q_val = self.max_next_Q(future_state, game_type_input, player, decision_type)
-				item += self.gamma**(i+1) * max_q_val
+		max_q_val = self.max_next_Q(future_state, game_type_input, player, decision_type)
+		reward[0][0][move] += max_q_val
+#		for item in reward[0][0]:
+#			for i in range(self.future_steps):
+#				max_q_val = self.max_next_Q(future_state, game_type_input, player, decision_type)
+#				item += self.gamma**(i+1) * max_q_val
 			
 		return reward[0][0]
 	
