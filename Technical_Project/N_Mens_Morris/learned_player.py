@@ -295,7 +295,7 @@ class Learned_Player(object):
 		
 	def add_new_state_place(self, state, player, move):
 		new_state = deepcopy(state)
-		new_state[move] = player:
+		new_state[move] = player
 		return new_state
 	def add_new_state_move(self, state, player, move, piece):
 		new_state = deepcopy(state)
