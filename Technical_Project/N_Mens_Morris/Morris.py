@@ -330,7 +330,7 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 					state[removed_piece] = 0
 					_ = player1_piece_list.index(removed_piece)
 					player1_piece_list[_] = None
-					player2.edit_to_index(state,move_no)
+					player2.edit_to_index(state,game_type,move_no)
 					player2.edit_from_index(state,move_no,game_type)
 					player2.edit_remove_index(state,game_type,pieces_removed)
 					pieces_removed += 1
