@@ -378,7 +378,7 @@ class Learned_Player(object):
 				item = (item % 2) + 1
 			return new_state
 		
-	def max_next_Q(self, state, game_type, player, decision):
+	def max_next_Q(self, state, game_type_input, player, decision):
 		predictions = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_to})
 		val = np.argmax(predictions[0][0])
@@ -573,7 +573,7 @@ class Learned_Player(object):
 			reward[0][0][move] -=  1
 		for item in reward:
 			for i in range(self.future_steps):
-				max_q_val = self.max_next_Q(future_state, game_type, player, decision_type)
+				max_q_val = self.max_next_Q(future_state, game_type_input, player, decision_type)
 				reward[item] += self.gamma**(i+1) * max_q_val
 			
 		return reward
