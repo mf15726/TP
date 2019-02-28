@@ -184,7 +184,7 @@ class Learned_Player(object):
 		self.n_nodes_2 = self.n_classes * 2
 		self.n_nodes_3 = self.n_classes * 2
 		self.n_nodes_4 = self.n_classes * 2
-		self.future_steps = 0
+		self.future_steps = 1
 		self.symmetry_index = [None] * self.n_classes
 		self.symmetry_future_index = [None] * self.n_classes
 		self.piece_adj_list = [None] * 12
@@ -287,11 +287,11 @@ class Learned_Player(object):
 			activity_regularizer=tf.nn.softmax
 		)
 
-		l_norm = tf.contrib.layers.softmax(
-			logits=l_out
-		)
+#		l_norm = tf.contrib.layers.softmax(
+#			logits=l_out
+#		)
 		
-		return l_norm
+		return l_out
 		
 		
 	def piece_adj(self, state, game_type, space, pieces, player):
@@ -570,10 +570,11 @@ class Learned_Player(object):
 		if winner == player:
 			reward[0][0][move] +=1
 		if winner == (player % 2) + 1:
-			reward[0][0][move] -=  1 *
+			reward[0][0][move] -=  1
 		for item in reward:
 			for i in range(self.future_steps):
-				reward[item] += self.gamma**(i+1) * self.max_next_Q(future_state, game_type, player, decision)
+				max_q_val = self.max_next_Q(future_state, game_type, player, decision)
+				reward[item] += self.gamma**(i+1) * max_q_val
 			
 		return reward
 	
