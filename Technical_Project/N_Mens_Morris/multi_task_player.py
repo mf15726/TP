@@ -448,9 +448,9 @@ class Multi_Task_Player(object):
 			activity_regularizer=tf.nn.softmax
 		)
 
-		l_norm = tf.contrib.layers.softmax(
-			logits=l_out
-		)
+#		l_norm = tf.contrib.layers.softmax(
+#			logits=l_out
+#		)
 
 		return l_norm
 	
@@ -591,7 +591,7 @@ class Multi_Task_Player(object):
 		predictions_task = self.task_specific(game_type, decision_type, predicitions_base)
 		val_base = np.argmax(predictions_base[0][0])
 		val_task = np.argmax(predicitions_task[0][0])
-		return val
+		return val_base, val_task
 	
 	def task_specific(self, game_type, decision_type, predictions_base):
 		if game_type == 3:
@@ -791,26 +791,21 @@ class Multi_Task_Player(object):
 
 		return free_space
 	
-	def reward_function(self, game_type, winner, player, qval_index, decision_type, input_state, task_classes, move):
+	def reward_function(self, game_type, winner, player, qval_index, decision_type, input_state, task_classes, future_state, move):
 		reward_base = self.sess.run([self.Q_val_base], feed_dict={self.base_input: input_state, self.decision_type: decision_type})
 		
-		reward_task = self.task_specific(game_type, decision_type, predictions_base)
+		reward_task = self.task_specific(game_type, decision_type, reward_base)
 		if winner == player:
-			reward_base = [1] * self.n_classes_base
-			reward_task = [1] * task_classes
-		elif winner != 0:
-			reward_base =  [-1] * self.n_classes_base
-			reward_task = [-1] * task_classes
-		else:
-			reward_base = [0] * self.n_classes_base
-			reward_task = [0] * task_classes
-		
-		reward_base = list(map(sum, zip((predictions_base[0][0]),reward_base)))
-		reward_task = list(map(sum, zip((predictions_task[0][0]),reward_task)))
-		
+			reward_base[0][0][move] += 1
+			reward_task[0][0][move] += 1
+		if winner == (player % 2) + 1:
+			reward_base[0][0][move] -=  1
+			reward_task[0][0][move] -=  1
+			
 		for item in reward_base:
 			for i in range(self.future_steps):
-				reward_base[item] += self.gamma**(i+1) * self.max_next_Q(input_state, game_type, player, decision_type)
+				max_q_val_base, max_q_val_task = self.max_next_Q(future_state, game_type, player, decision_type)
+				item += self.gamma**(i+1) * max_q_val_base
 				
 		for item in reward_task:
 			for i in range(self.future_steps):
