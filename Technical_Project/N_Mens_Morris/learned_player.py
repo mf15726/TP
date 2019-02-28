@@ -574,9 +574,9 @@ class Learned_Player(object):
 		for item in reward:
 			for i in range(self.future_steps):
 				max_q_val = self.max_next_Q(future_state, game_type_input, player, decision_type)
-				reward[item] += self.gamma**(i+1) * max_q_val
+				reward[0][0][item] += self.gamma**(i+1) * max_q_val
 			
-		return reward
+		return reward[0][0]
 	
 	def symmetry(self, state, sym_box, reward, decision_type, future_state):
 		for index, item in enumerate(state):
