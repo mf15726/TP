@@ -430,7 +430,7 @@ class Learned_Player(object):
 		if rand <= 100*self.epsilon:
 			move = self.random_place(state)
 			self.to_qval_index[move_no] = predictions_to[0][0]
-			self.to_index[move_no] = (deepcopy(input_state),move,player,None)
+			self.to_index[move_no] = (deepcopy(input_state),move,player)
 			return move
 		else:
 			opt_val = -float('Inf')
