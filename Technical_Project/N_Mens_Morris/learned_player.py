@@ -225,7 +225,7 @@ class Learned_Player(object):
 #		self.cost_from = tf.square(self.y - self.Q_val_from)
 		#optimiser
 		
-		self.optimiser = tf.train.RMSPropOptimizer(learning_rate=alpha, decay=0.9).minimize(self.cost)
+		self.optimiser = tf.train.RMSPropOptimizer(learning_rate=alpha, decay=self.gamma).minimize(self.cost)
 		#        self.optimiser = tf.train.AdamOptimizer(learning_rate=alpha, decay=0.9).minimize(self.cost)
 #		self.optimiser = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost)
 #		self.optimiser_from = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost_from)
