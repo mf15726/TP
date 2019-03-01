@@ -240,6 +240,8 @@ class Learned_Player(object):
 #			kernel_initializer=xavier_initializer
 #		)
 
+		print(self.x)
+
 		l1 = tf.layers.dense(
 			inputs=self.x,
 			units=self.n_input,
