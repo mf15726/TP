@@ -620,12 +620,19 @@ class Learned_Player(object):
 #		return reward[0][0]
 	
 	def symmetry(self, state, sym_box, reward, decision_type, future_state):
-		for index, item in enumerate(state):
-			if index == len(sym_box):
-				break
-			temp = sym_box[index]
-			self.symmetry_index[index] = state[temp]
-			self.symmetry_future_index[index] = future_state[temp]	
+		if future_state is None:
+			for index, item in enumerate(state):
+				if index == len(sym_box):
+					break
+				temp = sym_box[index]
+				self.symmetry_index[index] = state[temp]
+		else:
+			for index, item in enumerate(state):
+				if index == len(sym_box):
+					break
+				temp = sym_box[index]
+				self.symmetry_index[index] = state[temp]
+				self.symmetry_future_index[index] = future_state[temp]	
 		
 	def edit_to_index(self,state,game_type,move_no,player):
 		new_state = self.padding(state,game_type)
