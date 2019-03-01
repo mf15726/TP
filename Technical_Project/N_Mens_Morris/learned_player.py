@@ -320,8 +320,7 @@ class Learned_Player(object):
 		new_state[move] = 0
 		return new_state
 		
-		
-		
+				
 	def piece_adj(self, state, game_type, space, pieces, player):
 		self.piece_adj_list = [None] * 12
 		
