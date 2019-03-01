@@ -258,7 +258,7 @@ class Learned_Player(object):
 			activation=tf.nn.leaky_relu,
 			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
 			activity_regularizer=tf.nn.softmax
-#		)
+		)
 
 #		l4 = tf.layers.dense(
 	#		inputs=l3,
