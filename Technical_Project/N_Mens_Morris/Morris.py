@@ -206,7 +206,7 @@ def flying_check(state, player, game_type):
 		return False
 
 def repeated_board(state,game_states):
-	if game_states.count(state) > 1000:
+	if game_states.count(state) > 10:
 		return True
 	return False
 	
@@ -362,7 +362,7 @@ winner_list = []
 enable_flying = True
 game_type = 3
 see_board = True
-total_move_no = 10000
+total_move_no = 1000
 game_states = [None] * (total_move_no + 1)
 
 human_player = Human_Player()
