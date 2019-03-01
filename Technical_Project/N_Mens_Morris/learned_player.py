@@ -424,8 +424,10 @@ class Learned_Player(object):
 		game_type_input[int((game_type/3)-1)] = 1
 		input_state = self.convert_board(state,player)
 		print(input_state)
+		print(player)
 		input_state = self.padding(input_state,game_type)
 		print(input_state)
+		print(player)
 		predictions_to = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_to})
 		
