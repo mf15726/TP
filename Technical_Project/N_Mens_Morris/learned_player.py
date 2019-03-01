@@ -411,7 +411,7 @@ class Learned_Player(object):
 					item = 1
 				print(item)
 				print(new_state)
-		return new_state
+			return new_state
 		
 	def max_next_Q(self, state, game_type_input, player, decision):
 		predictions = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type_input,
