@@ -610,7 +610,6 @@ class Learned_Player(object):
 		max_q_val = self.max_next_Q(future_state, game_type_input, player, decision_type)
 #		reward[0][0][move] += max_q_val
 #		reward[move] += max_q_val
-		print(reward)
 #		for item in reward[0][0]:
 #			for i in range(self.future_steps):
 #				max_q_val = self.max_next_Q(future_state, game_type_input, player, decision_type)
@@ -663,8 +662,6 @@ class Learned_Player(object):
 		for index, item in enumerate(self.to_index):
 			if None in item:
 				break
-			print(item[0])
-			print(item[2])
 			reward_to = self.reward_function(game_type,winner,item[2],self.to_qval_index[index], decision_type_to, item[0], game_type_input, self.to_future_index[index], item[1])
 			_, cost = self.sess.run([self.optimiser, self.cost], feed_dict={self.reward: reward_to, self.input: item[0], self.game_type: game_type_input,
 								   self.decision_type: decision_type_to})
