@@ -154,6 +154,7 @@ sym9_7 = [23,14,2,20,13,5,17,12,8,22,19,16,7,4,1,15,11,6,18,10,3,21,9,0]
 sym3 = [sym3_1,sym3_2,sym3_3,sym3_4,sym3_5,sym3_6,sym3_7]
 sym6 = [sym6_1,sym6_2,sym6_3,sym6_4,sym6_5,sym6_6,sym6_7]
 sym9 = [sym9_1,sym9_2,sym9_3,sym9_4,sym9_5,sym9_6,sym9_7]
+xavier_initializer = tf.contrib.layers.xavier_initializer(uniform=True)
 
 class Learned_Player(object):
 	
