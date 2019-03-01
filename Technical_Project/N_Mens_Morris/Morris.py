@@ -375,6 +375,10 @@ multi_task_player.sess.run(tf.global_variables_initializer())
 #pr.enable()
 def play_and_learn(total_game_no,player1,player2):
 	winner_list = [None] * total_game_no
+	t1_win_list = []
+	t2_win_list = []
+	t1_loss_list = []
+	t2_loss_list = []
 	for i in range(total_game_no):
 		if i % 100 == 0:
 			print('At epoch ' + str(i))
