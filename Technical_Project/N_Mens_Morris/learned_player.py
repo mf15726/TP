@@ -697,8 +697,15 @@ class Learned_Player(object):
 		self.from_index = [(None, None, None)] * (self.limit - 6)
 		self.remove_index = [(None, None, None)] * 19
 		
+		self.to_future_index = [None] * self.limit
+		self.from_future_index = [None] * (self.limit - 6)
+		self.remove_future_index = [None] * 19
+		
 		self.to_qval_index = [None] * self.limit
 		self.from_qval_index = [None] * (self.limit - 6)
 		self.remove_qval_index = [None] * 19
+		
+		self.symmetry_index = [0] * self.n_classes
+		self.symmetry_future_index = [0] * self.n_classes
 		
 		return 0
