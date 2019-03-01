@@ -405,6 +405,7 @@ class Learned_Player(object):
 					continue
 				elif item == 1:
 					item = 2
+					print(item)
 				else:
 					item = 1	
 		return new_state
