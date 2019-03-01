@@ -231,7 +231,7 @@ class Learned_Player(object):
 
 	def neural_network(self):
 		
-		l1 = tf.layers.separable_conv2d(
+		l1 = tf.layers.conv2d(
 			inputs = self.x,
 			filters = 24,
 			kernel_size = [1, 79],
