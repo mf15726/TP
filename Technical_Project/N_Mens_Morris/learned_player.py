@@ -625,12 +625,9 @@ class Learned_Player(object):
 				break
 			temp = sym_box[index]
 			print(temp)
+			print(index)
 			self.symmetry_index[index] = state[temp]
-			self.symmetry_future_index[index] = future_state[temp]
-			self.symmetry_future_index[index] = future_state[temp]
-			self.symmetry_future_index[index] = future_state[temp]
-			
-				
+			self.symmetry_future_index[index] = future_state[temp]	
 		
 	def edit_to_index(self,state,game_type,move_no,player):
 		new_state = self.padding(state,game_type)
