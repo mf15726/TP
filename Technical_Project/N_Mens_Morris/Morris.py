@@ -252,8 +252,8 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 					state[removed_piece] = 0
 					_ = player2_piece_list.index(removed_piece)
 					player2_piece_list[_] = None
-					player1.edit_to_index(state,game_type,move_no)
-					player1.edit_remove_index(state,game_type,pieces_removed)
+					player1.edit_to_index(state,game_type,move_no,player)
+					player1.edit_remove_index(state,game_type,pieces_removed,player)
 					pieces_removed += 1
 				else:
 					removed_piece = player2.remove_piece(state,player1_piece_list,game_type,player,pieces_removed)
@@ -262,14 +262,14 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 					state[removed_piece] = 0
 					_ = player1_piece_list.index(removed_piece)
 					player1_piece_list[_] = None
-					player2.edit_to_index(state,game_type,move_no)
-					player2.edit_remove_index(state,game_type,pieces_removed)
+					player2.edit_to_index(state,game_type,move_no,player)
+					player2.edit_remove_index(state,game_type,pieces_removed,player)
 					pieces_removed += 1
 			else:
 				if player == 1:
-					player1.edit_to_index(state,game_type,move_no)
+					player1.edit_to_index(state,game_type,move_no,player)
 				else:
-					player2.edit_to_index(state,game_type,move_no)
+					player2.edit_to_index(state,game_type,move_no,player)
 		else:
 			if move_no == game_type * 2:
 				winner = end_game(state)
@@ -317,9 +317,9 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 					state[removed_piece] = 0
 					_ = player2_piece_list.index(removed_piece)
 					player2_piece_list[_] = None
-					player1.edit_to_index(state,game_type,move_no)
-					player1.edit_from_index(state,move_no,game_type)
-					player1.edit_remove_index(state,game_type,pieces_removed)
+					player1.edit_to_index(state,game_type,move_no,player)
+					player1.edit_from_index(state,move_no,game_type,player)
+					player1.edit_remove_index(state,game_type,pieces_removed,player)
 					pieces_removed += 1
 					if flying:
 						p2_fly = flying_check(state,2,game_type)
@@ -330,9 +330,9 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 					state[removed_piece] = 0
 					_ = player1_piece_list.index(removed_piece)
 					player1_piece_list[_] = None
-					player2.edit_to_index(state,game_type,move_no)
-					player2.edit_from_index(state,move_no,game_type)
-					player2.edit_remove_index(state,game_type,pieces_removed)
+					player2.edit_to_index(state,game_type,move_no,player)
+					player2.edit_from_index(state,move_no,game_type,player)
+					player2.edit_remove_index(state,game_type,pieces_removed,player)
 					pieces_removed += 1
 					if flying:
 						p1_fly = flying_check(state,1,game_type)
@@ -341,11 +341,11 @@ def game_play(player1,player2,game_type,print_board,flying,limit):
 				winner = end_game(state)
 			else:
 				if player == 1:
-					player1.edit_to_index(state,game_type,move_no)
-					player1.edit_from_index(state,move_no,game_type)
+					player1.edit_to_index(state,game_type,move_no,player)
+					player1.edit_from_index(state,move_no,game_type,player)
 				else:
-					player2.edit_to_index(state,game_type,move_no)
-					player2.edit_from_index(state,move_no,game_type)
+					player2.edit_to_index(state,game_type,move_no,player)
+					player2.edit_from_index(state,move_no,game_type,player)
 		game_states[move_no] = deepcopy(state)
 		move_no += 1
 		if repeated_board(state,game_states):
