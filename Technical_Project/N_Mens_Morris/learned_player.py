@@ -460,9 +460,7 @@ class Learned_Player(object):
 										   self.decision_type: decision_type_to})
 		print(predictions_to[0][0])
 		print(move_no)
-		print(self.epsilon)
 		if rand <= 100*self.epsilon:
-			print('reee')
 			random_move = self.random_move(state, valid_moves, enable_flying, pieces)
 			predictions_from = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_from})
@@ -665,11 +663,8 @@ class Learned_Player(object):
 			for sym_state_index in sym_list:
 				self.symmetry(item[0],sym_state_index,reward_to, decision_type_to,self.to_future_index[index])
 				sym_reward_to = self.reward_function(game_type,winner,item[2],self.to_qval_index[index], decision_type_to, self.symmetry_index, game_type_input, self.to_future_index[index], item[1])
-#				predictions_sym = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
-#										   self.decision_type: decision_type_to})
-				self.sess.run([self.optimiser], feed_dict={self.reward: sym_reward_to, self.input: self.symmetry_index, self.game_type: game_type_input,
-								   self.decision_type: decision_type_to})
-#			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.place_qval_index})
+#				self.sess.run([self.optimiser], feed_dict={self.reward: sym_reward_to, self.input: self.symmetry_index, self.game_type: game_type_input,
+#								   self.decision_type: decision_type_to})
 		for index, item in enumerate(self.from_index):
 			if None in item:
 				break
@@ -679,10 +674,8 @@ class Learned_Player(object):
 			for sym_state_index in sym_list:
 				self.symmetry(item[0],sym_state_index, reward_from, decision_type_from, self.to_future_index[index])
 				sym_reward_from = self.reward_function(game_type,winner,item[2],self.from_qval_index[index], decision_type_from, self.symmetry_index, game_type_input, self.from_future_index[index], item[1])
-				self.sess.run([self.optimiser], feed_dict={self.reward: sym_reward_from, self.input: self.symmetry_index, self.game_type: game_type_input,
-								   self.decision_type: decision_type_from})
-#			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.choose_qval_index})
-#			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.move_qval_index})
+#				self.sess.run([self.optimiser], feed_dict={self.reward: sym_reward_from, self.input: self.symmetry_index, self.game_type: game_type_input,
+#								   self.decision_type: decision_type_from})
 		for index, item in enumerate(self.remove_index):
 			if None in item:
 				break
@@ -692,9 +685,8 @@ class Learned_Player(object):
 			for sym_state_index in sym_list:
 				self.symmetry(item[0],sym_state_index,reward_remove, decision_type_remove, self.remove_future_index[index])
 				sym_reward_remove = self.reward_function(game_type,winner,item[2],self.to_qval_index[index], decision_type_remove, self.symmetry_index, game_type_input, self.remove_future_index[index], item[1])
-				self.sess.run([self.optimiser], feed_dict={self.reward: sym_reward_remove, self.input: self.symmetry_index, self.game_type: game_type_input,
-								   self.decision_type: decision_type_remove})
-#			self.sess.run([self.optimiser], feed_dict={self.reward: reward, self.Q_val_stored: self.place_remove_index})
+#				self.sess.run([self.optimiser], feed_dict={self.reward: sym_reward_remove, self.input: self.symmetry_index, self.game_type: game_type_input,
+#								   self.decision_type: decision_type_remove})
 			
 			
 		self.to_index = [(None, None, None)] * self.limit
