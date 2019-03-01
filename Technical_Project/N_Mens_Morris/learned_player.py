@@ -404,6 +404,8 @@ class Learned_Player(object):
 			for item in new_state:
 				if item != 0:
 					item = (item % 2) + 1
+		if new_state == state:
+			print('Why the fuck unless ' + str(player))
 		return new_state
 		
 	def max_next_Q(self, state, game_type_input, player, decision):
