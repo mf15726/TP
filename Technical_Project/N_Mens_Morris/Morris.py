@@ -382,12 +382,21 @@ def play_and_learn(total_game_no,player1,player2):
 			player2.epsilon = 0
 			test_winner_list1 = play_dont_learn(100,player1,random_player)
 			test_winner_list2 = play_dont_learn(100,random_player,player2)
+			t1_wins = test_winner_list1.count(1)
+			t2_wins = test_winner_list2.count(2)
+			t1_loss = test_winner_list1.count(2)
+			t2_loss = test_winner_list2.count(1)
 			print('Agent wins as player 1 ' + str(test_winner_list1.count(1)))
 			print('Agent loses as player 1 ' + str(test_winner_list1.count(2)))
 			print('Agent wins as player 2 ' + str(test_winner_list2.count(2)))
 			print('Agent loses as player 2 ' + str(test_winner_list2.count(1)))
 			player1.epsilon = 1-((i+1)/total_game_no)
 			player2.epsilon = 1-((i+1)/total_game_no)
+			t1_win_list.append(t1_wins)
+			t2_win_list.append(t2_wins)
+			t1_loss_list.append(t1_loss)
+			t2_loss_list.append(t2_loss)
+			test_winner_list_2_total.append(test_winner_list2)
 		winner = game_play(player1, player2, game_type, see_board, enable_flying, total_move_no)
 		print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
 		winner_list[i] = winner
@@ -403,7 +412,7 @@ def play_and_learn(total_game_no,player1,player2):
 					multi_task_player.learn12(game_type, winner)
 			if isinstance(player1, Learned_Player) or isinstance(player2, Learned_Player):
 				learned_player.learn(game_type, winner)
-	return winner_list
+	return winner_list, t1_win_list, t2_win_list, t1_loss_list, t2_loss_list
 
 def play_dont_learn(total_game_no,player1,player2):
 	winner_list = [None] * total_game_no
@@ -415,8 +424,13 @@ def play_dont_learn(total_game_no,player1,player2):
 
 #winner_list = play_and_learn(1000,multi_task_player,multi_task_player)
 #winner_list = play_and_learn(1000000,random_player,random_player)
-winner_list = play_and_learn(1000,learned_player,learned_player)
+winner_list, test1_win, test2_win, test1_loss, test2_loss = play_and_learn(1000,learned_player,learned_player)
 print('P1 wins = ' + str(winner_list.count(1)))
 print('P2 wins = ' + str(winner_list.count(2)))
+
+print('P1 test wins ' + str(test1_win))
+print('P2 test wins ' + str(test2_win))
+print('P1 test loss ' + str(test1_loss))
+print('P2 test loss ' + str(test2_loss))
 #cProfile.run('play_and_learn(100)')
 #pr.disable()
