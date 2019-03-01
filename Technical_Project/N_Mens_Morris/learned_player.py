@@ -403,6 +403,8 @@ class Learned_Player(object):
 			for item in new_state:
 				if item != 0:
 					item = (item % 2) + 1
+		print(state)
+		print(new_state)
 		return new_state
 		
 	def max_next_Q(self, state, game_type_input, player, decision):
