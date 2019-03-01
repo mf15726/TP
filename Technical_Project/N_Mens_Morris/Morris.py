@@ -382,7 +382,7 @@ def play_and_learn(total_game_no,player1,player2):
 	for i in range(total_game_no):
 		if i % 100 == 0:
 			print('At epoch ' + str(i))
-			player1.epsilon =0
+			player1.epsilon = 0
 			player2.epsilon = 0
 			test_winner_list1 = play_dont_learn(100,player1,random_player)
 			test_winner_list2 = play_dont_learn(100,random_player,player2)
@@ -400,7 +400,6 @@ def play_and_learn(total_game_no,player1,player2):
 			t2_win_list.append(t2_wins)
 			t1_loss_list.append(t1_loss)
 			t2_loss_list.append(t2_loss)
-			test_winner_list_2_total.append(test_winner_list2)
 		winner = game_play(player1, player2, game_type, see_board, enable_flying, total_move_no)
 		print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
 		winner_list[i] = winner
