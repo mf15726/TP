@@ -230,16 +230,25 @@ class Learned_Player(object):
 		#        self.optimizer = tf.train.AdograadOptimizer(learning_rate=alpha, decay=0.9).minimize(self.cost)
 
 	def neural_network(self):
+		
+		l1 = tf.layers.separable_conv2d(
+			inputs = self.x,
+			filters = 24,
+			kernel_size = [1, 79],
+			activation = tf.nn.leaky_relu,
+			use_bias=False,
+			kernel_initializer=xavier_initializer
+		)
 
-		l1 = tf.layers.dense(
-			inputs=self.x,
-			units=self.n_input,
-			kernel_initializer=tf.constant_initializer(0, 1),
-			bias_initializer=tf.constant_initializer(0, 1),
-			activation=tf.nn.leaky_relu
+#		l1 = tf.layers.dense(
+#			inputs=self.x,
+#			units=self.n_input,
+#			kernel_initializer=tf.constant_initializer(0, 1),
+#			bias_initializer=tf.constant_initializer(0, 1),
+#			activation=tf.nn.leaky_relu
 #			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
 #			activity_regularizer=tf.nn.softmax
-		)
+#		)
 
 		l2 = tf.layers.dense(
 			inputs=l1,
