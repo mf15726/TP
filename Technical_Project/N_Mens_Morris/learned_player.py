@@ -401,7 +401,9 @@ class Learned_Player(object):
 		else:
 			new_state = deepcopy(state)
 			for item in new_state:
+				print(item)
 				item = (item % 2) + 1
+				print(item)
 			return new_state
 		
 	def max_next_Q(self, state, game_type_input, player, decision):
