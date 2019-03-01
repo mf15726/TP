@@ -407,8 +407,6 @@ class Learned_Player(object):
 			return new_state
 		
 	def max_next_Q(self, state, game_type_input, player, decision):
-		if state is None:
-			return 0
 		predictions = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_to})
 		val = np.argmax(predictions[0][0])
@@ -624,12 +622,9 @@ class Learned_Player(object):
 				break
 			temp = sym_box[index]
 			self.symmetry_index[index] = state[temp]
-			if decision_type == [1,0,0]:
-				self.symmetry_future_index[index] = future_state[temp]
-			elif decision_type == [0,1,0]:
-				self.symmetry_future_index[index] = future_state[temp]
-			else:
-				self.symmetry_future_index[index] = future_state[temp]
+			self.symmetry_future_index[index] = future_state[temp]
+			self.symmetry_future_index[index] = future_state[temp]
+			self.symmetry_future_index[index] = future_state[temp]
 				
 		
 	def edit_to_index(self,state,game_type,move_no,player):
