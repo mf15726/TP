@@ -633,7 +633,9 @@ class Learned_Player(object):
 				self.symmetry_index[index] = state[temp]
 				self.symmetry_future_index[index] = future_state[temp]	
 		
- 	def edit_to_index(self,state,game_type,move_no,player):
+		
+		
+	def edit_to_index(self,state,game_type,move_no,player):
 		new_state = self.padding(state,game_type)
 		new_state = self.convert_board(new_state,player)
 		self.to_future_index[move_no] = deepcopy(new_state)
