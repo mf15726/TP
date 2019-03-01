@@ -225,9 +225,9 @@ class Learned_Player(object):
 #		self.cost_from = tf.square(self.y - self.Q_val_from)
 		#optimiser
 		
-#		self.optimiser = tf.train.RMSPropOptimizer(learning_rate=alpha, decay=0.9).minimize(self.cost)
+		self.optimiser = tf.train.RMSPropOptimizer(learning_rate=alpha, decay=0.9).minimize(self.cost)
 		#        self.optimiser = tf.train.AdamOptimizer(learning_rate=alpha, decay=0.9).minimize(self.cost)
-		self.optimiser = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost)
+#		self.optimiser = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost)
 #		self.optimiser_from = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost_from)
 		#        self.optimizer = tf.train.AdograadOptimizer(learning_rate=alpha, decay=0.9).minimize(self.cost)
 
@@ -245,7 +245,7 @@ class Learned_Player(object):
 		l1 = tf.layers.dense(
 			inputs=self.x,
 			units=self.n_input,
-			kernel_initializer=tf.constant_initializer(0, 1),
+#			kernel_initializer=tf.constant_initializer(0, 1),
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu,
 #			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1)
@@ -255,7 +255,7 @@ class Learned_Player(object):
 		l2 = tf.layers.dense(
 			inputs=l1,
 			units=self.n_nodes_1,
-			kernel_initializer=tf.constant_initializer(0, 1),
+#			kernel_initializer=tf.constant_initializer(0, 1),
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu,
 #			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1)
@@ -265,7 +265,7 @@ class Learned_Player(object):
 		l3 = tf.layers.dense(
 			inputs=l2,
 			units=self.n_nodes_2,
-			kernel_initializer=tf.constant_initializer(0, 1),
+#			kernel_initializer=tf.constant_initializer(0, 1),
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu,
 #			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1)
@@ -293,7 +293,7 @@ class Learned_Player(object):
 		l_out = tf.layers.dense(
 			inputs=l3,
 			units=self.n_classes,
-			kernel_initializer=tf.constant_initializer(0, 1),
+#			kernel_initializer=tf.constant_initializer(0, 1),
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu
 #			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
