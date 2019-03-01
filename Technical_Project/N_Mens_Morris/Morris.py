@@ -367,7 +367,7 @@ game_states = [None] * (total_move_no + 1)
 
 human_player = Human_Player()
 random_player = Random_Player()
-learned_player = Learned_Player(epsilon=1, alpha=0.3, gamma=0.9, limit=total_move_no)
+learned_player = Learned_Player(epsilon=1, alpha=0.35, gamma=0.9, limit=total_move_no)
 multi_task_player = Multi_Task_Player(epsilon=1, alpha=0.3, gamma=0.9, limit=total_move_no)
 learned_player.sess.run(tf.global_variables_initializer())
 multi_task_player.sess.run(tf.global_variables_initializer())
@@ -427,7 +427,7 @@ def play_dont_learn(total_game_no,player1,player2):
 
 #winner_list = play_and_learn(1000,multi_task_player,multi_task_player)
 #winner_list = play_and_learn(1000000,random_player,random_player)
-winner_list, test1_win, test2_win, test1_loss, test2_loss = play_and_learn(1000,learned_player,learned_player)
+winner_list, test1_win, test2_win, test1_loss, test2_loss = play_and_learn(25000,learned_player,learned_player)
 print('P1 wins = ' + str(winner_list.count(1)))
 print('P2 wins = ' + str(winner_list.count(2)))
 
