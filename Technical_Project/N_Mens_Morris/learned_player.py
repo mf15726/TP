@@ -659,7 +659,6 @@ class Learned_Player(object):
 			sym_list = sym9
 		
 		for index, item in enumerate(self.to_index):
-			print(self.to_future_index[index])
 			if None in item:
 				break
 			reward_to = self.reward_function(game_type,winner,item[2],self.to_qval_index[index], decision_type_to, item[0], game_type_input, self.to_future_index[index], item[1])
