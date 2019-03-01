@@ -613,16 +613,19 @@ class Learned_Player(object):
 				self.symmetry_future_index[index] = future_state[temp]
 				
 		
-	def edit_to_index(self,state,game_type,move_no):
+	def edit_to_index(self,state,game_type,move_no,player):
 		new_state = self.padding(state,game_type)
+		new_state = self.convert_board(new_state,player)
 		self.to_future_index[move_no] = deepcopy(new_state)
 		
-	def edit_from_index(self,state,move_no,game_type):
+	def edit_from_index(self,state,move_no,game_type,player):
 		new_state = self.padding(state,game_type)
+		new_state = self.convert_board(new_state,player)
 		self.from_future_index[move_no-(game_type*2)] = deepcopy(new_state)
 		
-	def edit_remove_index(self,state,game_type,pieces_removed):
+	def edit_remove_index(self,state,game_type,pieces_removed,player):
 		new_state = self.padding(state,game_type)
+		new_state = self.convert_board(new_state,player)
 		self.remove_future_index[pieces_removed] = deepcopy(new_state)
 	
 	def learn(self, game_type, winner):
