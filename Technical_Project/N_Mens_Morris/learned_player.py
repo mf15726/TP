@@ -217,7 +217,8 @@ class Learned_Player(object):
 #		self.Q_val_from = self.neural_network_from()
 		self.Q_val_stored = tf.placeholder(tf.float32, shape=[self.n_classes])
 		#cost
-		self.cost = (tf.square(self.y - self.Q_val))
+#		self.cost = (tf.square(self.y - self.Q_val))
+		self.cost = tf.squared_difference(self.y, self.Q_val)
 		#        self.cost = tf.square(self.Q_val - self.y)
 #		self.cost = tf.reduce_mean(tf.squared_difference(self.y, self.Q_val))
 #		self.cost = tf.square(self.y - self.Q_val_stored)
@@ -667,7 +668,7 @@ class Learned_Player(object):
 			reward_to = self.reward_function(game_type,winner,item[2],self.to_qval_index[index], decision_type_to, item[0], game_type_input, self.to_future_index[index], item[1])
 			_, cost = self.sess.run([self.optimiser, self.cost], feed_dict={self.reward: reward_to, self.input: item[0], self.game_type: game_type_input,
 								   self.decision_type: decision_type_to})
-			print(cost)
+			
 			for sym_state_index in sym_list:
 				self.symmetry(item[0],sym_state_index,reward_to, decision_type_to,self.to_future_index[index])
 				sym_reward_to = self.reward_function(game_type,winner,item[2],self.to_qval_index[index], decision_type_to, self.symmetry_index, game_type_input, self.to_future_index[index], sym_state_index[item[1]])
