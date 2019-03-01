@@ -378,14 +378,16 @@ def play_and_learn(total_game_no,player1,player2):
 	for i in range(total_game_no):
 		if i % 100 == 0:
 			print('At epoch ' + str(i))
-#			player1.epsilon -=0.1
-#			player2.epsilon -= 0.1
-#			test_winner_list1 = play_dont_learn(100,player1,random_player)
-#			test_winner_list2 = play_dont_learn(100,random_player,player2)
-#			print('Agent wins as player 1 ' + str(test_winner_list1.count(1)))
-#			print('Agent loses as player 1 ' + str(test_winner_list1.count(2)))
-#			print('Agent wins as player 2 ' + str(test_winner_list2.count(2)))
-#			print('Agent loses as player 2 ' + str(test_winner_list2.count(1)))
+			player1.epsilon =0
+			player2.epsilon = 0
+			test_winner_list1 = play_dont_learn(100,player1,random_player)
+			test_winner_list2 = play_dont_learn(100,random_player,player2)
+			print('Agent wins as player 1 ' + str(test_winner_list1.count(1)))
+			print('Agent loses as player 1 ' + str(test_winner_list1.count(2)))
+			print('Agent wins as player 2 ' + str(test_winner_list2.count(2)))
+			print('Agent loses as player 2 ' + str(test_winner_list2.count(1)))
+			player1.epsilon = 1-((i+1)/total_game_no)
+			player2.epsilon = 1-((i+1)/total_game_no)
 		winner = game_play(player1, player2, game_type, see_board, enable_flying, total_move_no)
 		print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
 		winner_list[i] = winner
