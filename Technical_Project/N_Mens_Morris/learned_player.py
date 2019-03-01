@@ -402,7 +402,7 @@ class Learned_Player(object):
 			new_state = deepcopy(state)
 			for item in new_state:
 				if item == 0:
-					conitnue
+					continue
 				elif item == 1:
 					item = 2
 				else:
