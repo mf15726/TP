@@ -644,6 +644,7 @@ class Learned_Player(object):
 		self.remove_future_index[pieces_removed] = deepcopy(new_state)
 	
 	def learn(self, game_type, winner):
+		print('YAHOO')
 		game_type_input = [0] * 4
 		game_type_input[int((game_type/3)-1)] = 1
 		counter = 0
