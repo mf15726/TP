@@ -644,7 +644,6 @@ class Learned_Player(object):
 		self.remove_future_index[pieces_removed] = deepcopy(new_state)
 	
 	def learn(self, game_type, winner):
-		print('YAHOO')
 		game_type_input = [0] * 4
 		game_type_input[int((game_type/3)-1)] = 1
 		counter = 0
@@ -654,12 +653,9 @@ class Learned_Player(object):
 			sym_list = sym6
 		else:
 			sym_list = sym9
-			
-		print(self.to_index)
-		print(self.from_index)
-		print(self.remove_index)
 		
 		for index, item in enumerate(self.to_index):
+			print(item)
 			if None in item:
 				break
 			reward_to = self.reward_function(game_type,winner,item[2],self.to_qval_index[index], decision_type_to, item[0], game_type_input, self.to_future_index[index], item[1])
@@ -671,6 +667,7 @@ class Learned_Player(object):
 #				self.sess.run([self.optimiser], feed_dict={self.reward: sym_reward_to, self.input: self.symmetry_index, self.game_type: game_type_input,
 #								   self.decision_type: decision_type_to})
 		for index, item in enumerate(self.from_index):
+			print(item)
 			if None in item:
 				break
 			reward_from = self.reward_function(game_type,winner,item[2],self.from_qval_index[index], decision_type_from, item[0], game_type_input, self.from_future_index[index], item[1]) 
@@ -682,6 +679,7 @@ class Learned_Player(object):
 #				self.sess.run([self.optimiser], feed_dict={self.reward: sym_reward_from, self.input: self.symmetry_index, self.game_type: game_type_input,
 #								   self.decision_type: decision_type_from})
 		for index, item in enumerate(self.remove_index):
+			print(item)
 			if None in item:
 				break
 			reward_remove = self.reward_function(game_type,winner,item[2],self.remove_qval_index[index], decision_type_remove, item[0],  game_type_input, self.remove_future_index[index], item[1])
