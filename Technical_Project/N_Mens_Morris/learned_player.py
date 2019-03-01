@@ -401,17 +401,9 @@ class Learned_Player(object):
 			return state
 		else:
 			new_state = copy(state)
-			for item in new_state:
-				print(item)
-				print(new_state)
-				if item == 0:
-					continue
-				elif item == 1:
-					item = 2
-				else:
-					item = 1
-				print(item)
-				print(new_state)
+			for index, item in enumerate(new_state):
+				if item != 0:
+					new_state[index] = (item%2) + 1
 			return new_state
 		
 	def max_next_Q(self, state, game_type_input, player, decision):
