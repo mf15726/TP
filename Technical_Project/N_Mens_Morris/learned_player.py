@@ -399,7 +399,7 @@ class Learned_Player(object):
 		if player == 1:
 			return state
 		else:
-			new_state = deepcopy(state)
+			new_state = copy(state)
 			for item in new_state:
 				print(item)
 				print(new_state)
