@@ -380,7 +380,7 @@ def play_and_learn(total_game_no,player1,player2):
 	t1_loss_list = []
 	t2_loss_list = []
 	for i in range(total_game_no):
-		if i % 100 == 0:
+		if i % 250 == 0:
 			print('At epoch ' + str(i))
 			player1.epsilon = 0
 			player2.epsilon = 0
