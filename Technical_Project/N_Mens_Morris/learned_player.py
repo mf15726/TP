@@ -624,10 +624,6 @@ class Learned_Player(object):
 			if index == len(sym_box):
 				break
 			temp = sym_box[index]
-			print(temp)
-			print(index)
-			print(self.symmetry_index)
-			print(state)
 			self.symmetry_index[index] = state[temp]
 			self.symmetry_future_index[index] = future_state[temp]	
 		
