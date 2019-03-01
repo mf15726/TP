@@ -247,7 +247,7 @@ class Learned_Player(object):
 			kernel_initializer=tf.constant_initializer(0, 1),
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu,
-			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1)
+#			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1)
 #			activity_regularizer=tf.nn.softmax
 		)
 
@@ -257,7 +257,7 @@ class Learned_Player(object):
 			kernel_initializer=tf.constant_initializer(0, 1),
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu,
-			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1)
+#			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1)
 #			activity_regularizer=tf.nn.softmax
 		)
 
@@ -267,7 +267,7 @@ class Learned_Player(object):
 			kernel_initializer=tf.constant_initializer(0, 1),
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu,
-			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1)
+#			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1)
 #			activity_regularizer=tf.nn.softmax
 		)
 
@@ -659,7 +659,6 @@ class Learned_Player(object):
 			sym_list = sym9
 		
 		for index, item in enumerate(self.to_index):
-			print(item)
 			if None in item:
 				break
 			reward_to = self.reward_function(game_type,winner,item[2],self.to_qval_index[index], decision_type_to, item[0], game_type_input, self.to_future_index[index], item[1])
@@ -671,7 +670,6 @@ class Learned_Player(object):
 				self.sess.run([self.optimiser], feed_dict={self.reward: sym_reward_to, self.input: self.symmetry_index, self.game_type: game_type_input,
 								   self.decision_type: decision_type_to})
 		for index, item in enumerate(self.from_index):
-			print(item)
 			if None in item:
 				break
 			reward_from = self.reward_function(game_type,winner,item[2],self.from_qval_index[index], decision_type_from, item[0], game_type_input, self.from_future_index[index], item[1]) 
@@ -683,7 +681,6 @@ class Learned_Player(object):
 				self.sess.run([self.optimiser], feed_dict={self.reward: sym_reward_from, self.input: self.symmetry_index, self.game_type: game_type_input,
 								   self.decision_type: decision_type_from})
 		for index, item in enumerate(self.remove_index):
-			print(item)
 			if None in item:
 				break
 			reward_remove = self.reward_function(game_type,winner,item[2],self.remove_qval_index[index], decision_type_remove, item[0],  game_type_input, self.remove_future_index[index], item[1])
