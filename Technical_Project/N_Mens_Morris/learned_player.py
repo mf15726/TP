@@ -396,8 +396,8 @@ class Learned_Player(object):
 		return temp
 	
 	def convert_board(self, state, player):
+		print('oplayer = ' + str(player))
 		if player == 1:
-			print('player 1')
 			return state
 		else:
 			new_state = deepcopy(state)
