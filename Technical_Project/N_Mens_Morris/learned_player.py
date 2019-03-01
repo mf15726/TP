@@ -244,7 +244,7 @@ class Learned_Player(object):
 		l2 = tf.layers.dense(
 			inputs=l1,
 			units=self.n_nodes_1,
-			kernel_initializer = tf.constant_initializer(0,1),
+			kernel_initializer = xavier_initializer,
 			bias_initializer=tf.constant_initializer(0, 1),
 			activation=tf.nn.leaky_relu
 #			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1),
