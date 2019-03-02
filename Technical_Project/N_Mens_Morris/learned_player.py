@@ -522,6 +522,8 @@ class Learned_Player(object):
 						adj_piece_list = self.piece_adj_list
 						input_state[index] = 1
 						for piece in adj_piece_list:
+							if piece is None:
+								continue
 							input_state[piece] = 0
 							self.q_reward(input_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
 							input_state[piece] = 1
@@ -573,6 +575,8 @@ class Learned_Player(object):
 						adj_piece_list = self.piece_adj_list
 						input_state[index] = 1
 						for piece in adj_piece_list:
+							if piece is None:
+								continue
 							input_state[piece] = 0
 							self.q_reward(input_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
 							input_state[piece] = 1
