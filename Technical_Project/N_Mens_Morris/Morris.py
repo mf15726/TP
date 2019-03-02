@@ -380,6 +380,8 @@ def play_and_learn(total_game_no,player1,player2):
 	t1_loss_list = []
 	t2_loss_list = []
 	for i in range(total_game_no):
+		player1.epsilon = 1-((i+1)/total_game_no+1)
+		player2.epsilon = 1-((i+1)/total_game_no+1)
 		if i % 250 == 0:
 			print('At epoch ' + str(i))
 			player1.epsilon = 0
@@ -394,8 +396,6 @@ def play_and_learn(total_game_no,player1,player2):
 			print('Agent loses as player 1 ' + str(test_winner_list1.count(2)))
 			print('Agent wins as player 2 ' + str(test_winner_list2.count(2)))
 			print('Agent loses as player 2 ' + str(test_winner_list2.count(1)))
-			player1.epsilon = 1-((i+1)/total_game_no+1)
-			player2.epsilon = 1-((i+1)/total_game_no+1)
 			t1_win_list.append(t1_wins)
 			t2_win_list.append(t2_wins)
 			t1_loss_list.append(t1_loss)
