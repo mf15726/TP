@@ -382,7 +382,7 @@ def play_and_learn(total_game_no,player1,player2):
 	for i in range(total_game_no):
 #		player1.epsilon = 1-((i+1)/(total_game_no+1))
 #		player2.epsilon = 1-((i+1)/(total_game_no+1))
-		print(player1.epsilon)
+#		print(player1.epsilon)
 		if i % 250 == 0:
 			print('At epoch ' + str(i))
 #			player1.epsilon = 0
