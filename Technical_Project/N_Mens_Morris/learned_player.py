@@ -218,7 +218,8 @@ class Learned_Player(object):
 		self.Q_val_stored = tf.placeholder(tf.float32, shape=[self.n_classes])
 		#cost
 #		self.cost = (tf.square(self.y - self.Q_val))
-		self.cost = tf.squared_difference(self.y, self.Q_val)
+#		self.cost = tf.squared_difference(self.y, self.Q_val)
+		self.loss = tf.losses.mean_squared_error(self.y,self.Q_val)
 		#        self.cost = tf.square(self.Q_val - self.y)
 #		self.cost = tf.reduce_mean(tf.squared_difference(self.y, self.Q_val))
 #		self.cost = tf.square(self.y - self.Q_val_stored)
@@ -620,6 +621,14 @@ class Learned_Player(object):
 		return reward
 			
 #		return reward[0][0]
+
+	
+	def clipped_error(self,x):
+ 	 	# Huber loss
+  		try:
+    			return tf.select(tf.abs(x) < 1.0, 0.5 * tf.square(x), tf.abs(x) - 0.5)
+  		except:
+   	 		return tf.where(tf.abs(x) < 1.0, 0.5 * tf.square(x), tf.abs(x) - 0.5)
 	
 	def symmetry(self, state, sym_box, reward, decision_type, future_state):
 		if future_state is None:
@@ -652,6 +661,8 @@ class Learned_Player(object):
 		new_state = self.padding(state,game_type)
 		new_state = self.convert_board(new_state,player)
 		self.remove_future_index[pieces_removed] = deepcopy(new_state)
+	
+	
 	
 	def learn(self, game_type, winner):
 		game_type_input = [0] * 4
