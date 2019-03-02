@@ -534,7 +534,6 @@ class Learned_Player(object):
 			for item in self.piece_adj_list:
 				if item is None:
 					continue
-				state[item] = 0
 				self.q_reward_move(input_state,game_type_input,item,decision_type_from,move_no-(game_type*2),self.from_future_qval_index)
 			self.to_index[move_no] = (deepcopy(input_state),random_move[0], player)
 			self.from_index[int(move_no - (game_type * 2))] = (deepcopy(input_state),random_move[1],player)
@@ -602,8 +601,9 @@ class Learned_Player(object):
 			for item in self.piece_adj_list:
 				if item is None:
 					continue
-				state[item] = 0
+				input_state[item] = 0
 				self.q_reward(input_state,game_type_input,item,decision_type_from,move_no-(game_type*2),self.from_future_qval_index)
+				input_state[item] = 1
 #				print('Alright here we go ' + str(item))
 				val = predictions_from[0][0][item]
 #				print('VAl = ' +str(val) + ' Opt_Val = ' +str(opt_val))
