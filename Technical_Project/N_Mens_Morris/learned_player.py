@@ -497,13 +497,15 @@ class Learned_Player(object):
 			predictions_from = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_from})
 			if enable_flying:
-				adj_piece_list = pieces
+				self.piece_adj_list = pieces
 				for index, item in enumerate(state):
 					if item != 0:
 						continue
 					input_state[index] = 1
 					self.to_future_qval_index[move_no][index] = -float('Inf')
-					for piece in adj_piece_list:
+					for piece in self.piece_adj_list:
+						if item is None:
+							continue
 						input_state[piece] = 0
 						self.q_reward(input_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
 						input_state[piece] = 1
@@ -519,9 +521,8 @@ class Learned_Player(object):
 					if self.piece_adj_list[0] is None:
 						continue
 					else:
-						adj_piece_list = self.piece_adj_list
 						input_state[index] = 1
-						for piece in adj_piece_list:
+						for piece in self.piece_adj_list:
 							if piece is None:
 								continue
 							input_state[piece] = 0
@@ -530,7 +531,7 @@ class Learned_Player(object):
 						input_state[index] = 0
 						
 			self.piece_adj(state, game_type, random_move[1], pieces, player)
-			for item in adj_piece_list:
+			for item in self.piece_adj_list:
 				if item is None:
 					continue
 				state[item] = 0
@@ -545,7 +546,7 @@ class Learned_Player(object):
 		else:
 			opt_val = -float('Inf')
 			if enable_flying:
-				adj_piece_list = pieces
+				self.piece_adj_list = pieces
 				for index, item in enumerate(state):
 					if item != 0:
 						continue
@@ -556,7 +557,7 @@ class Learned_Player(object):
 						self.q_reward(input_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
 						input_state[piece] = 1
 					input_state[index] = 0
-					for item in adj_pieces:
+					for item in self.piece_adj_list:
 						val = predictions_to[0][0][index]
 #					print('Index, Val ' +str(index) + ' ' + str(val))
 					if val > opt_val:
@@ -572,9 +573,8 @@ class Learned_Player(object):
 					if self.piece_adj_list[0] is None:
 						continue
 					else:
-						adj_piece_list = self.piece_adj_list
 						input_state[index] = 1
-						for piece in adj_piece_list:
+						for piece in self.piece_adj_list:
 							if piece is None:
 								continue
 							input_state[piece] = 0
@@ -599,7 +599,7 @@ class Learned_Player(object):
 			
 			opt_val = -float('Inf')
 #			print('Adj Pieces ' +str(adj_piece_list))
-			for item in adj_piece_list:
+			for item in self.piece_adj_list:
 				if item is None:
 					continue
 				state[item] = 0
