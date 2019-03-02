@@ -608,6 +608,7 @@ class Learned_Player(object):
 			reward[move] -= 1
 #			reward[0][0][move] -=  1
 		max_q_val = self.max_next_Q(future_state, game_type_input, player, decision_type)
+		print(reward)
 #		reward[0][0][move] += max_q_val
 #		reward[move] += max_q_val
 #		for item in reward[0][0]:
