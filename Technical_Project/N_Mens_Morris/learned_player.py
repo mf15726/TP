@@ -507,7 +507,7 @@ class Learned_Player(object):
 						if item is None:
 							continue
 						input_state[piece] = 0
-						self.q_reward(input_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
+						self.q_reward_move(input_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
 						input_state[piece] = 1
 					input_state[index] = 0
 			else:
@@ -526,7 +526,7 @@ class Learned_Player(object):
 							if piece is None:
 								continue
 							input_state[piece] = 0
-							self.q_reward(input_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
+							self.q_reward_move(input_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
 							input_state[piece] = 1
 						input_state[index] = 0
 						
@@ -535,7 +535,7 @@ class Learned_Player(object):
 				if item is None:
 					continue
 				state[item] = 0
-				self.q_reward(input_state,game_type_input,item,decision_type_from,move_no-(game_type*2),self.from_future_qval_index)
+				self.q_reward_move(input_state,game_type_input,item,decision_type_from,move_no-(game_type*2),self.from_future_qval_index)
 			self.to_index[move_no] = (deepcopy(input_state),random_move[0], player)
 			self.from_index[int(move_no - (game_type * 2))] = (deepcopy(input_state),random_move[1],player)
 			self.to_qval_index[move_no] = predictions_to[0][0]
@@ -673,7 +673,7 @@ class Learned_Player(object):
 				if item != opponent:
 					continue
 				input_state[index] = 0
-				self.q_reward(input_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
+				self.q_reward(input_state,game_type_input,index,decision_type_to,pieces_removed,self.to_future_qval_index)
 				input_state[index] = 2
 			return piece
 		else:
