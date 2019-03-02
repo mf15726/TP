@@ -609,7 +609,7 @@ class Learned_Player(object):
 			reward[move] -= 1
 #			reward[0][0][move] -=  1
 		max_q_val = self.max_next_Q(future_state, game_type_input, player, decision_type)
-		print(reward)
+
 #		reward[0][0][move] += max_q_val
 #		reward[move] += max_q_val
 #		for item in reward[0][0]:
@@ -679,6 +679,7 @@ class Learned_Player(object):
 			reward_to = self.reward_function(game_type,winner,item[2],self.to_qval_index[index], decision_type_to, item[0], game_type_input, self.to_future_index[index], item[1])
 			_, cost = self.sess.run([self.optimiser, self.cost], feed_dict={self.reward: reward_to, self.input: item[0], self.game_type: game_type_input,
 								   self.decision_type: decision_type_to})
+			print(cost)
 			
 			for sym_state_index in sym_list:
 				self.symmetry(item[0],sym_state_index,reward_to, decision_type_to,self.to_future_index[index])
