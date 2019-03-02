@@ -225,7 +225,7 @@ class Learned_Player(object):
 #		self.cost_from = tf.square(self.y - self.Q_val_from)
 		#optimiser
 		
-		self.optimiser = tf.train.RMSPropOptimizer(learning_rate=alpha, decay=self.gamma).minimize(self.cost)
+		self.optimiser = tf.train.RMSPropOptimizer(learning_rate=alpha, momentum=0.9, decay=self.gamma).minimize(self.cost)
 		#        self.optimiser = tf.train.AdamOptimizer(learning_rate=alpha, decay=0.9).minimize(self.cost)
 #		self.optimiser = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost)
 #		self.optimiser_from = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost_from)
@@ -251,9 +251,11 @@ class Learned_Player(object):
 #			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1)
 #			activity_regularizer=tf.nn.softmax
 		)
+	
+		l1_dropout = tf.nn.dropout(l1,0.8)
 
 		l2 = tf.layers.dense(
-			inputs=l1,
+			inputs=l1_droput,
 			units=self.n_nodes_1,
 #			kernel_initializer=tf.constant_initializer(0, 1),
 			bias_initializer=tf.constant_initializer(0, 1),
@@ -261,9 +263,11 @@ class Learned_Player(object):
 #			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1)
 #			activity_regularizer=tf.nn.softmax
 		)
+		
+		l2_dropout = tf.nn.dropout(l2,0.8)
 
 		l3 = tf.layers.dense(
-			inputs=l2,
+			inputs=l2_droput,
 			units=self.n_nodes_2,
 #			kernel_initializer=tf.constant_initializer(0, 1),
 			bias_initializer=tf.constant_initializer(0, 1),
@@ -271,6 +275,8 @@ class Learned_Player(object):
 #			kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.1)
 #			activity_regularizer=tf.nn.softmax
 		)
+		
+		l3_dropout = tf.nn.dropout(l3,0.8)
 
 #		l4 = tf.layers.dense(
 	#		inputs=l3,
@@ -291,7 +297,7 @@ class Learned_Player(object):
 #		)
 
 		l_out = tf.layers.dense(
-			inputs=l3,
+			inputs=l3_dropout,
 			units=self.n_classes,
 #			kernel_initializer=tf.constant_initializer(0, 1),
 			bias_initializer=tf.constant_initializer(0, 1),
