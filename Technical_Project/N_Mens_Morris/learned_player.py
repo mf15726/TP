@@ -547,7 +547,7 @@ class Learned_Player(object):
 						input_state[piece] = 1
 					input_state[index] = 0
 					for item in adj_pieces:
-					val = predictions_to[0][0][index]
+						val = predictions_to[0][0][index]
 #					print('Index, Val ' +str(index) + ' ' + str(val))
 					if val > opt_val:
 						opt_val = val
