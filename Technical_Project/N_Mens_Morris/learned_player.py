@@ -179,6 +179,10 @@ class Learned_Player(object):
 		self.to_qval_index = [None] * self.limit
 		self.from_qval_index = [None] * (self.limit - 6)
 		self.remove_qval_index = [None] * 19
+		
+		self.to_future_qval_index = [[0]*24] * self.limit
+		self.from_future_qval_index = [[0]*24] * (self.limit - 6)
+		self.remove_future_qval_index = [[0]*24] * 19
 
 		self.n_classes = 24
 		self.n_input = 79
@@ -411,7 +415,7 @@ class Learned_Player(object):
 		if state is None:
 			return 0
 		predictions = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type_input,
-										   self.decision_type: decision_type_to})
+										   self.decision_type: decision})
 		val = np.argmax(predictions[0][0])
 		return val
 	
@@ -422,6 +426,20 @@ class Learned_Player(object):
 			space_val = state[space]
 		return space
 
+	def q_reward(self,state,game_type,move,decision,index,future_qval_index):
+		predictions = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type_input,
+										   self.decision_type: decision})
+		val = np.argmax(predictions[0][0])
+		future_qval_index[index][move] = val
+		
+	def q_reward_move(self,state,game_type,move,decision,index,future_qval_index):
+		predictions = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type_input,
+										   self.decision_type: decision})
+		val = np.argmax(predictions[0][0])
+		if val > future_qval_index[index][move]:
+			future_qval_index[index][move] = val
+		
+	
 	def place(self, state, game_type, player, move_no):
 		rand = random.randint(1,100)
 		move = None
@@ -436,12 +454,21 @@ class Learned_Player(object):
 			move = self.random_place(state)
 			self.to_qval_index[move_no] = predictions_to[0][0]
 			self.to_index[move_no] = (deepcopy(input_state),move,player)
+			for index, item in enumerate(state):
+				if item != 0:
+					continue
+				input_state[index] = 1
+				self.q_reward(input_state,game_type,index,decision_type_to,move_no,self.to_future_qval_index)
+				input_state[index] = 0
 			return move
 		else:
 			opt_val = -float('Inf')
 			for index, item in enumerate(state):
 				if item != 0:
 					continue
+				input_state[index] = 1
+				self.q_reward(input_state,game_type,index,decision_type_to,move_no,self.to_future_qval_index)
+				input_state[index] = 0
 				val = predictions_to[0][0][index]
 				if val > opt_val:
 					opt_val = val
@@ -469,10 +496,40 @@ class Learned_Player(object):
 			random_move = self.random_move(state, valid_moves, enable_flying, pieces)
 			predictions_from = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_from})
+			if enable_flying:
+				adj_piece_list = pieces
+				for index, item in enumerate(state):
+					if item != 0:
+						continue
+					input_state[index] = 1
+					self.to_future_qval_index[move_no][index] = -float('Inf')
+					for piece in adj_piece_list:
+						input_state[piece] = 0
+						self.q_reward(input_state,game_type,index,decision_type_to,move_no,self.to_future_qval_index)
+						input_state[piece] = 1
+					input_state[index] = 0
+			else:
+				for index, item in enumerate(state):
+					if item != 0:
+#						print('We skip' + str(index))
+						continue
+					val = predictions_to[0][0][index]
+					self.piece_adj(state, game_type, index, pieces, player)
+					if self.piece_adj_list[0] is None:
+						continue
+					else:
+						adj_piece_list = self.piece_adj_list
+						input_state[index] = 1
+						for piece in adj_piece_list:
+							input_state[piece] = 0
+							self.q_reward(input_state,game_type,index,decision_type_to,move_no,self.to_future_qval_index)
+							input_state[piece] = 1
+						input_state[index] = 0
 			self.to_index[move_no] = (deepcopy(input_state),random_move[0], player)
 			self.from_index[int(move_no - (game_type * 2))] = (deepcopy(input_state),random_move[1],player)
 			self.to_qval_index[move_no] = predictions_to[0][0]
 			self.from_qval_index[int(move_no - (game_type * 2))] = predictions_from[0][0]
+			
 #			print('Random move = ' + str(random_move))
 			return random_move
 		else:
@@ -482,6 +539,14 @@ class Learned_Player(object):
 				for index, item in enumerate(state):
 					if item != 0:
 						continue
+					input_state[index] = 1
+					self.to_future_qval_index[move_no][index] = -float('Inf')
+					for piece in adj_piece_list:
+						input_state[piece] = 0
+						self.q_reward(input_state,game_type,index,decision_type_to,move_no,self.to_future_qval_index)
+						input_state[piece] = 1
+					input_state[index] = 0
+					for item in adj_pieces:
 					val = predictions_to[0][0][index]
 #					print('Index, Val ' +str(index) + ' ' + str(val))
 					if val > opt_val:
@@ -492,10 +557,18 @@ class Learned_Player(object):
 					if item != 0:
 #						print('We skip' + str(index))
 						continue
-					
 					val = predictions_to[0][0][index]
-#					print('OptVal = ' + str(opt_val))
-#					print('Index, Val ' +str(index) + ' ' + str(val))
+					self.piece_adj(state, game_type, index, pieces, player)
+					if self.piece_adj_list[0] is None:
+						continue
+					else:
+						adj_piece_list = self.piece_adj_list
+						input_state[index] = 1
+						for piece in adj_piece_list:
+							input_state[piece] = 0
+							self.q_reward(input_state,game_type,index,decision_type_to,move_no,self.to_future_qval_index)
+							input_state[piece] = 1
+						input_state[index] = 0
 					if val > opt_val:
 						self.piece_adj(state, game_type, index, pieces, player)
 #						print('WE HAVE SUCCESS' + str(adj_piece))
@@ -517,6 +590,8 @@ class Learned_Player(object):
 			for item in adj_piece_list:
 				if item is None:
 					continue
+				state[item] = 0
+				self.q_reward(input_state,game_type,item,decision_type_from,move_no-(game_type*2),self.from_future_qval_index)
 #				print('Alright here we go ' + str(item))
 				val = predictions_from[0][0][item]
 #				print('VAl = ' +str(val) + ' Opt_Val = ' +str(opt_val))
@@ -582,12 +657,21 @@ class Learned_Player(object):
 			piece = self.random_remove_piece(piece_list)
 			self.remove_index[pieces_removed] = (deepcopy(input_state),piece,player)
 			self.remove_qval_index[pieces_removed] = predictions_remove[0][0]
+			for index, item in enumerate(state):
+				if item != opponent:
+					continue
+				input_state[index] = 0
+				self.q_reward(state,game_type,index,decision_type_to,move_no,self.to_future_qval_index)
+				input_state[index] = 2
 			return piece
 		else:
 			opt_val = -float('Inf')
 			for index, item in enumerate(state):
 				if item != opponent:
 					continue
+				state[index] = 0
+				self.q_reward(state,game_type,index,decision_type_remove,pieces_removed,self.to_future_qval_index)
+				state[index] = (player%2) + 1
 				val = predictions_remove[0][0][index]
 				if val > opt_val:
 					opt_val = val
