@@ -692,19 +692,17 @@ class Learned_Player(object):
 			self.remove_qval_index[pieces_removed] = predictions_remove[0][0]
 		return piece
 	
-	def reward_function(self, game_type, winner, player, qval_index, decision_type, input_state, game_type_input, future_state, move):
+	def reward_function(self, game_type, winner, player, future_qval_index, decision_type, input_state, game_type_input, future_state, move):
 #		reward = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
 #									   self.decision_type: decision_type})
-		reward = [0] * 24
-#		reward = qval_index
-		
+#		reward = [0] * 24
+		reward = [x * self.gamma for x in future_qval_index]
 		if winner == player:
 			reward[move] += 1
 #			reward[0][0][move] += 1
 		if winner == (player % 2) + 1:
 			reward[move] -= 1
 #			reward[0][0][move] -=  1
-		max_q_val = self.max_next_Q(future_state, game_type_input, player, decision_type)
 
 #		reward[0][0][move] += max_q_val
 #		reward[move] += max_q_val
