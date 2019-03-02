@@ -673,7 +673,7 @@ class Learned_Player(object):
 				if item != opponent:
 					continue
 				input_state[index] = 0
-				self.q_reward(state,game_type,index,decision_type_to,move_no,self.to_future_qval_index)
+				self.q_reward(input_state,game_type,index,decision_type_to,move_no,self.to_future_qval_index)
 				input_state[index] = 2
 			return piece
 		else:
@@ -682,7 +682,7 @@ class Learned_Player(object):
 				if item != opponent:
 					continue
 				state[index] = 0
-				self.q_reward(state,game_type,index,decision_type_remove,pieces_removed,self.to_future_qval_index)
+				self.q_reward(input_state,game_type,index,decision_type_remove,pieces_removed,self.to_future_qval_index)
 				state[index] = (player%2) + 1
 				val = predictions_remove[0][0][index]
 				if val > opt_val:
