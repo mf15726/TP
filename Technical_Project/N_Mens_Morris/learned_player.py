@@ -426,13 +426,13 @@ class Learned_Player(object):
 			space_val = state[space]
 		return space
 
-	def q_reward(self,state,game_type,move,decision,index,future_qval_index):
+	def q_reward(self,state,game_type_input,move,decision,index,future_qval_index):
 		predictions = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type_input,
 										   self.decision_type: decision})
 		val = np.argmax(predictions[0][0])
 		future_qval_index[index][move] = val
 		
-	def q_reward_move(self,state,game_type,move,decision,index,future_qval_index):
+	def q_reward_move(self,state,game_type_input,move,decision,index,future_qval_index):
 		predictions = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type_input,
 										   self.decision_type: decision})
 		val = np.argmax(predictions[0][0])
@@ -458,7 +458,7 @@ class Learned_Player(object):
 				if item != 0:
 					continue
 				input_state[index] = 1
-				self.q_reward(input_state,game_type,index,decision_type_to,move_no,self.to_future_qval_index)
+				self.q_reward(input_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
 				input_state[index] = 0
 			return move
 		else:
@@ -467,7 +467,7 @@ class Learned_Player(object):
 				if item != 0:
 					continue
 				input_state[index] = 1
-				self.q_reward(input_state,game_type,index,decision_type_to,move_no,self.to_future_qval_index)
+				self.q_reward(input_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
 				input_state[index] = 0
 				val = predictions_to[0][0][index]
 				if val > opt_val:
@@ -505,10 +505,11 @@ class Learned_Player(object):
 					self.to_future_qval_index[move_no][index] = -float('Inf')
 					for piece in adj_piece_list:
 						input_state[piece] = 0
-						self.q_reward(input_state,game_type,index,decision_type_to,move_no,self.to_future_qval_index)
+						self.q_reward(input_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
 						input_state[piece] = 1
 					input_state[index] = 0
 			else:
+				
 				for index, item in enumerate(state):
 					if item != 0:
 #						print('We skip' + str(index))
@@ -522,9 +523,16 @@ class Learned_Player(object):
 						input_state[index] = 1
 						for piece in adj_piece_list:
 							input_state[piece] = 0
-							self.q_reward(input_state,game_type,index,decision_type_to,move_no,self.to_future_qval_index)
+							self.q_reward(input_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
 							input_state[piece] = 1
 						input_state[index] = 0
+						
+			self.piece_adj(state, game_type, random_move[1], pieces, player)
+			for item in adj_piece_list:
+				if item is None:
+					continue
+				state[item] = 0
+				self.q_reward(input_state,game_type_input,item,decision_type_from,move_no-(game_type*2),self.from_future_qval_index)
 			self.to_index[move_no] = (deepcopy(input_state),random_move[0], player)
 			self.from_index[int(move_no - (game_type * 2))] = (deepcopy(input_state),random_move[1],player)
 			self.to_qval_index[move_no] = predictions_to[0][0]
@@ -543,7 +551,7 @@ class Learned_Player(object):
 					self.to_future_qval_index[move_no][index] = -float('Inf')
 					for piece in adj_piece_list:
 						input_state[piece] = 0
-						self.q_reward(input_state,game_type,index,decision_type_to,move_no,self.to_future_qval_index)
+						self.q_reward(input_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
 						input_state[piece] = 1
 					input_state[index] = 0
 					for item in adj_pieces:
@@ -566,7 +574,7 @@ class Learned_Player(object):
 						input_state[index] = 1
 						for piece in adj_piece_list:
 							input_state[piece] = 0
-							self.q_reward(input_state,game_type,index,decision_type_to,move_no,self.to_future_qval_index)
+							self.q_reward(input_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
 							input_state[piece] = 1
 						input_state[index] = 0
 					if val > opt_val:
@@ -591,7 +599,7 @@ class Learned_Player(object):
 				if item is None:
 					continue
 				state[item] = 0
-				self.q_reward(input_state,game_type,item,decision_type_from,move_no-(game_type*2),self.from_future_qval_index)
+				self.q_reward(input_state,game_type_input,item,decision_type_from,move_no-(game_type*2),self.from_future_qval_index)
 #				print('Alright here we go ' + str(item))
 				val = predictions_from[0][0][item]
 #				print('VAl = ' +str(val) + ' Opt_Val = ' +str(opt_val))
