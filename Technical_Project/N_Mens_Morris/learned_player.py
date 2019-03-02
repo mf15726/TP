@@ -219,11 +219,9 @@ class Learned_Player(object):
 		#cost
 #		self.cost = (tf.square(self.y - self.Q_val))
 #		self.cost = tf.squared_difference(self.y, self.Q_val)
-		self.loss = tf.losses.mean_squared_error(self.y,self.Q_val)
-		#        self.cost = tf.square(self.Q_val - self.y)
+		self.cost = tf.losses.mean_squared_error(self.y,self.Q_val)
+#   		self.cost = tf.square(self.Q_val - self.y)
 #		self.cost = tf.reduce_mean(tf.squared_difference(self.y, self.Q_val))
-#		self.cost = tf.square(self.y - self.Q_val_stored)
-#		self.cost_from = tf.square(self.y - self.Q_val_from)
 		#optimiser
 		
 		self.optimiser = tf.train.RMSPropOptimizer(learning_rate=alpha, momentum=0.9, decay=self.gamma).minimize(self.cost)
