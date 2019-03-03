@@ -414,8 +414,8 @@ def play_and_learn(total_game_no,player1,player2):
 					multi_task_player.learn9(game_type, winner)
 				else:
 					multi_task_player.learn12(game_type, winner)
-			if isinstance(player1, Learned_Player) or isinstance(player2, Learned_Player):
-				learned_player.learn(game_type, winner)
+		if isinstance(player1, Learned_Player) or isinstance(player2, Learned_Player):
+			learned_player.learn(game_type, winner)
 	return winner_list, t1_win_list, t2_win_list, t1_loss_list, t2_loss_list
 
 def play_dont_learn(total_game_no,player1,player2):
