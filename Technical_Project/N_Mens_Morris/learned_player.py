@@ -327,7 +327,7 @@ class Learned_Player(object):
 		
 				
 	def piece_adj(self, state, game_type, space, pieces, player):
-		self.piece_adj_list = [None] * 12
+		self.piece_adj_list = [None] * game_type
 		
 		counter = 0
 		if game_type == 3:
@@ -612,6 +612,7 @@ class Learned_Player(object):
 					piece = item
 #					print('Piece is ' +str(piece))
 			if piece is None:
+				print(move)
 				print('No piece')
 				return(25,25)
 					
