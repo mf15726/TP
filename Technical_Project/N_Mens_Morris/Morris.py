@@ -367,7 +367,7 @@ game_states = [None] * (total_move_no + 1)
 
 human_player = Human_Player()
 random_player = Random_Player()
-learned_player = Learned_Player(epsilon=1, alpha=20, gamma=0.9, limit=total_move_no)
+learned_player = Learned_Player(epsilon=1, alpha=0.0035, gamma=0.9, limit=total_move_no)
 multi_task_player = Multi_Task_Player(epsilon=1, alpha=0.35, gamma=0.9, limit=total_move_no)
 learned_player.sess.run(tf.global_variables_initializer())
 multi_task_player.sess.run(tf.global_variables_initializer())
@@ -380,13 +380,13 @@ def play_and_learn(total_game_no,player1,player2):
 	t1_loss_list = []
 	t2_loss_list = []
 	for i in range(total_game_no):
-#		player1.epsilon = 1-((i+1)/(total_game_no+1))
-#		player2.epsilon = 1-((i+1)/(total_game_no+1))
+		player1.epsilon = 1-((i+1)/(total_game_no+1))
+		player2.epsilon = 1-((i+1)/(total_game_no+1))
 #		print(player1.epsilon)
 		if i % 250 == 0:
 			print('At epoch ' + str(i))
-#			player1.epsilon = 0
-#			player2.epsilon = 0
+			player1.epsilon = 0
+			player2.epsilon = 0
 			test_winner_list1 = play_dont_learn(100,player1,random_player)
 			test_winner_list2 = play_dont_learn(100,random_player,player2)
 			t1_wins = test_winner_list1.count(1)
