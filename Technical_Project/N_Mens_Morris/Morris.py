@@ -367,8 +367,8 @@ game_states = [None] * (total_move_no + 1)
 
 human_player = Human_Player()
 random_player = Random_Player()
-learned_player = Learned_Player(epsilon=1, alpha=0.00035, gamma=0.9, limit=total_move_no)
-multi_task_player = Multi_Task_Player(epsilon=1, alpha=0.00035, gamma=0.9, limit=total_move_no)
+learned_player = Learned_Player(epsilon=1, alpha=0.00035, gamma=0.000000001, limit=total_move_no)
+multi_task_player = Multi_Task_Player(epsilon=1, alpha=0.00035, gamma=0.00000001, limit=total_move_no)
 learned_player.sess.run(tf.global_variables_initializer())
 multi_task_player.sess.run(tf.global_variables_initializer())
 #pr = cProfile.Profile()
@@ -379,6 +379,8 @@ def play_and_learn(total_game_no,player1,player2):
 	t2_win_list = []
 	t1_loss_list = []
 	t2_loss_list = []
+	graph_name = 'Loss'
+	line_name = 'cost'
 	for i in range(total_game_no):
 		player1.epsilon = 1-((i+1)/(total_game_no+1))
 		player2.epsilon = 1-((i+1)/(total_game_no+1))
@@ -415,7 +417,11 @@ def play_and_learn(total_game_no,player1,player2):
 				else:
 					multi_task_player.learn12(game_type, winner)
 		if isinstance(player1, Learned_Player) or isinstance(player2, Learned_Player):
-			learned_player.learn(game_type, winner)
+			loss = learned_player.learn(game_type, winner)
+			print('Loss of game ' +str(i+1) + ' is ' +str(loss))
+			tbc.save_value(graph_name, line_name, i, loss)
+			tbc.flush_line(line_name)
+		tbc.close()
 	return winner_list, t1_win_list, t2_win_list, t1_loss_list, t2_loss_list
 
 def play_dont_learn(total_game_no,player1,player2):
