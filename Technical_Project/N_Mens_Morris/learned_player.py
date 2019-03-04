@@ -624,8 +624,6 @@ class Learned_Player(object):
 		self.from_qval_index[int(move_no - (game_type * 2))] = predictions_from[0][0]
 #		if enable_flying:
 #			print('PRED MOVE ' + str(predicted_move))
-		print(predicted_move)
-		print(pieces)
 		return predicted_move
 	
 	def free_space_finder(self, state):
