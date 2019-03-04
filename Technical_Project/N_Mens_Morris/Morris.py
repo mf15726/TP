@@ -421,7 +421,7 @@ def play_and_learn(total_game_no,player1,player2):
 def play_dont_learn(total_game_no,player1,player2):
 	winner_list = [None] * total_game_no
 	for i in range(total_game_no):
-		winner = game_play(player1, player2, game_type, True, enable_flying, total_move_no)
+		winner = game_play(player1, player2, game_type, False, enable_flying, total_move_no)
 #		print('Winner of game ' + str(i+1) + ' is Player ' + str(winner))
 		winner_list[i] = winner
 	return winner_list
