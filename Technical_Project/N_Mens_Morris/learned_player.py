@@ -586,7 +586,6 @@ class Learned_Player(object):
 						if self.piece_adj_list[0] is None:
 							continue
 						else:
-							adj_piece_list = self.piece_adj_list
 							opt_val = val
 							move = index					
 			if move is None:
@@ -597,6 +596,7 @@ class Learned_Player(object):
 										   self.decision_type: decision_type_from})
 			
 			opt_val = -float('Inf')
+			self.piece_adj(state, game_type, move, pieces, player)
 #			print('Adj Pieces ' +str(adj_piece_list))
 			for item in self.piece_adj_list:
 				if item is None:
@@ -612,6 +612,7 @@ class Learned_Player(object):
 					piece = item
 #					print('Piece is ' +str(piece))
 			if piece is None:
+				print
 				print(move)
 				print('No piece')
 				return(25,25)
