@@ -552,7 +552,7 @@ class Learned_Player(object):
 					self.to_future_qval_index[move_no][index] = -float('Inf')
 					for piece in adj_piece_list:
 						input_state[piece] = 0
-						self.q_reward(input_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
+						self.q_reward_move(input_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
 						input_state[piece] = 1
 					input_state[index] = 0
 					for item in self.piece_adj_list:
@@ -576,7 +576,7 @@ class Learned_Player(object):
 							if piece is None:
 								continue
 							input_state[piece] = 0
-							self.q_reward(input_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
+							self.q_reward_move(input_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
 							input_state[piece] = 1
 						input_state[index] = 0
 					if val > opt_val:
@@ -601,7 +601,7 @@ class Learned_Player(object):
 				if item is None:
 					continue
 				input_state[item] = 0
-				self.q_reward(input_state,game_type_input,item,decision_type_from,move_no-(game_type*2),self.from_future_qval_index)
+				self.q_reward_move(input_state,game_type_input,item,decision_type_from,move_no-(game_type*2),self.from_future_qval_index)
 				input_state[item] = 1
 #				print('Alright here we go ' + str(item))
 				val = predictions_from[0][0][item]
@@ -624,6 +624,8 @@ class Learned_Player(object):
 		self.from_qval_index[int(move_no - (game_type * 2))] = predictions_from[0][0]
 #		if enable_flying:
 #			print('PRED MOVE ' + str(predicted_move))
+		print(predicted_move)
+		print(pieces)
 		return predicted_move
 	
 	def free_space_finder(self, state):
