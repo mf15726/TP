@@ -228,8 +228,8 @@ class Learned_Player(object):
 #		self.cost = tf.reduce_mean(tf.squared_difference(self.y, self.Q_val))
 		#optimiser
 		
-		self.optimiser = tf.train.RMSPropOptimizer(learning_rate=alpha, momentum=0.9, decay=self.gamma).minimize(self.cost)
-		#        self.optimiser = tf.train.AdamOptimizer(learning_rate=alpha, decay=0.9).minimize(self.cost)
+#		self.optimiser = tf.train.RMSPropOptimizer(learning_rate=alpha, momentum=0.9, decay=self.gamma).minimize(self.cost)
+		self.optimiser = tf.train.AdamOptimizer(learning_rate=alpha, decay=0.9).minimize(self.cost)
 #		self.optimiser = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost)
 #		self.optimiser_from = tf.train.GradientDescentOptimizer(learning_rate=alpha).minimize(self.cost_from)
 		#        self.optimizer = tf.train.AdograadOptimizer(learning_rate=alpha, decay=0.9).minimize(self.cost)
