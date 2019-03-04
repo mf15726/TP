@@ -179,9 +179,9 @@ class Learned_Player(object):
 		self.from_qval_index = [None] * (self.limit - 6)
 		self.remove_qval_index = [None] * 19
 		
-		self.to_sym_qval_index = [0]*24
-		self.from_sym_qval_index = [0]*24
-		self.remove_sym_qval_index = [0]*24
+		self.to_future_qval_index = [[0]*24] * self.limit
+		self.from_future_qval_index = [[0]*24] * (self.limit - 6)
+		self.remove_future_qval_index = [[0]*24] * 19
 
 		self.sym_qval_index = [0] * 24
 		self.n_classes = 24
