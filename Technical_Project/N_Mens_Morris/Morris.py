@@ -428,7 +428,7 @@ def play_dont_learn(total_game_no,player1,player2):
 
 #winner_list = play_and_learn(1000,multi_task_player,multi_task_player)
 #winner_list = play_and_learn(1000000,random_player,random_player)
-winner_list, test1_win, test2_win, test1_loss, test2_loss = play_and_learn(10000,learned_player,learned_player)
+winner_list, test1_win, test2_win, test1_loss, test2_loss = play_and_learn(50000,learned_player,learned_player)
 print('P1 wins = ' + str(winner_list.count(1)))
 print('P2 wins = ' + str(winner_list.count(2)))
 
