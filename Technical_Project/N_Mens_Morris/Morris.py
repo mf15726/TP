@@ -206,7 +206,7 @@ def flying_check(state, player, game_type):
 		return False
 
 def repeated_board(state,game_states):
-	if game_states.count(state) > 10:
+	if game_states.count(state) > 5:
 		return True
 	return False
 	
