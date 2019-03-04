@@ -221,9 +221,9 @@ class Learned_Player(object):
 #		self.Q_val_from = self.neural_network_from()
 		self.Q_val_stored = tf.placeholder(tf.float32, shape=[self.n_classes])
 		#cost
-#		self.cost = (tf.square(self.y - self.Q_val))
+		self.cost = tf.reduce_mean(tf.square(self.y - self.Q_val))
 #		self.cost = tf.squared_difference(self.y, self.Q_val)
-		self.cost = tf.losses.mean_squared_error(self.y,self.Q_val)
+#		self.cost = tf.losses.mean_squared_error(self.y,self.Q_val)
 #   		self.cost = tf.square(self.Q_val - self.y)
 #		self.cost = tf.reduce_mean(tf.squared_difference(self.y, self.Q_val))
 		#optimiser
@@ -700,17 +700,8 @@ class Learned_Player(object):
 		reward = [x * self.gamma for x in future_qval_index]
 		if winner == player:
 			reward[move] += 1
-#			reward[0][0][move] += 1
 		if winner == (player % 2) + 1:
 			reward[move] -= 1
-#			reward[0][0][move] -=  1
-
-#		reward[0][0][move] += max_q_val
-#		reward[move] += max_q_val
-#		for item in reward[0][0]:
-#			for i in range(self.future_steps):
-#				max_q_val = self.max_next_Q(future_state, game_type_input, player, decision_type)
-#				item += self.gamma**(i+1) * max_q_val
 		return reward
 			
 #		return reward[0][0]
