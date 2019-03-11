@@ -360,9 +360,13 @@ class Shortened_Player(object):
 		opt_val = -float('Inf')
 		if enable_flying:
 			adj_piece_list = pieces
+			for ind, mini_state in enumerate(self.input_index):
+				predictions_to = self.sess.run([self.Q_val], feed_dict={self.input: mini_state, self.game_type: game_type_input,
+										   self.decision_type: decision_type_to})	
 			for index, item in enumerate(state):
 				if item != 0:
 					continue
+				space = self.find_move(game_type,ind,index)
 				val = predictions_to[0][0][index]
 #					print('Index, Val ' +str(index) + ' ' + str(val))
 				if val > opt_val:
