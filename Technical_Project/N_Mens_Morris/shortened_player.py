@@ -457,7 +457,7 @@ class Shortened_Player(object):
 					if item != 0:
 						continue
 					input_state[index] = 1
-					self.to_future_qval_index[move_no][index] = float('Inf')
+					self.to_future_qval_index[move_no][index] = -float('Inf')
 					for piece in self.piece_adj_list:
 						if item is None:
 							continue
@@ -504,7 +504,7 @@ class Shortened_Player(object):
 					if item != 0:
 						continue
 					input_state[index] = 1
-					self.to_future_qval_index[move_no][index] = float('Inf')
+					self.to_future_qval_index[move_no][index] = -float('Inf')
 					for piece in adj_piece_list:
 						input_state[piece] = 0
 						self.q_reward_move(input_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
@@ -566,6 +566,7 @@ class Shortened_Player(object):
 					piece = item
 #					print('Piece is ' +str(piece))
 			if piece is None:
+				print
 				print(move)
 				print('No piece')
 				return(25,25)
@@ -579,6 +580,7 @@ class Shortened_Player(object):
 #		if enable_flying:
 #			print('PRED MOVE ' + str(predicted_move))
 		return predicted_move
+
 	def edit_to_index(self,state,game_type,move_no,player):
 		new_state = self.padding(state,game_type)
 		new_state = self.convert_board(new_state,player)
