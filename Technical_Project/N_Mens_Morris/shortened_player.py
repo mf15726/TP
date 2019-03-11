@@ -44,6 +44,21 @@ class Shortened_Player(object):
 		self.gamma = gamma
 		self.limit = limit
 		
+		self.to_qval_index = [None] * self.limit
+		self.from_qval_index = [None] * (self.limit - 6)
+		self.remove_qval_index = [None] * 19
+		
+		self.to_future_qval_index = [[0 for x in range(24)] for i in range(self.limit)]
+		self.from_future_qval_index = [[0 for x in range(24)] for i in range(self.limit-6)]
+		self.remove_future_qval_index = [[0 for x in range(24)] for i in range(19)]
+    
+
+		self.sym_qval_index = [0] * 24
+		self.temp_qval_index = [0] * 24
+		self.symmetry_index = [0] * self.n_classes
+		self.symmetry_future_index = [0] * self.n_classes
+		self.piece_adj_list = [None] * 12
+		
 		self.to_index = [(None, None, None),(None, None, None), (None, None, None), (None, None, None)] * self.limit
 		self.from_index = [(None, None, None), (None, None, None), (None, None, None), (None, None, None)] * (self.limit - 6)
 		self.remove_index = [(None, None, None), (None, None, None), (None, None, None), (None, None, None)] * 19
@@ -58,8 +73,10 @@ class Shortened_Player(object):
 		
 		self.n_classes = 9
 		
-		self.input_index = [[None]*9,[None]*9,[None]*9,[None]*9]
-
+		self.input_index = [[0]*24,[0]*24,[0]*24,[0]*24]
+		self.sym_qval_index = [0] * 24
+		self.temp_qval_index = [0] * 24
+		
 		self.n_input = 34
 		self.n_nodes_1 = self.n_classes * 2
 		self.n_nodes_2 = self.n_classes * 2
@@ -200,6 +217,24 @@ class Shortened_Player(object):
 
 		return valid_moves
 	
+	def q_reward(self,state,game_type_input,move,decision,index,future_qval_index):
+		new_state = self.convert_board(state, 2)
+		self.board_to_input(input_state, game_type, decision_type)
+		predictions = self.sess.run([self.Q_val], feed_dict={self.input: state, self.game_type: game_type_input,
+									   self.decision_type: decision})
+		value = np.amin(predictions[0][0])
+#		print(value)
+#		print(predictions[0][0])    
+		future_qval_index[ind][move] = value
+		
+	def q_reward_move(self,state,game_type_input,move,decision,index,future_qval_index):
+		new_state = self.convert_board(state, 2)
+		predictions = self.sess.run([self.Q_val], feed_dict={self.input: new_state, self.game_type: game_type_input,
+										   self.decision_type: decision})
+		value = np.amin(predictions[0][0])
+		if value < future_qval_index[index][move]:
+			future_qval_index[index][move] = value	
+	
 	def padding(self,state,game_type):
 		if game_type > 6:
 			return state
@@ -228,7 +263,7 @@ class Shortened_Player(object):
 	
 	def board_to_input(self, state, game_type, decision_type):
 		if game_type == 3:
-			for ind, input_index i enumerate(input_index_3):
+			for ind, input_index enumerate(input_index_3):
 				for index, item in enumerate(state):
 					if index >= len(input_index_3[ind]):
 						self.input_index[index] = 0
@@ -273,6 +308,9 @@ class Shortened_Player(object):
 			for index, item in enumerate(mini_state):
 				if item != 0:
 					continue
+				mini_state[index] = 1
+				self.q_reward(input_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
+				input_state[index] = 0
 				val = predictions_to[0][0][index]
 				if val > opt_val:
 					opt_val = val
@@ -361,4 +399,19 @@ class Shortened_Player(object):
 			return random_move
 		else:
 			return predicted_move
+		
+	def edit_to_index(self,state,game_type,move_no,player):
+		new_state = self.padding(state,game_type)
+		new_state = self.convert_board(new_state,player)
+		self.to_future_index[move_no] = deepcopy(new_state)
+		
+	def edit_from_index(self,state,move_no,game_type,player):
+		new_state = self.padding(state,game_type)
+		new_state = self.convert_board(new_state,player)
+		self.from_future_index[move_no-(game_type*2)] = deepcopy(new_state)
+		
+	def edit_remove_index(self,state,game_type,pieces_removed,player):
+		new_state = self.padding(state,game_type)
+		new_state = self.convert_board(new_state,player)
+		self.remove_future_index[pieces_removed] = deepcopy(new_state)
 			
