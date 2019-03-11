@@ -217,6 +217,23 @@ class Shortened_Player(object):
 
 		return valid_moves
 	
+	def find_space(self,game_type,space):
+		space_index = [None] * 4
+		if game_type == 3:
+			for index, item in enumerate(input_index_3):
+				if space in item:
+					space_index[index] = input_index_3.index(space)
+		elif game_type == 6:
+			for index, item in enumerate(input_index_6):
+				if space in item:
+					space_index[index] = input_index_6.index(space)
+		else:
+			for index, item in enumerate(input_index_9):
+				if space in item:
+					space_index[index] = input_index_9.index(space)
+		return space_index
+					
+	
 	def q_reward(self,state,game_type_input,move,decision,index,future_qval_index):
 		new_state = self.convert_board(state, 2)
 		self.board_to_input(input_state, game_type, decision_type)
@@ -302,13 +319,16 @@ class Shortened_Player(object):
 		game_type_input[int((game_type/3)-1)] = 1
 		input_state = self.convert_board(state,player)
 		self.board_to_input(input_state, game_type, decision_type)
+		opt_val = -float('Inf')
 		for ind, mini_state in enumerate(self.input_index):
 			predictions_to = self.sess.run([self.Q_val], feed_dict={self.input: mini_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_to})
 			for index, item in enumerate(mini_state):
 				if item != 0:
 					continue
-				mini_state[index] = 1
+				space = self.find_move(game_type,ind,index)
+				input_state[space] = 1
+				self.board_to_input(input_state, game_type, decision_type)
 				self.q_reward(input_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
 				input_state[index] = 0
 				val = predictions_to[0][0][index]
@@ -318,6 +338,7 @@ class Shortened_Player(object):
 					input_ind = ind
 			self.to_qval_index[move_no][ind] = predictions_to[0][0]
 			self.to_index[move_no][ind] = ((deepcopy(input_state),move,player))
+			self.board_to_input(input_state, game_type, decision_type)
 		if rand <= 100*self.epsilon:
 			move = self.random_place(state)
 			return move
