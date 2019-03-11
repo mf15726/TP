@@ -347,7 +347,7 @@ class Shortened_Player(object):
 				space = self.find_move(game_type,ind,index)
 				input_state[space] = 1
 				self.board_to_input(input_state, game_type, decision_type)
-				self.q_reward(input_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
+				self.q_reward(mini_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
 				input_state[space] = 0
 				val = predictions_to[0][0][index]
 				if val > opt_val:
@@ -394,8 +394,8 @@ class Shortened_Player(object):
 						if item is None:
 							continue
 						input_state[piece] = 0
-						self.board_to_input(input_state, game_type, decision_type)
-						self.q_reward_move(input_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
+						self.board_to_input(mini_state, game_type, decision_type)
+						self.q_reward_move(mini_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
 						input_state[piece] = 1
 					input_state[space] = 0
 					self.board_to_input(input_state, game_type, decision_type)
@@ -422,7 +422,7 @@ class Shortened_Player(object):
 							continue
 						input_state[piece] = 0
 						self.board_to_input(input_state, game_type, decision_type)
-						self.q_reward_move(input_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
+						self.q_reward_move(mini_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
 						input_state[piece] = 1
 					input_state[space] = 0
 					val = predictions_to[0][0][index]
@@ -435,7 +435,7 @@ class Shortened_Player(object):
 							move_index = index
 							input_ind = ind
 							
-				self.to_qval_index[ind][move_no] = predictions_to[0][0]
+				self.to_qval_index[move_no][ind] = predictions_to[0][0]
 				self.board_to_input(input_state, game_type, decision_type)
 							
 		move = self.find_move(game_type, input_ind, move_index)
@@ -449,7 +449,7 @@ class Shortened_Player(object):
 		for ind, mini_state in enumerate(self.input_index):
 			if mini_list[ind] is None:
 				continue
-			predictions_to = self.sess.run([self.Q_val], feed_dict={self.input: mini_state, self.game_type: game_type_input, 
+			predictions_from = self.sess.run([self.Q_val], feed_dict={self.input: mini_state, self.game_type: game_type_input, 
 										self.decision_type: decision_type_from})
 			
 			self.from_qval_index[int(move_no - (game_type * 2))] = predictions_from[0][0]
@@ -489,33 +489,28 @@ class Shortened_Player(object):
 		game_type_input[int((game_type/3)-1)] = 1
 		input_state = self.convert_board(state,player)
 		input_state = self.padding(input_state,game_type)
-		predictions_remove = self.sess.run([self.Q_val], feed_dict={self.input: input_state, self.game_type: game_type_input,
+		self.board_to_input(input_state, game_type, decision_type)
+		opt_val = -float('Inf')
+		for ind, mini_state in enumerate(self.input_index):
+			predictions_remove = self.sess.run([self.Q_val], feed_dict={self.input: mini_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_remove})
-		if rand <= 100*self.epsilon:
-			piece = self.random_remove_piece(piece_list)
-			self.remove_index[pieces_removed] = (deepcopy(input_state),piece,player)
 			self.remove_qval_index[pieces_removed] = predictions_remove[0][0]
 			for index, item in enumerate(state):
 				if item != opponent:
 					continue
 				input_state[index] = 0
-				self.q_reward(input_state,game_type_input,index,decision_type_to,pieces_removed,self.remove_future_qval_index)
+				self.q_reward(mini_state,game_type_input,index,decision_type_to,pieces_removed,self.remove_future_qval_index)
 				input_state[index] = 2
-			return piece
-		else:
-			opt_val = -float('Inf')
-			for index, item in enumerate(state):
-				if item != opponent:
-					continue
-				input_state[index] = 0
-				self.q_reward(input_state,game_type_input,index,decision_type_to,pieces_removed,self.remove_future_qval_index)
-				input_state[index] = (player%2) + 1
 				val = predictions_remove[0][0][index]
 				if val > opt_val:
 					opt_val = val
 					piece = index
-			self.remove_index[pieces_removed] = (deepcopy(input_state),piece,player)
 			self.remove_qval_index[pieces_removed] = predictions_remove[0][0]
+			if rand <= 100*self.epsilon:
+				piece = self.random_remove_piece(piece_list)
+				self.remove_index[pieces_removed] = (deepcopy(input_state),piece,player)
+			else:
+				self.remove_index[pieces_removed] = (deepcopy(input_state),piece,player)
 		return piece	
 	
 	def edit_to_index(self,state,game_type,move_no,player):
