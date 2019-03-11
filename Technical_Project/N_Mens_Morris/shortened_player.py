@@ -361,18 +361,25 @@ class Shortened_Player(object):
 		self.board_to_input(input_state, game_type, decision_type)
 		opt_val = -float('Inf')
 		if enable_flying:
-			adj_piece_list = pieces
+			self.piece_adj_list = pieces
 			for ind, mini_state in enumerate(self.input_index):
 				predictions_to = self.sess.run([self.Q_val], feed_dict={self.input: mini_state, self.game_type: game_type_input,
 										   self.decision_type: decision_type_to})	
 			for index, item in enumerate(state):
 				if item != 0:
 					continue
-				space = self.find_move(game_type,ind,index)
+				space = self.find_move(game_type,ind,index)	
 				input_state[space] = 1
-				self.board_to_input(input_state, game_type, decision_type)
-				self.q_reward(input_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
+				self.to_future_qval_index[move_no][index] = -float('Inf')
+				for piece in self.piece_adj_list:
+					if item is None:
+						continue
+					input_state[piece] = 0
+					self.board_to_input(input_state, game_type, decision_type)
+					self.q_reward_move(input_state,game_type_input,index,decision_type_to,move_no,self.to_future_qval_index)
+					input_state[piece] = 1
 				input_state[space] = 0
+				self.board_to_input(input_state, game_type, decision_type)
 				val = predictions_to[0][0][index]
 #					print('Index, Val ' +str(index) + ' ' + str(val))
 				if val > opt_val:
@@ -380,23 +387,26 @@ class Shortened_Player(object):
 					move_index = index
 					input_ind = ind
 		else:
-			for index, item in enumerate(state):
-				if item != 0:
-					continue
-				space = self.find_move(game_type,ind,index)
-				val = predictions_to[0][0][index]
-#					print('OptVal = ' + str(opt_val))
-#					print('Index, Val ' +str(index) + ' ' + str(val))
-				if val > opt_val:
-					self.piece_adj(state, game_type, index, pieces, player)
-#						print('WE HAVE SUCCESS' + str(adj_piece))
-					if self.piece_adj_list[0] is None:
+			for ind, mini_state in enumerate(self.input_index):
+				predictions_to = self.sess.run([self.Q_val], feed_dict={self.input: mini_state, self.game_type: game_type_input,
+										   self.decision_type: decision_type_to})
+				for index, item in enumerate(state):
+					if item != 0:
 						continue
-					else:
-						adj_piece_list = self.piece_adj_list
-						opt_val = val
-						move_index = index
-						input_ind = ind				
+					space = self.find_move(game_type,ind,index)
+					input_state[space] = 1
+					self.to_future_qval_index[move_no][index] = -float('Inf')
+					val = predictions_to[0][0][index]
+					if val > opt_val:
+						self.piece_adj(state, game_type, index, pieces, player)
+		#						print('WE HAVE SUCCESS' + str(adj_piece))
+						if self.piece_adj_list[0] is None:
+							continue
+						else:
+							adj_piece_list = self.piece_adj_list
+							opt_val = val
+							move_index = index
+							input_ind = ind				
 		if move is None:
 			print('No move')
 			return (25,25)
@@ -455,7 +465,7 @@ class Shortened_Player(object):
 				self.piece_adj_list = pieces
 				for index, item in enumerate(state):
 					if item != 0:
-						continue
+						continue					
 					input_state[index] = 1
 					self.to_future_qval_index[move_no][index] = -float('Inf')
 					for piece in self.piece_adj_list:
